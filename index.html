@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Richard Vidal-Dorsch — Senior Embedded Software Engineer / Senior Rust Engineer</title>
+  <title>Richard Vidal-Dorsch — Embedded Software / Senior Rust Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
@@ -588,7 +588,7 @@
         <span class="first">Richard </span><br />
         <span class="last">Vidal-Dorsch</span>
       </h1>
-      <p class="hero-title">Senior Embedded Software Engineer &amp; Senior Rust Engineer</p>
+      <p class="hero-title">Embedded Software Engineer &amp; Senior Rust Engineer</p>
       <p class="hero-bio">
         Systems engineer at heart, Rust enthusiast by choice. I build low-level software that ships — from embedded Linux drivers for industrial hardware to high-performance CLI tools and network utilities. I live at the intersection of bare-metal hardware and modern software craftsmanship, writing code that runs reliably in places where crashes aren't an option.
       </p>
@@ -666,76 +666,7 @@
   <div class="section-inner">
     <p class="section-label reveal">// open source</p>
     <h2 class="section-title reveal">Featured Projects</h2>
-    <div class="projects-grid">
-
-      <a href="https://github.com/rvido/iManager" target="_blank" rel="noopener" class="project-card reveal">
-        <div class="project-lang">
-          <span class="lang-dot lang-c"></span> C
-        </div>
-        <div class="project-name">iManager</div>
-        <div class="project-desc">Linux driver set for Advantech embedded boards — enabling hardware management features including watchdog, GPIO, and system monitoring from userspace.</div>
-        <div class="project-stats">
-          <span>⭐ 26</span>
-          <span>🍴 9</span>
-        </div>
-      </a>
-
-      <a href="https://github.com/rvido/LANwatch" target="_blank" rel="noopener" class="project-card reveal">
-        <div class="project-lang">
-          <span class="lang-dot lang-rust"></span> Rust
-        </div>
-        <div class="project-name">LANwatch</div>
-        <div class="project-desc">Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, and IEEE-OUI identification. Know what's on your network.</div>
-        <div class="project-stats">
-          <span>⭐ 1</span>
-        </div>
-      </a>
-
-      <a href="https://github.com/rvido/whois-rdap" target="_blank" rel="noopener" class="project-card reveal">
-        <div class="project-lang">
-          <span class="lang-dot lang-rust"></span> Rust
-        </div>
-        <div class="project-name">whois-rdap</div>
-        <div class="project-desc">A fast CLI tool to query RDAP servers for IP address information, built with Rust for speed and reliability.</div>
-        <div class="project-stats">
-          <span>CLI Tool</span>
-        </div>
-      </a>
-
-      <a href="https://github.com/rvido/appid_finder" target="_blank" rel="noopener" class="project-card reveal">
-        <div class="project-lang">
-          <span class="lang-dot lang-rust"></span> Rust
-        </div>
-        <div class="project-name">appid_finder</div>
-        <div class="project-desc">Rust-based web app that discovers iOS and Android app bundle IDs instantly — bridging mobile platforms for developers and researchers.</div>
-        <div class="project-stats">
-          <span>Web App</span>
-        </div>
-      </a>
-
-      <a href="https://github.com/rvido/android-appid" target="_blank" rel="noopener" class="project-card reveal">
-        <div class="project-lang">
-          <span class="lang-dot lang-rust"></span> Rust
-        </div>
-        <div class="project-name">android-appid</div>
-        <div class="project-desc">CLI tool written in Rust to find the application ID of any Android app directly from the Google Play Store.</div>
-        <div class="project-stats">
-          <span>CLI Tool</span>
-        </div>
-      </a>
-
-      <a href="https://github.com/rvido/ios-appid" target="_blank" rel="noopener" class="project-card reveal">
-        <div class="project-lang">
-          <span class="lang-dot lang-rust"></span> Rust
-        </div>
-        <div class="project-name">ios-appid</div>
-        <div class="project-desc">Rust library and CLI to fetch iOS app information from the iTunes API. Composable, fast, and dependency-light.</div>
-        <div class="project-stats">
-          <span>Library + CLI</span>
-        </div>
-      </a>
-
-    </div>
+    <div class="projects-grid" id="projects-grid"></div>
   </div>
 </section>
 
@@ -783,7 +714,155 @@
 </footer>
 
 <script>
-  // Intersection observer for reveal animations
+  // ═══════════════════════════════════════════════════════════
+  //  PROJECT DATA — edit this array to add / update projects
+  //
+  //  Fields:
+  //    name    — project title
+  //    lang    — "rust" | "c" | "python" | "go" | "ts" | ""
+  //    desc    — short description
+  //    url     — GitHub URL, or null for unpublished projects
+  //    stars   — star count (optional)
+  //    forks   — fork count (optional)
+  //    tags    — array of badge strings e.g. ["CLI Tool", "Library"]
+  //    status  — "public" | "wip" | "soon" | "private"
+  // ═══════════════════════════════════════════════════════════
+  const projects = [
+    {
+      name:   "iManager",
+      lang:   "c",
+      desc:   "Linux driver set for Advantech embedded boards — enabling hardware management features including watchdog, GPIO, and system monitoring from userspace.",
+      url:    "https://github.com/rvido/iManager",
+      stars:  26,
+      forks:  9,
+      status: "public",
+    },
+    {
+      name:   "LANwatch",
+      lang:   "rust",
+      desc:   "Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, and IEEE-OUI identification. Know what's on your network.",
+      url:    "https://github.com/rvido/LANwatch",
+      stars:  1,
+      tags:   ["Library", "CLI"],
+      status: "public",
+    },
+    {
+      name:   "whois-rdap",
+      lang:   "rust",
+      desc:   "A fast CLI tool to query RDAP servers for IP address information, built with Rust for speed and reliability.",
+      url:    "https://github.com/rvido/whois-rdap",
+      tags:   ["CLI Tool"],
+      status: "public",
+    },
+    {
+      name:   "appid_finder",
+      lang:   "rust",
+      desc:   "Rust-based web app that discovers iOS and Android app bundle IDs instantly — bridging mobile platforms for developers and researchers.",
+      url:    "https://github.com/rvido/appid_finder",
+      tags:   ["Web App"],
+      status: "public",
+    },
+    {
+      name:   "android-appid",
+      lang:   "rust",
+      desc:   "CLI tool written in Rust to find the application ID of any Android app directly from the Google Play Store.",
+      url:    "https://github.com/rvido/android-appid",
+      tags:   ["CLI Tool"],
+      status: "public",
+    },
+    {
+      name:   "ios-appid",
+      lang:   "rust",
+      desc:   "Rust library and CLI to fetch iOS app information from the iTunes API. Composable, fast, and dependency-light.",
+      url:    "https://github.com/rvido/ios-appid",
+      tags:   ["Library", "CLI"],
+      status: "public",
+    },
+    // ── ADD YOUR UPCOMING PROJECT BELOW ──────────────────────
+    // {
+    //   name:   "MyNewProject",
+    //   lang:   "rust",
+    //   desc:   "Description of what it does.",
+    //   url:    null,        // set to GitHub URL when ready
+    //   tags:   ["CLI Tool"],
+    //   status: "wip",       // "wip" | "soon" | "private"
+    // },
+  ];
+
+  // ── Language dot colours ──────────────────────────────────
+  const langColors = {
+    rust:   "#f74c00",
+    c:      "#555599",
+    python: "#3572A5",
+    go:     "#00ADD8",
+    ts:     "#3178c6",
+    js:     "#f1e05a",
+  };
+
+  // ── Status badge config ───────────────────────────────────
+  const statusBadge = {
+    wip:     { label: "🔧 In Progress",  color: "var(--blue-bright)" },
+    soon:    { label: "⏳ Coming Soon",  color: "var(--cyan)" },
+    private: { label: "🔒 Private",      color: "var(--text-muted)" },
+    public:  { label: null,              color: null },
+  };
+
+  // ── Render ────────────────────────────────────────────────
+  function renderProjects() {
+    const grid = document.getElementById("projects-grid");
+
+    projects.forEach(p => {
+      const isClickable = !!p.url && p.status === "public";
+      const tag  = isClickable ? "a" : "div";
+      const card = document.createElement(tag);
+
+      card.className = "project-card reveal";
+      if (isClickable) {
+        card.href   = p.url;
+        card.target = "_blank";
+        card.rel    = "noopener";
+      }
+
+      // Language badge
+      const dotColor = langColors[p.lang] || "var(--text-faint)";
+      const langLabel = p.lang ? p.lang.charAt(0).toUpperCase() + p.lang.slice(1) : "";
+
+      // Stars / forks
+      let statsHTML = "";
+      if (p.stars != null) statsHTML += `<span>⭐ ${p.stars}</span>`;
+      if (p.forks != null) statsHTML += `<span>🍴 ${p.forks}</span>`;
+      if (p.tags)          statsHTML += p.tags.map(t => `<span>${t}</span>`).join("");
+
+      // Status badge (non-public)
+      const badge = statusBadge[p.status] || statusBadge.public;
+      const badgeHTML = badge.label
+        ? `<span style="color:${badge.color};margin-left:auto;">${badge.label}</span>`
+        : "";
+
+      card.innerHTML = `
+        ${langLabel ? `
+        <div class="project-lang">
+          <span class="lang-dot" style="background:${dotColor}"></span>
+          ${langLabel}
+        </div>` : ""}
+        <div class="project-name">${p.name}</div>
+        <div class="project-desc">${p.desc}</div>
+        <div class="project-stats">${statsHTML}${badgeHTML}</div>
+      `;
+
+      // Dim unpublished cards slightly
+      if (!isClickable) {
+        card.style.opacity = "0.72";
+        card.style.cursor  = "default";
+      }
+
+      grid.appendChild(card);
+    });
+  }
+
+  renderProjects();
+
+  // ── Scroll reveal ─────────────────────────────────────────
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
