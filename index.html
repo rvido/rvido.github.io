@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Richard Vidal-Dorsch — Embedded Software / Senior Rust Engineer</title>
+  <title>Richard Vidal-Dorsch — Senior Rust & Embedded Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
@@ -588,7 +588,7 @@
         <span class="first">Richard </span><br />
         <span class="last">Vidal-Dorsch</span>
       </h1>
-      <p class="hero-title">Embedded Software Engineer &amp; Senior Rust Engineer</p>
+      <p class="hero-title">Senior Rust &amp; Embedded Software Engineer</p>
       <p class="hero-bio">
         Systems engineer at heart, Rust enthusiast by choice. I build low-level software that ships — from embedded Linux drivers for industrial hardware to high-performance CLI tools and network utilities. I live at the intersection of bare-metal hardware and modern software craftsmanship, writing code that runs reliably in places where crashes aren't an option.
       </p>
@@ -710,24 +710,12 @@
 <!-- ── FOOTER ── -->
 <footer>
   <span>© 2026 Richard Vidal-Dorsch</span>
-  <span>Built with HTML · Hosted on GitHub Pages</span>
+  <span>Built with HTML · Hosted on GitHub Pages · <span id="build-version">build dev</span></span>
 </footer>
 
 <script>
-  // ═══════════════════════════════════════════════════════════
-  //  PROJECT DATA — edit this array to add / update projects
-  //
-  //  Fields:
-  //    name    — project title
-  //    lang    — "rust" | "c" | "python" | "go" | "ts" | ""
-  //    desc    — short description
-  //    url     — GitHub URL, or null for unpublished projects
-  //    stars   — star count (optional)
-  //    forks   — fork count (optional)
-  //    tags    — array of badge strings e.g. ["CLI Tool", "Library"]
-  //    status  — "public" | "wip" | "soon" | "private"
-  // ═══════════════════════════════════════════════════════════
-  const projects = [
+  // Fallback project data used when projects.json is unavailable.
+  const fallbackProjects = [
     {
       name:   "iManager",
       lang:   "c",
@@ -824,8 +812,11 @@
   };
 
   // ── Render ────────────────────────────────────────────────
-  function renderProjects() {
+  let observer = null;
+
+  function renderProjects(projects) {
     const grid = document.getElementById("projects-grid");
+    grid.innerHTML = "";
 
     projects.forEach(p => {
       const isClickable = !!p.url && p.status === "public";
@@ -873,13 +864,52 @@
       }
 
       grid.appendChild(card);
+
+      if (observer) {
+        observer.observe(card);
+      }
     });
   }
 
-  renderProjects();
+  async function loadProjects() {
+    try {
+      const response = await fetch("./projects.json", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`Unable to load projects.json (${response.status})`);
+      }
+
+      const projects = await response.json();
+      if (!Array.isArray(projects) || projects.length === 0) {
+        throw new Error("projects.json did not contain any projects");
+      }
+
+      renderProjects(projects);
+    } catch (error) {
+      console.warn("Using fallback project list:", error);
+      renderProjects(fallbackProjects);
+    }
+  }
+
+  async function loadBuildMeta() {
+    try {
+      const response = await fetch("./build-meta.json", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`Unable to load build-meta.json (${response.status})`);
+      }
+
+      const meta = await response.json();
+      const versionLabel = meta?.version || (meta?.shortHash ? `build ${meta.shortHash}` : "build dev");
+      const buildVersion = document.getElementById("build-version");
+      if (buildVersion) {
+        buildVersion.textContent = versionLabel;
+      }
+    } catch (error) {
+      console.warn("Using default build version:", error);
+    }
+  }
 
   // ── Scroll reveal ─────────────────────────────────────────
-  const observer = new IntersectionObserver((entries) => {
+  observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
         setTimeout(() => entry.target.classList.add('visible'), i * 60);
@@ -889,6 +919,8 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  loadProjects();
+  loadBuildMeta();
 </script>
 
 </body>
