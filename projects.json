@@ -1,0 +1,87 @@
+[
+  {
+    "name": "iManager",
+    "lang": "c",
+    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
+    "url": "https://github.com/rvido/iManager",
+    "stars": 26,
+    "forks": 9,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "LANwatch",
+    "lang": "rust",
+    "desc": "Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, and IEEE-OUI identification. Know what's on your network.",
+    "url": "https://github.com/rvido/LANwatch",
+    "stars": 2,
+    "forks": 0,
+    "tags": [
+      "Library",
+      "CLI Tool"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "whois-rdap",
+    "lang": "rust",
+    "desc": "A fast CLI tool to query RDAP servers for IP address information, built with Rust for speed and reliability.",
+    "url": "https://github.com/rvido/whois-rdap",
+    "stars": 0,
+    "forks": 0,
+    "tags": [
+      "CLI Tool"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "appid_finder",
+    "lang": "rust",
+    "desc": "A Rust-based web application that discovers iOS and Android app bundle IDs instantly.",
+    "url": "https://github.com/rvido/appid_finder",
+    "stars": 0,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "android-appid",
+    "lang": "rust",
+    "desc": "A command-line tool written in Rust to find the application ID of an Android app from the Google Play Store.",
+    "url": "https://github.com/rvido/android-appid",
+    "stars": 0,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "ios-appid",
+    "lang": "rust",
+    "desc": "A Rust library and CLI to fetch iOS app information from the iTunes API.",
+    "url": "https://github.com/rvido/ios-appid",
+    "stars": 0,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "NetOrigin",
+    "lang": "rust",
+    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
+    "url": "https://github.com/rvido/NetOrigin",
+    "stars": 1,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  }
+]
