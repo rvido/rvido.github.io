@@ -1,0 +1,50 @@
+name: Update Projects JSON
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+  schedule:
+    - cron: "0 4 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-projects-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate projects.json from GitHub API
+        run: python scripts/generate_projects_json.py --user rvido --output projects.json
+
+      - name: Generate build metadata
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            python scripts/generate_build_meta.py build-meta.json --version "${GITHUB_REF_NAME}"
+          else
+            python scripts/generate_build_meta.py build-meta.json
+          fi
+
+      - name: Commit updated generated files
+        if: github.ref_type != 'tag'
+        run: |
+          if git diff --quiet -- projects.json build-meta.json; then
+            echo "No projects.json changes detected"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add projects.json build-meta.json
+          git commit -m "Update generated site data"
+          git push

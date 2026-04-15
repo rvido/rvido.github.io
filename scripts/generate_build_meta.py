@@ -3,9 +3,9 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import subprocess
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -40,8 +40,16 @@ def get_short_hash() -> str:
 
 
 def main() -> int:
-    output_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("build-meta.json")
-    version = get_semver(Path("VERSION"))
+    parser = argparse.ArgumentParser(description="Generate build-meta.json")
+    parser.add_argument("output", nargs="?", default="build-meta.json", help="Output JSON path")
+    parser.add_argument("--version", default="", help="Semantic version override (e.g. v1.2.3)")
+    parser.add_argument("--version-file", default="VERSION", help="Path to VERSION file")
+    args = parser.parse_args()
+
+    output_path = Path(args.output)
+    version = args.version.strip() or get_semver(Path(args.version_file))
+    if version and not version.startswith("v"):
+        version = f"v{version}"
 
     payload = {
         "version": version,
