@@ -1,5 +1,41 @@
 [
   {
+    "name": "LANwatch",
+    "lang": "rust",
+    "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, and IEEE-OUI identification.",
+    "url": "https://github.com/rvido/LANwatch",
+    "stars": 2,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "NetOrigin",
+    "lang": "rust",
+    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
+    "url": "https://github.com/rvido/NetOrigin",
+    "stars": 1,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "whois-rdap",
+    "lang": "rust",
+    "desc": "A simple command-line tool to query RDAP servers for IP address information.",
+    "url": "https://github.com/rvido/whois-rdap",
+    "stars": 0,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
     "name": "iManager",
     "lang": "c",
     "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
@@ -8,31 +44,6 @@
     "forks": 9,
     "tags": [
       "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "LANwatch",
-    "lang": "rust",
-    "desc": "Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, and IEEE-OUI identification. Know what's on your network.",
-    "url": "https://github.com/rvido/LANwatch",
-    "stars": 2,
-    "forks": 0,
-    "tags": [
-      "Library",
-      "CLI Tool"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "whois-rdap",
-    "lang": "rust",
-    "desc": "A fast CLI tool to query RDAP servers for IP address information, built with Rust for speed and reliability.",
-    "url": "https://github.com/rvido/whois-rdap",
-    "stars": 0,
-    "forks": 0,
-    "tags": [
-      "CLI Tool"
     ],
     "status": "public"
   },
@@ -66,18 +77,6 @@
     "desc": "A Rust library and CLI to fetch iOS app information from the iTunes API.",
     "url": "https://github.com/rvido/ios-appid",
     "stars": 0,
-    "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "NetOrigin",
-    "lang": "rust",
-    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
-    "url": "https://github.com/rvido/NetOrigin",
-    "stars": 1,
     "forks": 0,
     "tags": [
       "Open Source"
