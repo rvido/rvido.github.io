@@ -4,7 +4,7 @@
     "lang": "rust",
     "desc": "A simple command-line tool to query RDAP servers for IP address information.",
     "url": "https://github.com/rvido/whois-rdap",
-    "stars": 0,
+    "stars": 1,
     "forks": 0,
     "tags": [
       "Open Source"
