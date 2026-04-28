@@ -1,10 +1,10 @@
 [
   {
-    "name": "whois-rdap",
+    "name": "LANwatch",
     "lang": "rust",
-    "desc": "A simple command-line tool to query RDAP servers for IP address information.",
-    "url": "https://github.com/rvido/whois-rdap",
-    "stars": 1,
+    "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, and IEEE-OUI identification.",
+    "url": "https://github.com/rvido/LANwatch",
+    "stars": 2,
     "forks": 0,
     "tags": [
       "Open Source"
@@ -12,11 +12,11 @@
     "status": "public"
   },
   {
-    "name": "LANwatch",
+    "name": "whois-rdap",
     "lang": "rust",
-    "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, and IEEE-OUI identification.",
-    "url": "https://github.com/rvido/LANwatch",
-    "stars": 2,
+    "desc": "A simple command-line tool to query RDAP servers for IP address information.",
+    "url": "https://github.com/rvido/whois-rdap",
+    "stars": 1,
     "forks": 0,
     "tags": [
       "Open Source"
