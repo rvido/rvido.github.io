@@ -2,7 +2,7 @@
   {
     "name": "LANwatch",
     "lang": "rust",
-    "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, and IEEE-OUI identification.",
+    "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, and IEEE-OUI identification.",
     "url": "https://github.com/rvido/LANwatch",
     "stars": 2,
     "forks": 0,
