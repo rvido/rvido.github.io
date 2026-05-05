@@ -1,5 +1,17 @@
 [
   {
+    "name": "bme280_linux",
+    "lang": "c++",
+    "desc": "A high-performance, zero-allocation C++17 driver for the Bosch BME280 humidity, pressure, and temperature sensor. This project demonstrates modern embedded software practices such as hardware abstraction, dependency injection, and deterministic memory usage.",
+    "url": "https://github.com/rvido/bme280_linux",
+    "stars": 0,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
     "name": "NetOrigin",
     "lang": "rust",
     "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
