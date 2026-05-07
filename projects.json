@@ -4,7 +4,7 @@
     "lang": "c++",
     "desc": "A high-performance, zero-allocation C++17 driver for the Bosch BME280 humidity, pressure, and temperature sensor. This project demonstrates modern embedded software practices such as hardware abstraction, dependency injection, and deterministic memory usage.",
     "url": "https://github.com/rvido/bme280_linux",
-    "stars": 0,
+    "stars": 1,
     "forks": 0,
     "tags": [
       "Open Source"
