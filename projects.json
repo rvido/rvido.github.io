@@ -1,5 +1,17 @@
 [
   {
+    "name": "iManager",
+    "lang": "c",
+    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
+    "url": "https://github.com/rvido/iManager",
+    "stars": 25,
+    "forks": 9,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
     "name": "bme280_linux",
     "lang": "c++",
     "desc": "A high-performance, zero-allocation C++17 driver for the Bosch BME280 humidity, pressure, and temperature sensor. This project demonstrates modern embedded software practices such as hardware abstraction, dependency injection, and deterministic memory usage.",
@@ -42,18 +54,6 @@
     "url": "https://github.com/rvido/whois-rdap",
     "stars": 1,
     "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "iManager",
-    "lang": "c",
-    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
-    "url": "https://github.com/rvido/iManager",
-    "stars": 26,
-    "forks": 9,
     "tags": [
       "Open Source"
     ],
