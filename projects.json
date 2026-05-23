@@ -1,23 +1,23 @@
 [
   {
-    "name": "iManager",
-    "lang": "c",
-    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
-    "url": "https://github.com/rvido/iManager",
-    "stars": 26,
-    "forks": 9,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
     "name": "LANwatch",
     "lang": "rust",
     "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, and IEEE-OUI identification.",
     "url": "https://github.com/rvido/LANwatch",
     "stars": 2,
     "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "iManager",
+    "lang": "c",
+    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
+    "url": "https://github.com/rvido/iManager",
+    "stars": 26,
+    "forks": 9,
     "tags": [
       "Open Source"
     ],
