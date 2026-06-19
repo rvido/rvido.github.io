@@ -1,35 +1,11 @@
 [
   {
-    "name": "bme280_linux",
-    "lang": "c++",
-    "desc": "A high-performance, zero-allocation C++17 driver for the Bosch BME280 humidity, pressure, and temperature sensor. This project demonstrates modern embedded software practices such as hardware abstraction, dependency injection, and deterministic memory usage.",
-    "url": "https://github.com/rvido/bme280_linux",
-    "stars": 1,
-    "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "NetOrigin",
-    "lang": "rust",
-    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
-    "url": "https://github.com/rvido/NetOrigin",
-    "stars": 1,
-    "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
     "name": "LANwatch",
     "lang": "rust",
     "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, and IEEE-OUI identification.",
     "url": "https://github.com/rvido/LANwatch",
-    "stars": 2,
-    "forks": 0,
+    "stars": 4,
+    "forks": 1,
     "tags": [
       "Open Source"
     ],
@@ -54,6 +30,30 @@
     "url": "https://github.com/rvido/iManager",
     "stars": 26,
     "forks": 9,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "bme280_linux",
+    "lang": "c++",
+    "desc": "A high-performance, zero-allocation C++17 driver for the Bosch BME280 humidity, pressure, and temperature sensor. This project demonstrates modern embedded software practices such as hardware abstraction, dependency injection, and deterministic memory usage.",
+    "url": "https://github.com/rvido/bme280_linux",
+    "stars": 1,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "NetOrigin",
+    "lang": "rust",
+    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
+    "url": "https://github.com/rvido/NetOrigin",
+    "stars": 1,
+    "forks": 0,
     "tags": [
       "Open Source"
     ],
