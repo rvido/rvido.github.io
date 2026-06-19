@@ -457,9 +457,9 @@
 
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
-      max-width: 600px;
+      max-width: 800px;
     }
 
     .contact-card {
@@ -472,6 +472,7 @@
       padding: 1.5rem;
       text-decoration: none;
       transition: all 0.2s;
+      position: relative;
     }
 
     .contact-card:hover {
@@ -504,6 +505,82 @@
       font-size: 0.9rem;
       font-weight: 600;
       color: var(--white);
+    }
+
+    /* ── status indicator ── */
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 212, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.65rem;
+      color: var(--cyan);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(0, 212, 255, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 212, 255, 0);
+      }
+    }
+
+    /* ── contact tooltips ── */
+    .tooltip-text {
+      visibility: hidden;
+      width: 110px;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      text-align: center;
+      border-radius: 4px;
+      padding: 0.25rem 0.5rem;
+      position: absolute;
+      z-index: 10;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.2s;
+      font-size: 0.6rem;
+      letter-spacing: 0.05em;
+      font-family: var(--font-mono);
+      pointer-events: none;
+    }
+
+    .contact-card:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .tooltip-text.copied {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.15);
     }
 
     /* ── footer ── */
@@ -583,6 +660,10 @@
 <section id="hero">
   <div class="hero-inner">
     <div class="hero-text">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span class="status-text">Available for selective contracts</span>
+      </div>
       <p class="hero-tag">// engineer · builder · systems thinker</p>
       <h1 class="hero-name">
         <span class="first">Richard </span><br />
@@ -709,6 +790,19 @@
         </div>
       </a>
 
+      <div class="contact-card reveal" style="cursor: pointer;" onclick="copyEmail(this)">
+        <div class="contact-icon">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path fill="var(--blue-bright)" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-val">richard@rvd.dev</div>
+          <span class="tooltip-text">Click to copy</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -716,6 +810,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <span>© 2026 Richard Vidal-Dorsch</span>
+  <span id="local-time">Costa Mesa, CA · 10:56 AM</span>
   <span>Built with HTML · Hosted on GitHub Pages · <span id="build-version">build dev</span></span>
 </footer>
 
@@ -927,6 +1022,47 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   loadProjects();
   loadBuildMeta();
+
+  // ── Local Time Update ─────────────────────────────────────
+  function updateLocalTime() {
+    const timeElement = document.getElementById("local-time");
+    if (!timeElement) return;
+
+    const options = {
+      timeZone: "America/Los_Angeles",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    };
+
+    try {
+      const timeStr = new Date().toLocaleTimeString("en-US", options);
+      timeElement.textContent = `Costa Mesa, CA · ${timeStr}`;
+    } catch (e) {
+      console.warn("Could not retrieve local time:", e);
+    }
+  }
+
+  updateLocalTime();
+  setInterval(updateLocalTime, 30000);
+
+  // ── Copy Email Handler ────────────────────────────────────
+  window.copyEmail = function(cardElement) {
+    const email = "richard@rvd.dev";
+    navigator.clipboard.writeText(email).then(() => {
+      const tooltip = cardElement.querySelector(".tooltip-text");
+      if (tooltip) {
+        tooltip.textContent = "Copied!";
+        tooltip.classList.add("copied");
+        setTimeout(() => {
+          tooltip.textContent = "Click to copy";
+          tooltip.classList.remove("copied");
+        }, 2000);
+      }
+    }).catch(err => {
+      console.error("Failed to copy email:", err);
+    });
+  };
 </script>
 
 </body>
