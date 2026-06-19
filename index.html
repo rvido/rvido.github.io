@@ -507,6 +507,64 @@
       color: var(--white);
     }
 
+    /* ── milestones ── */
+    .milestones-bar {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      padding: 2rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .milestones-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+
+    .milestone-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .milestone-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      padding: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .milestone-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .milestone-title {
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .milestone-desc {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
     /* ── status indicator ── */
     .status-indicator {
       display: inline-flex;
@@ -638,6 +696,8 @@
       .hero-bio { max-width: 100%; }
       .hero-cta { justify-content: center; }
       section { padding: 4rem 2rem; }
+      .milestones-bar { padding: 2rem; }
+      .milestones-inner { grid-template-columns: 1fr; gap: 1.5rem; }
       .contact-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
@@ -676,6 +736,14 @@
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
         <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+        <a href="resume.pdf" class="btn btn-ghost" download>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem; vertical-align: middle;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Resume
+        </a>
       </div>
     </div>
 
@@ -690,8 +758,32 @@
     </div>
   </div>
 </section>
-
-<div class="divider"></div>
+<!-- ── MILESTONES ── -->
+<div class="milestones-bar reveal">
+  <div class="milestones-inner">
+    <div class="milestone-item">
+      <span class="milestone-icon">🐧</span>
+      <div class="milestone-content">
+        <span class="milestone-title">Kernel Contributor</span>
+        <span class="milestone-desc">Authored and upstreamed driver patches for Advantech iManager</span>
+      </div>
+    </div>
+    <div class="milestone-item">
+      <span class="milestone-icon">🦀</span>
+      <div class="milestone-content">
+        <span class="milestone-title">Rust Systems Architect</span>
+        <span class="milestone-desc">Author of concurrent network utility libraries and CLI applications</span>
+      </div>
+    </div>
+    <div class="milestone-item">
+      <span class="milestone-icon">🎤</span>
+      <div class="milestone-content">
+        <span class="milestone-title">ELC Community</span>
+        <span class="milestone-desc">Active participant in the Embedded Linux Conference ecosystem</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ── SKILLS ── -->
 <section id="skills">
@@ -798,7 +890,7 @@
         </div>
         <div>
           <div class="contact-label">Email</div>
-          <div class="contact-val">richard@rvd.dev</div>
+          <div class="contact-val" id="email-text">richard.dorsch [at] gmail.com</div>
           <span class="tooltip-text">Click to copy</span>
         </div>
       </div>
@@ -1046,10 +1138,19 @@
   updateLocalTime();
   setInterval(updateLocalTime, 30000);
 
+  // Decrypt email address dynamically to avoid static scrapers
+  const emailCodes = [114, 105, 99, 104, 97, 114, 100, 46, 100, 111, 114, 115, 99, 104, 64, 103, 109, 97, 105, 108, 46, 99, 111, 109];
+  const decryptedEmail = String.fromCharCode(...emailCodes);
+
+  // Render email dynamically for human visitors
+  const emailText = document.getElementById("email-text");
+  if (emailText) {
+    emailText.textContent = decryptedEmail;
+  }
+
   // ── Copy Email Handler ────────────────────────────────────
   window.copyEmail = function(cardElement) {
-    const email = "richard@rvd.dev";
-    navigator.clipboard.writeText(email).then(() => {
+    navigator.clipboard.writeText(decryptedEmail).then(() => {
       const tooltip = cardElement.querySelector(".tooltip-text");
       if (tooltip) {
         tooltip.textContent = "Copied!";
