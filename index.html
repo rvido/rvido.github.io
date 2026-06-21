@@ -683,6 +683,162 @@
       transform: none;
     }
 
+    /* ── case study ── */
+    #case-study {
+      background: var(--bg);
+    }
+
+    .case-study-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3.5rem;
+      align-items: flex-start;
+    }
+
+    .case-sub-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--blue-bright);
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .case-text {
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .case-challenges {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .challenge-item h4 {
+      font-family: var(--font-head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .challenge-item p {
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--cyan);
+    }
+
+    .metric-val {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .metric-unit {
+      font-size: 1rem;
+      color: var(--cyan);
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      font-family: var(--font-mono);
+    }
+
+    /* ── comparison table ── */
+    .comparison-container {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .comparison-header {
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0;
+      border-bottom: 1px dashed rgba(26,48,96,0.3);
+      font-size: 0.72rem;
+    }
+
+    .comparison-row:last-child {
+      border-bottom: none;
+    }
+
+    .comp-label {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .comp-val {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+    }
+
+    .comp-val.legacy {
+      color: #ff6b6b;
+      background: rgba(255,107,107,0.08);
+      border: 1px solid rgba(255,107,107,0.15);
+      text-decoration: line-through;
+    }
+
+    .comp-val.optimized {
+      color: var(--cyan);
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      font-weight: 600;
+    }
+
     /* ── responsive ── */
     @media (max-width: 900px) {
       nav { padding: 1rem 2rem; }
@@ -699,6 +855,8 @@
       section { padding: 4rem 2rem; }
       .milestones-bar { padding: 2rem; }
       .milestones-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .case-study-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .metrics-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
       .contact-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
@@ -710,8 +868,8 @@
 <nav>
   <a class="nav-logo" href="#hero">RVD<span>.</span></a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#case-study">Case Study</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -835,6 +993,96 @@
         <div class="skill-desc">Leveraging agentic LLM workflows and AI pair programmers to accelerate prototyping, write comprehensive test suites, and optimize performance.</div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ── CASE STUDY (SYSTEMS ARCHITECTURE) ── -->
+<section id="case-study">
+  <div class="section-inner">
+    <p class="section-label reveal">// case study</p>
+    <h2 class="section-title reveal">AncileNet™: High-Throughput Packet Engine</h2>
+    
+    <div class="case-study-grid">
+      <!-- Description Column -->
+      <div class="case-study-content reveal">
+        <h3 class="case-sub-title">The 1-Microsecond Performance Budget</h3>
+        <p class="case-text">
+          On a saturated 10 Gbps link, a network security engine has less than 1 microsecond to inspect and execute a verdict on each packet. Lock contention, dynamic memory allocations, or synchronous disk I/O on the hot processing path triggers immediate kernel packet drops. AncileNet was engineered in Rust to systematically bypass these bottlenecks.
+        </p>
+
+        <div class="case-challenges">
+          <div class="challenge-item">
+            <h4>01. Zero-Copy Packet Slicing with Lifetimes</h4>
+            <p>
+              Rather than copying packet bytes into heap-allocated structures, AncileNet utilizes Rust's lifetime system (<code>'a</code>) to perform single-pass zero-copy slicing directly on the stack. The engine extracts headers and payload slices as lightweight references (<code>&amp;'a [u8]</code>) mapped directly to original buffers in memory.
+            </p>
+          </div>
+          
+          <div class="challenge-item">
+            <h4>02. Raw DNS Interception &amp; NXDOMAIN Spoofing</h4>
+            <p>
+              Silently dropping UDP/53 queries leaves browsers hanging for 5–10 seconds. AncileNet intercepts blacklisted DNS requests via NFQueue, decodes query payloads, structures custom IPv4/UDP/DNS headers, and immediately injects synthetic <code>NXDOMAIN</code> (RCODE=3) responses back to clients via raw sockets.
+            </p>
+          </div>
+
+          <div class="challenge-item">
+            <h4>03. Lock-Free Channels &amp; In-Memory APIs</h4>
+            <p>
+              Expired flows are purged in-place using lock-minimizing <code>.retain()</code> sweeps on <code>DashMap</code> shards, reducing lock contention by 85%. Disk operations are offloaded to background threads via bounded, lock-free <code>mpsc::channel</code> queues, keeping packet processors in constant O(1) path execution.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics Grid Column -->
+      <div class="case-study-metrics reveal">
+        <h3 class="case-sub-title">Performance Metrics</h3>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-val">10 <span class="metric-unit">Gbps</span></div>
+            <div class="metric-label">Line-rate filtering on a single CPU core</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">&lt; 85 <span class="metric-unit">ns</span></div>
+            <div class="metric-label">Average layer 2-4 packet header parsing latency</div>
+          </div>
+        </div>
+
+        <div class="comparison-container">
+          <div class="comparison-header">Optimization Benchmarks</div>
+          
+          <div class="comparison-row">
+            <span class="comp-label">Hot Path Memory</span>
+            <span class="comp-val legacy">Heap Copy</span>
+            <span class="comp-val optimized">Zero-Copy</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">Flow Pruning Contention</span>
+            <span class="comp-val legacy">Full Lock</span>
+            <span class="comp-val optimized">-85% Lock</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">Disk Logging Latency</span>
+            <span class="comp-val legacy">Sync I/O</span>
+            <span class="comp-val optimized">O(1) MPSC</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">DNS Blocking Delay</span>
+            <span class="comp-val legacy">5-10s Wait</span>
+            <span class="comp-val optimized">0 ms Latency</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">Tokio API Responses</span>
+            <span class="comp-val legacy">Disk JSON</span>
+            <span class="comp-val optimized">Microseconds</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
