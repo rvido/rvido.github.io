@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <script data-goatcounter="https://rvido.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
   <style>
     :root {
       --bg:          #070d18;
@@ -895,7 +897,7 @@
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
         <a href="#contact" class="btn btn-ghost">Get in Touch</a>
-        <a href="resume.pdf" class="btn btn-ghost" download>
+        <a href="resume.pdf" class="btn btn-ghost" download onclick="trackEvent('download-resume', 'Resume Download')">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem; vertical-align: middle;">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
@@ -1270,6 +1272,11 @@
         card.href   = p.url;
         card.target = "_blank";
         card.rel    = "noopener";
+        card.addEventListener("click", () => {
+          if (window.trackEvent) {
+            window.trackEvent('project-click-' + p.name.toLowerCase(), 'Project Click: ' + p.name);
+          }
+        });
       }
 
       // Language badge
@@ -1397,6 +1404,17 @@
     emailText.textContent = decryptedEmail;
   }
 
+  // ── GoatCounter Event Tracking Helper ─────────────────────
+  window.trackEvent = function(eventName, eventTitle) {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({
+        path:  eventName,
+        title: eventTitle,
+        event: true
+      });
+    }
+  };
+
   // ── Copy Email Handler ────────────────────────────────────
   window.copyEmail = function(cardElement) {
     navigator.clipboard.writeText(decryptedEmail).then(() => {
@@ -1408,6 +1426,9 @@
           tooltip.textContent = "Click to copy";
           tooltip.classList.remove("copied");
         }, 2000);
+      }
+      if (window.trackEvent) {
+        window.trackEvent('copy-email', 'Email Address Copied');
       }
     }).catch(err => {
       console.error("Failed to copy email:", err);
