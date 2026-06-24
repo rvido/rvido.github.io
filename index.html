@@ -369,6 +369,43 @@
       color: var(--text-muted);
     }
 
+    /* ── project filters ── */
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.45rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      letter-spacing: 0.05em;
+      outline: none;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--blue-bright);
+      color: var(--blue-glow);
+      box-shadow: 0 0 12px rgba(79,163,255,0.1);
+    }
+
+    .filter-btn.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 212, 255, 0.06);
+      box-shadow: 0 0 16px rgba(0, 212, 255, 0.15);
+      font-weight: 600;
+    }
+
     /* ── projects ── */
     .projects-grid {
       display: grid;
@@ -1096,6 +1133,14 @@
   <div class="section-inner">
     <p class="section-label reveal">// open source</p>
     <h2 class="section-title reveal">Featured Projects</h2>
+    
+    <div class="filter-container reveal">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="rust">Rust</button>
+      <button class="filter-btn" data-filter="c-cpp">C / C++</button>
+      <button class="filter-btn" data-filter="cli">CLI Tools</button>
+    </div>
+
     <div class="projects-grid" id="projects-grid"></div>
   </div>
 </section>
@@ -1320,6 +1365,41 @@
     });
   }
 
+  let allProjects = [];
+
+  function setupFilters() {
+    const buttons = document.querySelectorAll(".filter-btn");
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.getAttribute("data-filter");
+        let filtered = [];
+
+        if (filter === "all") {
+          filtered = allProjects;
+        } else if (filter === "rust") {
+          filtered = allProjects.filter(p => p.lang && p.lang.toLowerCase() === "rust");
+        } else if (filter === "c-cpp") {
+          filtered = allProjects.filter(p => p.lang && (p.lang.toLowerCase() === "c" || p.lang.toLowerCase() === "c++"));
+        } else if (filter === "cli") {
+          filtered = allProjects.filter(p => {
+            const hasCliTag = p.tags && p.tags.some(t => t.toLowerCase().includes("cli"));
+            const hasCliDesc = p.desc && p.desc.toLowerCase().includes("cli");
+            return hasCliTag || hasCliDesc;
+          });
+        }
+
+        renderProjects(filtered);
+
+        if (window.trackEvent) {
+          window.trackEvent('filter-projects-' + filter, 'Project Filter: ' + filter.toUpperCase());
+        }
+      });
+    });
+  }
+
   async function loadProjects() {
     try {
       const response = await fetch("./projects.json", { cache: "no-store" });
@@ -1327,15 +1407,18 @@
         throw new Error(`Unable to load projects.json (${response.status})`);
       }
 
-      const projects = await response.json();
-      if (!Array.isArray(projects) || projects.length === 0) {
+      allProjects = await response.json();
+      if (!Array.isArray(allProjects) || allProjects.length === 0) {
         throw new Error("projects.json did not contain any projects");
       }
 
-      renderProjects(projects);
+      renderProjects(allProjects);
+      setupFilters();
     } catch (error) {
       console.warn("Using fallback project list:", error);
-      renderProjects(fallbackProjects);
+      allProjects = fallbackProjects;
+      renderProjects(allProjects);
+      setupFilters();
     }
   }
 
