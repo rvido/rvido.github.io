@@ -1,5 +1,17 @@
 [
   {
+    "name": "appid_finder",
+    "lang": "rust",
+    "desc": "A Rust-based web application that discovers iOS and Android app bundle IDs instantly.",
+    "url": "https://github.com/rvido/appid_finder",
+    "stars": 0,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
     "name": "LANwatch",
     "lang": "rust",
     "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, LLMNR, NetBIOS (NBNS), WS-Discovery (WSD), CoAP, Matter, KNXnet/IP, MQTT, Plex GDM, IP Camera discovery (SADP, Dahua, RTSP), link-layer frames (ARP, NDP, LLDP, CDP), and IEEE OUI vendor identification.",
@@ -65,18 +77,6 @@
     "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
     "url": "https://github.com/rvido/NetOrigin",
     "stars": 1,
-    "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "appid_finder",
-    "lang": "rust",
-    "desc": "A Rust-based web application that discovers iOS and Android app bundle IDs instantly.",
-    "url": "https://github.com/rvido/appid_finder",
-    "stars": 0,
     "forks": 0,
     "tags": [
       "Open Source"
