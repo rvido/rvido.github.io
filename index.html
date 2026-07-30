@@ -727,6 +727,17 @@
       background: var(--bg);
     }
 
+    .case-block-header {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 2rem;
+      border-left: 3px solid var(--cyan);
+      padding-left: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+
     .case-study-grid {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
@@ -908,7 +919,7 @@
   <a class="nav-logo" href="#hero">RVD<span>.</span></a>
   <ul class="nav-links">
     <li><a href="#skills">Skills</a></li>
-    <li><a href="#case-study">Case Study</a></li>
+    <li><a href="#case-study">Case Studies</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -1036,89 +1047,191 @@
   </div>
 </section>
 
-<!-- ── CASE STUDY (SYSTEMS ARCHITECTURE) ── -->
+<!-- ── CASE STUDIES (SYSTEMS ARCHITECTURE & ENCRYPTED INTELLIGENCE) ── -->
 <section id="case-study">
   <div class="section-inner">
-    <p class="section-label reveal">// case study</p>
-    <h2 class="section-title reveal">AncileNet™: High-Throughput Packet Engine</h2>
+    <p class="section-label reveal">// case studies</p>
+    <h2 class="section-title reveal">Systems Architecture &amp; Engineering Case Studies</h2>
     
-    <div class="case-study-grid">
-      <!-- Description Column -->
-      <div class="case-study-content reveal">
-        <h3 class="case-sub-title">The 1-Microsecond Performance Budget</h3>
-        <p class="case-text">
-          On a saturated 10 Gbps link, a network security engine has less than 1 microsecond to inspect and execute a verdict on each packet. Lock contention, dynamic memory allocations, or synchronous disk I/O on the hot processing path triggers immediate kernel packet drops. AncileNet was engineered in Rust to systematically bypass these bottlenecks.
-        </p>
+    <!-- CASE STUDY 01: ANCILENET ENGINE -->
+    <div class="case-study-block reveal" style="margin-bottom: 5rem;">
+      <h3 class="case-block-header">Case Study 01: AncileNet™ High-Throughput Embedded Engine (v0.4.3)</h3>
 
-        <div class="case-challenges">
-          <div class="challenge-item">
-            <h4>01. Zero-Copy Packet Slicing with Lifetimes</h4>
-            <p>
-              Rather than copying packet bytes into heap-allocated structures, AncileNet utilizes Rust's lifetime system (<code>'a</code>) to perform single-pass zero-copy slicing directly on the stack. The engine extracts headers and payload slices as lightweight references (<code>&amp;'a [u8]</code>) mapped directly to original buffers in memory.
-            </p>
+      <div class="case-study-grid">
+        <!-- Description Column -->
+        <div class="case-study-content">
+          <h4 class="case-sub-title">The 1-Microsecond Performance Budget</h4>
+          <p class="case-text">
+            AncileNet™ is a 30,000+ line memory-safe Rust cyber-defense core engineered for router gateways and embedded targets. On a 10 Gbps link, a network security daemon has less than 1 microsecond per packet before kernel buffers overflow. AncileNet compiles into an ultra-compact <strong>~7.5 MB static binary</strong> (<code>musl</code> + <code>mimalloc</code>) running with near-zero overhead on Raspberry Pi CM4 targets.
+          </p>
+
+          <div class="case-challenges">
+            <div class="challenge-item">
+              <h4>01. Zero-Copy Rust Packet Slicing with Lifetimes</h4>
+              <p>
+                Rather than copying packet bytes into heap-allocated structs, AncileNet uses Rust lifetime references (<code>&amp;'a [u8]</code>) to slice packet headers directly on the stack from DMA/libpcap ring buffers, eliminating allocation overhead on the hot path.
+              </p>
+            </div>
+            
+            <div class="challenge-item">
+              <h4>02. Raw DNS Interception &amp; Instant NXDOMAIN Spoofing</h4>
+              <p>
+                Silently dropping UDP/53 queries causes 5–10 second browser timeout hangs. AncileNet intercepts blacklisted DNS queries via NFQueue, decodes payloads, structures raw IPv4/UDP headers, and immediately injects synthetic <code>NXDOMAIN</code> (RCODE=3) responses back to clients (0 ms user delay fallback).
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>03. Lock-Free Channels, In-Memory APIs &amp; Signed Threat Manifests</h4>
+              <p>
+                Expired flow table entries are purged in-place using <code>.retain()</code> on 256-shard <code>DashMap</code> tables (-85% lock contention). Disk logging uses bounded lock-free <code>mpsc</code> queues for O(1) constant execution time. Adblock &amp; VPN lists are verified via ed25519-signed release manifests and offloaded into nftables kernel sets.
+              </p>
+            </div>
           </div>
-          
-          <div class="challenge-item">
-            <h4>02. Raw DNS Interception &amp; NXDOMAIN Spoofing</h4>
-            <p>
-              Silently dropping UDP/53 queries leaves browsers hanging for 5–10 seconds. AncileNet intercepts blacklisted DNS requests via NFQueue, decodes query payloads, structures custom IPv4/UDP/DNS headers, and immediately injects synthetic <code>NXDOMAIN</code> (RCODE=3) responses back to clients via raw sockets.
-            </p>
+        </div>
+
+        <!-- Metrics Grid Column -->
+        <div class="case-study-metrics">
+          <h4 class="case-sub-title">Empirical Benchmarks</h4>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-val">~1% <span class="metric-unit">CPU</span></div>
+              <div class="metric-label">RPi CM4 load benchmark (58.9GB RX / 346GB TX)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">2.9% <span class="metric-unit">RAM</span></div>
+              <div class="metric-label">~110 MB RSS footprint on Raspberry Pi CM4</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">~7.5 <span class="metric-unit">MB</span></div>
+              <div class="metric-label">Musl + Mimalloc static binary size</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">641 <span class="metric-unit">Tests</span></div>
+              <div class="metric-label">100% passing test suite (513 unit, 128 integration)</div>
+            </div>
           </div>
 
-          <div class="challenge-item">
-            <h4>03. Lock-Free Channels &amp; In-Memory APIs</h4>
-            <p>
-              Expired flows are purged in-place using lock-minimizing <code>.retain()</code> sweeps on <code>DashMap</code> shards, reducing lock contention by 85%. Disk operations are offloaded to background threads via bounded, lock-free <code>mpsc::channel</code> queues, keeping packet processors in constant O(1) path execution.
-            </p>
+          <div class="comparison-container">
+            <div class="comparison-header">Optimization Metrics</div>
+            
+            <div class="comparison-row">
+              <span class="comp-label">Hot Path Memory</span>
+              <span class="comp-val legacy">Heap Copy</span>
+              <span class="comp-val optimized">Zero-Copy</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Flow Pruning Contention</span>
+              <span class="comp-val legacy">Full Lock</span>
+              <span class="comp-val optimized">-85% Lock</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Disk Logging Latency</span>
+              <span class="comp-val legacy">Sync I/O</span>
+              <span class="comp-val optimized">O(1) MPSC</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">DNS Blocking Delay</span>
+              <span class="comp-val legacy">5-10s Wait</span>
+              <span class="comp-val optimized">0 ms Latency</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Tokio API Responses</span>
+              <span class="comp-val legacy">Disk JSON</span>
+              <span class="comp-val optimized">Microseconds</span>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Metrics Grid Column -->
-      <div class="case-study-metrics reveal">
-        <h3 class="case-sub-title">Performance Metrics</h3>
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-val">10 <span class="metric-unit">Gbps</span></div>
-            <div class="metric-label">Line-rate filtering on a single CPU core</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-val">&lt; 85 <span class="metric-unit">ns</span></div>
-            <div class="metric-label">Average layer 2-4 packet header parsing latency</div>
+    <!-- CASE STUDY 02: JA4/JA4S TLS FINGERPRINTING -->
+    <div class="case-study-block reveal">
+      <h3 class="case-block-header">Case Study 02: Encrypted Traffic Intelligence &amp; JA4 / JA4S Fingerprinting</h3>
+
+      <div class="case-study-grid">
+        <!-- Description Column -->
+        <div class="case-study-content">
+          <h4 class="case-sub-title">Zero-Decryption TLS Application &amp; C2 Detection</h4>
+          <p class="case-text">
+            Over 95% of modern internet traffic is encrypted. Traditional Deep Packet Inspection (DPI) requires intrusive, expensive SSL decryption (man-in-the-middle) or fails completely when malware, C2 beacons, or anonymizers use custom TLS handshakes or domain-fronting without SNI. AncileNet solves this through cryptographic JA4 &amp; JA4S fingerprinting without decrypting payload content.
+          </p>
+
+          <div class="case-challenges">
+            <div class="challenge-item">
+              <h4>01. JA4 Client TLS Handshake Profiling</h4>
+              <p>
+                AncileNet parses TLS <code>ClientHello</code> records (ciphers, extensions, signature algorithms, ALPN, SNI; ignoring GREASE) to calculate a 25-character cryptographic JA4 string. This hash is matched against a fingerprint database to identify friendly apps (YouTube, Zoom, Netflix, WhatsApp) or suspicious tools inside encrypted TCP flows.
+              </p>
+            </div>
+            
+            <div class="challenge-item">
+              <h4>02. JA4S Server Response Handshake Pairing</h4>
+              <p>
+                Each client JA4 fingerprint is paired with the server's <code>ServerHello</code> JA4S (extensions in original order, GREASE included, SNI/ALPN included per official FoxIO spec). This creates a complete client/server cryptographic handshake tuple for robust identification.
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>03. Stealth C2 &amp; Malicious TLS Endpoint Identification</h4>
+              <p>
+                By matching full cryptographic TLS handshake tuples (JA4 + JA4S) against threat intelligence feeds, AncileNet flags stealth C2 beacons, VPN bypass tools, and malicious TLS endpoints—even when SNI domain indicators are completely absent, spoofed, or IP-only.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="comparison-container">
-          <div class="comparison-header">Optimization Benchmarks</div>
-          
-          <div class="comparison-row">
-            <span class="comp-label">Hot Path Memory</span>
-            <span class="comp-val legacy">Heap Copy</span>
-            <span class="comp-val optimized">Zero-Copy</span>
+        <!-- Metrics Grid Column -->
+        <div class="case-study-metrics">
+          <h4 class="case-sub-title">JA4 Security Benchmarks</h4>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-val">0% <span class="metric-unit">Decryption</span></div>
+              <div class="metric-label">100% privacy-preserving traffic classification</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">25 <span class="metric-unit">Chars</span></div>
+              <div class="metric-label">Compact cryptographic JA4 fingerprint string</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">Full <span class="metric-unit">Tuple</span></div>
+              <div class="metric-label">Client (JA4) + Server (JA4S) handshake pairing</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">FoxIO <span class="metric-unit">Spec</span></div>
+              <div class="metric-label">100% verified against reference test vectors</div>
+            </div>
           </div>
 
-          <div class="comparison-row">
-            <span class="comp-label">Flow Pruning Contention</span>
-            <span class="comp-val legacy">Full Lock</span>
-            <span class="comp-val optimized">-85% Lock</span>
-          </div>
+          <div class="comparison-container">
+            <div class="comparison-header">Traffic Profiling Capabilities</div>
+            
+            <div class="comparison-row">
+              <span class="comp-label">Traffic Inspection</span>
+              <span class="comp-val legacy">SSL Decryption</span>
+              <span class="comp-val optimized">JA4 Zero-Copy</span>
+            </div>
 
-          <div class="comparison-row">
-            <span class="comp-label">Disk Logging Latency</span>
-            <span class="comp-val legacy">Sync I/O</span>
-            <span class="comp-val optimized">O(1) MPSC</span>
-          </div>
+            <div class="comparison-row">
+              <span class="comp-label">C2 / Malware Detection</span>
+              <span class="comp-val legacy">SNI/Domain Only</span>
+              <span class="comp-val optimized">JA4 + JA4S Tuple</span>
+            </div>
 
-          <div class="comparison-row">
-            <span class="comp-label">DNS Blocking Delay</span>
-            <span class="comp-val legacy">5-10s Wait</span>
-            <span class="comp-val optimized">0 ms Latency</span>
-          </div>
+            <div class="comparison-row">
+              <span class="comp-label">Privacy Impact</span>
+              <span class="comp-val legacy">Content Exposed</span>
+              <span class="comp-val optimized">Zero Privacy Loss</span>
+            </div>
 
-          <div class="comparison-row">
-            <span class="comp-label">Tokio API Responses</span>
-            <span class="comp-val legacy">Disk JSON</span>
-            <span class="comp-val optimized">Microseconds</span>
+            <div class="comparison-row">
+              <span class="comp-label">Lookup Speed</span>
+              <span class="comp-val legacy">DPI String Scan</span>
+              <span class="comp-val optimized">µs Hash Table</span>
+            </div>
           </div>
         </div>
       </div>
