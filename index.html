@@ -889,6 +889,80 @@
       font-weight: 600;
     }
 
+    /* ── dashboard showcase ── */
+    .dashboard-showcase-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 2.5rem;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .dashboard-showcase-container:hover {
+      border-color: var(--blue-bright);
+      box-shadow: 0 16px 48px rgba(45, 125, 210, 0.2);
+    }
+
+    .showcase-header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .showcase-title {
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+
+    .showcase-tag {
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      color: var(--cyan);
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .showcase-image-wrap {
+      width: 100%;
+      background: #040810;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .showcase-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .dashboard-showcase-container:hover .showcase-img {
+      transform: scale(1.01);
+    }
+
+    .showcase-caption {
+      padding: 0.85rem 1.25rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      background: rgba(7, 13, 24, 0.6);
+    }
+
     /* ── responsive ── */
     @media (max-width: 900px) {
       nav { padding: 1rem 2rem; }
@@ -1144,6 +1218,20 @@
               <span class="comp-val optimized">Microseconds</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Embedded Dashboard UI Showcase -->
+      <div class="dashboard-showcase-container reveal">
+        <div class="showcase-header">
+          <span class="showcase-title">🖥️ AncileNet™ Embedded Management Dashboard</span>
+          <span class="showcase-tag">Responsive Warp Web UI + REST API Suite</span>
+        </div>
+        <div class="showcase-image-wrap">
+          <img src="assets/ancilenet_dashboard_ui_showcase.jpg" alt="AncileNet Embedded Management Dashboard UI" class="showcase-img" />
+        </div>
+        <div class="showcase-caption">
+          <strong>Production Dashboard UI Showcase:</strong> Demonstrates real-time device-grouped flow tracking (LANwatch discovery), inline JA4 TLS client fingerprints, PPS/BPS edge bandwidth graphs, and zero-latency policy rules enforcement.
         </div>
       </div>
     </div>
