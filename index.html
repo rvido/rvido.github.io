@@ -935,6 +935,34 @@
       letter-spacing: 0.05em;
     }
 
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .showcase-item {
+      background: #040810;
+      position: relative;
+    }
+
+    .showcase-item-title {
+      background: rgba(7, 13, 24, 0.95);
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.45rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 768px) {
+      .showcase-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .showcase-image-wrap {
       width: 100%;
       background: #040810;
@@ -1129,14 +1157,14 @@
     
     <!-- CASE STUDY 01: ANCILENET ENGINE -->
     <div class="case-study-block reveal" style="margin-bottom: 5rem;">
-      <h3 class="case-block-header">Case Study 01: AncileNet™ High-Throughput Embedded Engine (v0.4.3)</h3>
+      <h3 class="case-block-header">Case Study 01: AncileNet™ High-Throughput Embedded Engine (v0.5.0)</h3>
 
       <div class="case-study-grid">
         <!-- Description Column -->
         <div class="case-study-content">
           <h4 class="case-sub-title">The 1-Microsecond Performance Budget</h4>
           <p class="case-text">
-            AncileNet™ is a 30,000+ line memory-safe Rust cyber-defense core engineered for router gateways and embedded targets. On a 10 Gbps link, a network security daemon has less than 1 microsecond per packet before kernel buffers overflow. AncileNet compiles into an ultra-compact <strong>~7.5 MB static binary</strong> (<code>musl</code> + <code>mimalloc</code>) running with near-zero overhead on Raspberry Pi CM4 targets.
+            AncileNet™ is a 32k+ line memory-safe Rust cyber-defense core engineered for router gateways and embedded targets. On a 10 Gbps link, a network security daemon has less than 1 microsecond per packet before kernel buffers overflow. AncileNet compiles into an ultra-compact <strong>~7.7 MB static binary</strong> (<code>musl</code> + <code>mimalloc</code>) running with near-zero overhead on Raspberry Pi CM4 targets.
           </p>
 
           <div class="case-challenges">
@@ -1176,7 +1204,7 @@
               <div class="metric-label">~110 MB RSS footprint on Raspberry Pi CM4</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">~7.5 <span class="metric-unit">MB</span></div>
+              <div class="metric-val">~7.7 <span class="metric-unit">MB</span></div>
               <div class="metric-label">Musl + Mimalloc static binary size</div>
             </div>
             <div class="metric-card">
@@ -1224,20 +1252,43 @@
       <!-- Embedded Dashboard UI Showcase -->
       <div class="dashboard-showcase-container reveal">
         <div class="showcase-header">
-          <span class="showcase-title">🖥️ AncileNet™ Embedded Management Dashboard</span>
+          <span class="showcase-title">🖥️ AncileNet™ Embedded Management Dashboard Views</span>
           <span class="showcase-tag">Responsive Warp Web UI + REST API Suite</span>
         </div>
-        <div class="showcase-image-wrap">
-          <img src="assets/ancilenet_dashboard_ui_showcase.jpg" alt="AncileNet Embedded Management Dashboard UI" class="showcase-img" />
+        <div class="showcase-grid">
+          <div class="showcase-item">
+            <div class="showcase-item-title">Real-Time Network Flows</div>
+            <div class="showcase-image-wrap">
+              <img src="assets/ancilenet_dashboard_ui_showcase.jpg" alt="AncileNet Real-Time Network Flows Dashboard" class="showcase-img" />
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">Threat &amp; Security Alerts</div>
+            <div class="showcase-image-wrap">
+              <img src="assets/ancilenet_dashboard_alerts_showcase.jpg" alt="AncileNet Security Alerts Dashboard" class="showcase-img" />
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">24h Traffic &amp; App Usage</div>
+            <div class="showcase-image-wrap">
+              <img src="assets/ancilenet_dashboard_usage_showcase.jpg" alt="AncileNet 24h Usage Dashboard" class="showcase-img" />
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">Content &amp; Device Rules</div>
+            <div class="showcase-image-wrap">
+              <img src="assets/ancilenet_dashboard_rules_showcase.jpg" alt="AncileNet Device Policy Rules Dashboard" class="showcase-img" />
+            </div>
+          </div>
         </div>
         <div class="showcase-caption">
-          <strong>Production Dashboard UI Showcase:</strong> Demonstrates real-time device-grouped flow tracking (LANwatch discovery), inline JA4 TLS client fingerprints, PPS/BPS edge bandwidth graphs, and zero-latency policy rules enforcement.
+          <strong>Production Dashboard UI Showcase:</strong> Demonstrates real-time device-grouped flow tracking (LANwatch discovery), inline JA4 TLS client fingerprints, security threat alerts, per-device app usage tracking, and zero-latency policy rules enforcement.
         </div>
       </div>
     </div>
 
     <!-- CASE STUDY 02: JA4/JA4S TLS FINGERPRINTING -->
-    <div class="case-study-block reveal">
+    <div class="case-study-block reveal" style="margin-bottom: 5rem;">
       <h3 class="case-block-header">Case Study 02: Encrypted Traffic Intelligence &amp; JA4 / JA4S Fingerprinting</h3>
 
       <div class="case-study-grid">
@@ -1319,6 +1370,101 @@
               <span class="comp-label">Lookup Speed</span>
               <span class="comp-val legacy">DPI String Scan</span>
               <span class="comp-val optimized">µs Hash Table</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE STUDY 03: MEMTRACER DIAGNOSTICS -->
+    <div class="case-study-block reveal">
+      <h3 class="case-block-header">Case Study 03: memtracer — Zero-Heap C99/C++11 Memory Diagnostics Engine</h3>
+
+      <div class="case-study-grid">
+        <!-- Description Column -->
+        <div class="case-study-content">
+          <h4 class="case-sub-title">Zero-Allocation Dynamic Memory Tracking &amp; Leak Profiling</h4>
+          <p class="case-text">
+            Traditional memory diagnostic tools (Valgrind, heap profilers) often allocate memory dynamically for their own bookkeeping. On embedded targets, safety-critical systems, or low-memory conditions, heap allocation inside a memory tracer causes infinite recursion loops, increases fragmentation, or panics. <code>memtracer</code> is a zero-heap, single-header C99 &amp; C++11+ memory tracer engineered for deterministic execution.
+          </p>
+
+          <div class="case-challenges">
+            <div class="challenge-item">
+              <h4>01. Zero-Heap Static Data Structures with O(1) Open-Addressing Hash Lookup</h4>
+              <p>
+                Eliminates runtime heap allocation by utilizing compile-time fixed arrays: a flat record buffer (<code>mt_records</code>), a statically pre-allocated LIFO free-stack, and an open-addressing linear-probing hash table (<code>mt_hash_table</code>) providing <strong>$O(1)$ average time complexity</strong> for <code>free()</code> and <code>realloc()</code> tracking.
+              </p>
+            </div>
+            
+            <div class="challenge-item">
+              <h4>02. Transparent Macro Interception &amp; C99/C++11 Semantic Compliance</h4>
+              <p>
+                Uses clean preprocessor macro overrides (<code>malloc</code>, <code>calloc</code>, <code>realloc</code>, <code>free</code>, <code>new</code>, <code>delete</code>) capturing exact call sites (file name, line number, function name) without code modifications. Handles edge cases cleanly: <code>realloc(NULL, n)</code>, <code>realloc(ptr, 0)</code>, double-free warnings, and pointer storage as <code>uintptr_t</code> to avoid <code>-Wuse-after-free</code> compiler lints.
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>03. Thread-Safe Atomic Spinlock &amp; Anti-Recursion Guards</h4>
+              <p>
+                In C++11 mode, table operations are synchronized using lightweight atomic spinlocks (<code>std::atomic_flag</code>) with strict reentrancy guards, ensuring multi-threaded safety across concurrent allocation paths while maintaining zero dynamic dependency overhead.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics Grid Column -->
+        <div class="case-study-metrics">
+          <h4 class="case-sub-title">Diagnostic Engine Benchmarks</h4>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-val">0% <span class="metric-unit">Heap</span></div>
+              <div class="metric-label">Zero dynamic memory allocated for tracer bookkeeping</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">O(1) <span class="metric-unit">Time</span></div>
+              <div class="metric-label">Open-addressing hash table pointer lookup complexity</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">65,536 <span class="metric-unit">Blocks</span></div>
+              <div class="metric-label">Configurable static allocation tracking capacity</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">100% <span class="metric-unit">ASan</span></div>
+              <div class="metric-label">Clean verification with GCC/Clang AddressSanitizer</div>
+            </div>
+          </div>
+
+          <div class="comparison-container">
+            <div class="comparison-header">Tracer Architecture Comparison</div>
+            
+            <div class="comparison-row">
+              <span class="comp-label">Tracer Memory</span>
+              <span class="comp-val legacy">Dynamic Heap</span>
+              <span class="comp-val optimized">Static Zero-Heap</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Free Lookup Time</span>
+              <span class="comp-val legacy">O(N) Linear Scan</span>
+              <span class="comp-val optimized">O(1) Hash Table</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Low-Memory Safety</span>
+              <span class="comp-val legacy">Risk of Crash</span>
+              <span class="comp-val optimized">100% Deterministic</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Compiler Safety</span>
+              <span class="comp-val legacy">Freed Ptr Warn</span>
+              <span class="comp-val optimized">uintptr_t Clean</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Runtime Overhead</span>
+              <span class="comp-val legacy">Valgrind 10x-20x</span>
+              <span class="comp-val optimized">Near-Zero Overhead</span>
             </div>
           </div>
         </div>
