@@ -1165,14 +1165,14 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">The 1-Microsecond Performance Budget</h4>
           <p class="case-text">
-            AncileNet™ is a 32k+ line memory-safe Rust cyber-defense core engineered for router gateways and embedded targets. On a 10 Gbps link, a network security daemon has less than 1 microsecond per packet before kernel buffers overflow. AncileNet compiles into an ultra-compact <strong>~7.7 MB static binary</strong> (<code>musl</code> + <code>mimalloc</code>) running with near-zero overhead on Raspberry Pi CM4 targets.
+            AncileNet™ is a 34k+ line memory-safe Rust cyber-defense core engineered for router gateways and embedded targets. On a 10 Gbps link, a network security daemon has less than 1 microsecond per packet before kernel buffers overflow. AncileNet compiles into an ultra-compact <strong>~7.7 MB static binary</strong> (<code>musl</code> + <code>mimalloc</code>) running with near-zero overhead on Raspberry Pi CM4 targets.
           </p>
 
           <div class="case-challenges">
             <div class="challenge-item">
               <h4>01. Zero-Copy Rust Packet Slicing with Lifetimes</h4>
               <p>
-                Rather than copying packet bytes into heap-allocated structs, AncileNet uses Rust lifetime references (<code>&amp;'a [u8]</code>) to slice packet headers directly on the stack from DMA/libpcap ring buffers, eliminating allocation overhead on the hot path.
+                Rather than copying packet bytes into heap-allocated structs, AncileNet uses Rust lifetime references (<code>&amp;'a [u8]</code>) to slice packet headers directly on the stack from DMA/libpcap ring buffers, eliminating allocation overhead on the hot path. Policy evaluation is held to the same standard: rule targets are normalized once at load and matched with <code>eq_ignore_ascii_case</code> against a borrowed <code>&amp;str</code>, taking a ten-rule configuration from 20 heap allocations per packet to <strong>zero</strong>.
               </p>
             </div>
             
@@ -1189,6 +1189,13 @@
                 Expired flow table entries are purged in-place using <code>.retain()</code> on 256-shard <code>DashMap</code> tables (-85% lock contention). Disk logging uses bounded lock-free <code>mpsc</code> queues for O(1) constant execution time. Adblock &amp; VPN lists are verified via ed25519-signed release manifests and offloaded into nftables kernel sets.
               </p>
             </div>
+
+            <div class="challenge-item">
+              <h4>04. Measuring What Is Never Seen: Capture-Loss Observability</h4>
+              <p>
+                Packets dropped by the kernel <em>before</em> inspection silently understate every downstream number — flows, byte totals, bandwidth graphs — with no indication anything is missing. AncileNet measures the loss, splits it by cause (ring overrun vs. NIC), and derives <code>capture_buffer_bytes</code> from system memory at startup. Deliberately <strong>not</strong> a control loop: <code>pcap_set_buffer_size</code> requires an inactive handle, so load-triggered resizing would let an attacker induce a window of degraded inspection with a traffic burst. Sustained loss instead emits a specific, actionable recommendation. Memory-derived sizing took the reference CM4 from ~33% buffer drops to zero; figures above are measured on that target over a 5 GHz Wi-Fi client link, so they characterise <em>inspection cost and loss</em> rather than peak link throughput.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -1197,20 +1204,28 @@
           <h4 class="case-sub-title">Empirical Benchmarks</h4>
           <div class="metrics-grid">
             <div class="metric-card">
-              <div class="metric-val">~1% <span class="metric-unit">CPU</span></div>
-              <div class="metric-label">RPi CM4 load benchmark (58.9GB RX / 346GB TX)</div>
+              <div class="metric-val">~14% <span class="metric-unit">CPU</span></div>
+              <div class="metric-label">Of one core (4-core RPi CM4) inspecting 9,121 pkts/s under load</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">2.9% <span class="metric-unit">RAM</span></div>
-              <div class="metric-label">~110 MB RSS footprint on Raspberry Pi CM4</div>
+              <div class="metric-val">7.3% <span class="metric-unit">RAM</span></div>
+              <div class="metric-label">~280 MB RSS at 4 capture workers (~91 MB single-worker default)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">0 <span class="metric-unit">Drops</span></div>
+              <div class="metric-label">Zero packets lost pre-inspection at 9,121 pkts/s sustained</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">0 <span class="metric-unit">Allocs</span></div>
+              <div class="metric-label">Heap allocations per packet, steady path — even with 10 active rules</div>
             </div>
             <div class="metric-card">
               <div class="metric-val">~7.7 <span class="metric-unit">MB</span></div>
               <div class="metric-label">Musl + Mimalloc static binary size</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">641 <span class="metric-unit">Tests</span></div>
-              <div class="metric-label">100% passing test suite (513 unit, 128 integration)</div>
+              <div class="metric-val">798 <span class="metric-unit">Tests</span></div>
+              <div class="metric-label">100% passing test suite (670 unit, 128 integration)</div>
             </div>
           </div>
 
@@ -1245,6 +1260,24 @@
               <span class="comp-label">Tokio API Responses</span>
               <span class="comp-val legacy">Disk JSON</span>
               <span class="comp-val optimized">Microseconds</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Policy-Active Throughput</span>
+              <span class="comp-val legacy">-63% @ 10 Rules</span>
+              <span class="comp-val optimized">+52.5% Regained</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Capture Loss Under Load</span>
+              <span class="comp-val legacy">~33% Dropped</span>
+              <span class="comp-val optimized">0% Dropped</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Capture Loss Visibility</span>
+              <span class="comp-val legacy">Silent Undercount</span>
+              <span class="comp-val optimized">Measured + Advised</span>
             </div>
           </div>
         </div>
