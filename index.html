@@ -763,6 +763,17 @@
       margin-bottom: 2rem;
     }
 
+    /* Provenance note under a case-study lead: same column, dialled back so it
+       reads as a footnote rather than a second paragraph of the pitch. */
+    .case-note {
+      font-size: 0.76rem;
+      line-height: 1.7;
+      opacity: 0.78;
+      border-left: 2px solid var(--blue-bright);
+      padding-left: 0.9rem;
+      margin-top: -1.2rem;
+    }
+
     .case-challenges {
       display: flex;
       flex-direction: column;
@@ -1425,7 +1436,7 @@
     </div>
 
     <!-- CASE STUDY 03: MEMTRACER DIAGNOSTICS -->
-    <div class="case-study-block reveal">
+    <div class="case-study-block reveal" style="margin-bottom: 5rem;">
       <h3 class="case-block-header">Case Study 03: memtracer — Zero-Heap C99/C++11 Memory Diagnostics Engine</h3>
 
       <div class="case-study-grid">
@@ -1440,7 +1451,7 @@
             <div class="challenge-item">
               <h4>01. Zero-Heap Static Data Structures with O(1) Open-Addressing Hash Lookup</h4>
               <p>
-                Eliminates runtime heap allocation by utilizing compile-time fixed arrays: a flat record buffer (<code>mt_records</code>), a statically pre-allocated LIFO free-stack, and an open-addressing linear-probing hash table (<code>mt_hash_table</code>) providing <strong>$O(1)$ average time complexity</strong> for <code>free()</code> and <code>realloc()</code> tracking.
+                Eliminates runtime heap allocation by utilizing compile-time fixed arrays: a flat record buffer (<code>mt_records</code>), a statically pre-allocated LIFO free-stack, and an open-addressing linear-probing hash table (<code>mt_hash_table</code>) providing <strong>O(1) average time complexity</strong> for <code>free()</code> and <code>realloc()</code> tracking.
               </p>
             </div>
             
@@ -1513,6 +1524,112 @@
               <span class="comp-label">Runtime Overhead</span>
               <span class="comp-val legacy">Valgrind 10x-20x</span>
               <span class="comp-val optimized">Near-Zero Overhead</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RETROSPECTIVE: ANCILENET MEMOIRS -->
+    <div class="case-study-block reveal">
+      <h3 class="case-block-header">Engineering Memoirs: Building AncileNet™ from Zero to Line-Rate</h3>
+
+      <div class="case-study-grid">
+        <!-- Description & Retrospective Column -->
+        <div class="case-study-content">
+          <h4 class="case-sub-title">Notes to My Younger Self: The Wins and the Reverts</h4>
+          <p class="case-text">
+            A saturated gigabit wire leaves about 672 ns per packet at minimum frame size — call it a 1-microsecond budget — and when the machine policing it is an embedded Raspberry Pi CM4, the compiler will feel like an adversary before becoming your greatest ally. Building AncileNet™ (45k+ LOC, v0.6.0, 800+ tests) taught me that true performance is an exercise in ruthless subtraction.
+          </p>
+          <p class="case-text case-note">
+            <em>On the numbers below:</em> per-packet timings and throughput deltas are Criterion benchmarks on an x86_64 development machine, not the CM4 — they measure the direction and magnitude of each change, not the target hardware's absolute ceiling. The CM4 evidence is the capture ring: a saturated link went from ~33% buffer drops to zero.
+          </p>
+
+          <div class="case-challenges">
+            <div class="challenge-item">
+              <h4>01. What I Would Do Again (The Winning Bets)</h4>
+              <p>
+                <strong>Zero-Copy Stack Lifetimes:</strong> Slicing raw frames (<code>&amp;'a [u8]</code>) from DMA ring buffers kept the hot path 100% allocation-free.<br />
+                <strong>Dual-Plane Kernel Offload:</strong> Installing O(1) CIDR drops at kernel <code>prerouting</code> priority -300 before conntrack, paired with userspace NFQueue heuristics.<br />
+                <strong>Privacy-First Cryptographic Profiling:</strong> JA4/JA4S TLS client-server fingerprint pairing eliminated any need for invasive MITM decryption.<br />
+                <strong>Proactive NatJack Defense:</strong> Adding automated <code>/proc/sys</code> kernel posture checks (<code>/api/posture</code>) and real-time LAN address-conflict alerts (<code>ip_mac_conflict</code>) against modern NAT attack classes (Black Hat USA 2026; CVE-2026-56179 / CVE-2026-56181 / CVE-2026-63913).
+              </p>
+            </div>
+            
+            <div class="challenge-item">
+              <h4>02. What I Got Wrong, and What I Didn't Build</h4>
+              <p>
+                <strong>Benchmarks Blind to the Feature:</strong> One runtime-policy rule — the product's headline parental-control capability — cost <strong>42%</strong> of packet throughput, and ten cost <strong>63%</strong>. No benchmark workload initialized a policy store, so every run measured the rules-disabled fast path and the regression sat there unseen. Fixing the <em>benchmark</em> first, then pre-normalizing rule targets at load and matching borrowed slices, took the ten-rule case from 20 heap allocations per packet to zero — <strong>+52.5% cumulative</strong> across six changes on that pass.<br />
+                <strong>The Optimization That Wasn't:</strong> Replacing <code>FlowKey</code>'s derived <code>Hash</code> with a hand-packed single-<code>write</code> implementation looked obviously correct — five hasher writes collapsed into one. It measured <strong>14.3% slower</strong> and was reverted. The negative result now lives in the test's doc comment, so the next person with the same good idea finds the measurement instead of repeating the work.<br />
+                <strong>On-Device Threat Feed Parsing:</strong> Compiling multi-megabyte blocklists on router RAM caused memory spikes. Moving to an upstream release pipeline with ed25519-signed manifests and precompiled Bloom/FST filters solved this permanently.<br />
+                <strong>Silent DNS Dropping:</strong> Silent packet drops induce 5–10s browser hangs. Injecting synthetic <code>NXDOMAIN</code> (RCODE=3) spoof responses created a seamless 0 ms UX fallback.<br />
+                <strong>Fixed-Size Ring Buffers:</strong> Static buffer sizing caused ~33% packet drops under saturated links; deriving capture buffers dynamically from system RAM drove buffer drops to zero.<br />
+                <strong>The Feature I Didn't Build:</strong> Once you are measuring drops, a ring that resizes itself under load is the obvious next feature — and it would have been a vulnerability. <code>pcap_set_buffer_size</code> only accepts an inactive handle, so every adjustment means reopening capture and losing packets while it happens; a load-triggered control loop hands an attacker a window of degraded inspection in exchange for nothing but a traffic burst. The ring is sized once at startup and never touched again. Sustained loss produces a specific recommendation instead — and distinguishes buffer overrun, where a bigger ring helps, from interface drops, where it cannot.
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>03. The Core Takeaway</h4>
+              <p>
+                You don't achieve line rate inside an ultra-compact ~7.7 MB binary on embedded hardware by stacking abstractions—you achieve it by respecting the hardware, eliminating lock contention before it starts, and designing for mechanical sympathy.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics & Comparison Column -->
+        <div class="case-study-metrics">
+          <h4 class="case-sub-title">Production Footprint</h4>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-val">800+ <span class="metric-unit">Tests</span></div>
+              <div class="metric-label">100% passing test suite (unit, integration &amp; seeded fuzz)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">~7.7 <span class="metric-unit">MB</span></div>
+              <div class="metric-label">Static Musl + Mimalloc zero-dependency binary size</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">45k+ <span class="metric-unit">LOC</span></div>
+              <div class="metric-label">Memory-safe Rust with zero hot-path heap allocations</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">0 <span class="metric-unit">Drops</span></div>
+              <div class="metric-label">Memory-derived capture ring sizing on RPi CM4</div>
+            </div>
+          </div>
+
+          <div class="comparison-container">
+            <div class="comparison-header">Architecture Evolution</div>
+            
+            <div class="comparison-row">
+              <span class="comp-label">Hot-Path Memory</span>
+              <span class="comp-val legacy">Heap Allocs</span>
+              <span class="comp-val optimized">Zero-Copy Stack</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Rule Evaluation</span>
+              <span class="comp-val legacy">Runtime Strings</span>
+              <span class="comp-val optimized">Zero-Alloc +52.5%</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Blocklist Updates</span>
+              <span class="comp-val legacy">On-Device Parse</span>
+              <span class="comp-val optimized">Signed Manifests</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">DNS Blocking UX</span>
+              <span class="comp-val legacy">5-10s Timeout</span>
+              <span class="comp-val optimized">Instant NXDOMAIN</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">NAT Attack Defense</span>
+              <span class="comp-val legacy">Unaudited Kernel</span>
+              <span class="comp-val optimized">NatJack Posture</span>
             </div>
           </div>
         </div>
