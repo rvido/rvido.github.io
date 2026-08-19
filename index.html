@@ -1054,7 +1054,7 @@
       </h1>
       <p class="hero-title">Senior Rust &amp; Embedded Software Engineer</p>
       <p class="hero-bio">
-        Systems engineer at heart, Rust enthusiast by choice. I build low-level software that ships — from embedded Linux drivers for industrial hardware to high-performance CLI tools and network utilities. I live at the intersection of bare-metal hardware and modern software craftsmanship, writing code that runs reliably in places where crashes aren't an option.
+        I'm a systems engineer by nature and a Rust enthusiast by choice, building low-level software that actually ships — embedded Linux drivers for industrial hardware, high-performance CLI tools, network utilities. My work sits at the intersection of bare-metal hardware and modern software craftsmanship: code written to run reliably in places where a crash simply isn't an option.
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -1088,21 +1088,21 @@
       <span class="milestone-icon">🐧</span>
       <div class="milestone-content">
         <span class="milestone-title">Kernel Contributor</span>
-        <span class="milestone-desc">Authored and upstreamed driver patches for Advantech iManager</span>
+        <span class="milestone-desc">Wrote and upstreamed driver patches for Advantech's iManager</span>
       </div>
     </div>
     <div class="milestone-item">
       <span class="milestone-icon">🦀</span>
       <div class="milestone-content">
         <span class="milestone-title">Rust Systems Architect</span>
-        <span class="milestone-desc">Author of concurrent network utility libraries and CLI applications</span>
+        <span class="milestone-desc">Built concurrent network utility libraries and CLI applications</span>
       </div>
     </div>
     <div class="milestone-item">
       <span class="milestone-icon">🎤</span>
       <div class="milestone-content">
         <span class="milestone-title">ELC Community</span>
-        <span class="milestone-desc">Active participant in the Embedded Linux Conference ecosystem</span>
+        <span class="milestone-desc">Regular participant across the Embedded Linux Conference community</span>
       </div>
     </div>
   </div>
@@ -1118,43 +1118,43 @@
       <div class="skill-card reveal">
         <div class="skill-icon">🦀</div>
         <div class="skill-name">Rust</div>
-        <div class="skill-desc">Systems programming, CLI tools, async runtimes, library APIs. Writing performant, memory-safe code for production environments.</div>
+        <div class="skill-desc">Systems programming, CLI tools, async runtimes, library APIs — performant, memory-safe code built for production.</div>
       </div>
 
       <div class="skill-card reveal">
         <div class="skill-icon">⚙️</div>
         <div class="skill-name">Embedded Linux</div>
-        <div class="skill-desc">Linux kernel driver development, BSP integration, and firmware for industrial embedded boards and SoCs.</div>
+        <div class="skill-desc">Kernel driver development, BSP integration, and firmware work for industrial embedded boards and SoCs.</div>
       </div>
 
       <div class="skill-card reveal">
         <div class="skill-icon">🌐</div>
         <div class="skill-name">Networking</div>
-        <div class="skill-desc">DHCP, mDNS, RDAP/WHOIS, IEEE-OUI. Building tools for network discovery, device identification, and monitoring.</div>
+        <div class="skill-desc">DHCP, mDNS, RDAP/WHOIS, IEEE-OUI — tools for discovering, identifying, and monitoring devices on a network.</div>
       </div>
 
       <div class="skill-card reveal">
         <div class="skill-icon">🔐</div>
         <div class="skill-name">Security</div>
-        <div class="skill-desc">Identity protection, secure systems design. Applying engineering rigor to privacy and digital security challenges.</div>
+        <div class="skill-desc">Identity protection and secure systems design, bringing engineering rigor to privacy and digital-security problems.</div>
       </div>
 
       <div class="skill-card reveal">
         <div class="skill-icon">🔧</div>
         <div class="skill-name">C/C++ / Systems</div>
-        <div class="skill-desc">Low-level C/C++ for hardware abstraction layers, kernel modules, and performance-critical embedded subsystems.</div>
+        <div class="skill-desc">Low-level C/C++ across hardware abstraction layers, kernel modules, and performance-critical embedded subsystems.</div>
       </div>
 
       <div class="skill-card reveal">
         <div class="skill-icon">🛠️</div>
         <div class="skill-name">CLI Tooling</div>
-        <div class="skill-desc">Designing ergonomic command-line interfaces and developer tools that are fast, composable, and a joy to use.</div>
+        <div class="skill-desc">Designing command-line interfaces and developer tools that are fast, composable, and genuinely pleasant to use.</div>
       </div>
 
       <div class="skill-card reveal">
         <div class="skill-icon">🤖</div>
         <div class="skill-name">AI-Assisted Dev</div>
-        <div class="skill-desc">Leveraging agentic LLM workflows and AI pair programmers to accelerate prototyping, write comprehensive test suites, and optimize performance.</div>
+        <div class="skill-desc">Using agentic LLM workflows and AI pair programmers to speed up prototyping, build out thorough test suites, and tune performance.</div>
       </div>
 
     </div>
@@ -1176,35 +1176,35 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">The 1-Microsecond Performance Budget</h4>
           <p class="case-text">
-            AncileNet™ is a 34k+ line memory-safe Rust cyber-defense core engineered for router gateways and embedded targets. On a 10 Gbps link, a network security daemon has less than 1 microsecond per packet before kernel buffers overflow. AncileNet compiles into an ultra-compact <strong>~7.7 MB static binary</strong> (<code>musl</code> + <code>mimalloc</code>) running with near-zero overhead on Raspberry Pi CM4 targets.
+            Written in memory-safe Rust and running to 34k+ lines, AncileNet™ is a cyber-defense core built for router gateways and embedded hardware. A network security daemon riding a 10 Gbps link gets under a microsecond per packet before the kernel's buffers overflow — and AncileNet stays inside that budget while compiling down to a <strong>~7.7 MB static binary</strong> (<code>musl</code> + <code>mimalloc</code>) that runs with near-zero overhead on Raspberry Pi CM4 targets.
           </p>
 
           <div class="case-challenges">
             <div class="challenge-item">
               <h4>01. Zero-Copy Rust Packet Slicing with Lifetimes</h4>
               <p>
-                Rather than copying packet bytes into heap-allocated structs, AncileNet uses Rust lifetime references (<code>&amp;'a [u8]</code>) to slice packet headers directly on the stack from DMA/libpcap ring buffers, eliminating allocation overhead on the hot path. Policy evaluation is held to the same standard: rule targets are normalized once at load and matched with <code>eq_ignore_ascii_case</code> against a borrowed <code>&amp;str</code>, taking a ten-rule configuration from 20 heap allocations per packet to <strong>zero</strong>.
+                Instead of copying packet bytes into heap-allocated structs, AncileNet slices headers straight off the stack using Rust lifetime references (<code>&amp;'a [u8]</code>) against DMA/libpcap ring buffers, so the hot path never allocates. Policy evaluation holds to the same rule: rule targets get normalized once, at load time, then matched with <code>eq_ignore_ascii_case</code> against a borrowed <code>&amp;str</code> — which took a ten-rule configuration from 20 heap allocations per packet down to <strong>zero</strong>.
               </p>
             </div>
             
             <div class="challenge-item">
               <h4>02. Raw DNS Interception &amp; Instant NXDOMAIN Spoofing</h4>
               <p>
-                Silently dropping UDP/53 queries causes 5–10 second browser timeout hangs. AncileNet intercepts blacklisted DNS queries via NFQueue, decodes payloads, structures raw IPv4/UDP headers, and immediately injects synthetic <code>NXDOMAIN</code> (RCODE=3) responses back to clients (0 ms user delay fallback).
+                A silently dropped UDP/53 query leaves a browser hanging for 5–10 seconds. AncileNet avoids that by intercepting blacklisted DNS queries through NFQueue, decoding the payload, building a raw IPv4/UDP header, and firing a synthetic <code>NXDOMAIN</code> (RCODE=3) straight back to the client — a fallback with effectively 0 ms of added delay.
               </p>
             </div>
 
             <div class="challenge-item">
               <h4>03. Lock-Free Channels, In-Memory APIs &amp; Signed Threat Manifests</h4>
               <p>
-                Expired flow table entries are purged in-place using <code>.retain()</code> on 256-shard <code>DashMap</code> tables (-85% lock contention). Disk logging uses bounded lock-free <code>mpsc</code> queues for O(1) constant execution time. Adblock &amp; VPN lists are verified via ed25519-signed release manifests and offloaded into nftables kernel sets.
+                Flow table entries expire in place via <code>.retain()</code> across 256 <code>DashMap</code> shards, cutting lock contention by 85%. Disk logging runs through bounded, lock-free <code>mpsc</code> queues so execution time stays O(1) and constant. Adblock &amp; VPN lists are checked against ed25519-signed release manifests before being pushed down into nftables kernel sets.
               </p>
             </div>
 
             <div class="challenge-item">
               <h4>04. Measuring What Is Never Seen: Capture-Loss Observability</h4>
               <p>
-                Packets dropped by the kernel <em>before</em> inspection silently understate every downstream number — flows, byte totals, bandwidth graphs — with no indication anything is missing. AncileNet measures the loss, splits it by cause (ring overrun vs. NIC), and derives <code>capture_buffer_bytes</code> from system memory at startup. Deliberately <strong>not</strong> a control loop: <code>pcap_set_buffer_size</code> requires an inactive handle, so load-triggered resizing would let an attacker induce a window of degraded inspection with a traffic burst. Sustained loss instead emits a specific, actionable recommendation. Memory-derived sizing took the reference CM4 from ~33% buffer drops to zero; figures above are measured on that target over a 5 GHz Wi-Fi client link, so they characterise <em>inspection cost and loss</em> rather than peak link throughput.
+                Any packet the kernel drops <em>before</em> AncileNet even sees it quietly deflates every number downstream — flow counts, byte totals, bandwidth graphs — with nothing to flag that data went missing. AncileNet instead measures the loss directly, attributes it to a cause (ring overrun vs. NIC), and sizes <code>capture_buffer_bytes</code> from available system memory at startup. That sizing is deliberately <strong>not</strong> a feedback loop: <code>pcap_set_buffer_size</code> only works on an inactive handle, so resizing in response to load would hand an attacker a window of degraded inspection for the price of a traffic burst. Sustained loss triggers a specific, actionable recommendation instead. On the reference CM4, memory-derived sizing eliminated buffer drops (previously ~33%); the figures above come from that target over a 5 GHz Wi-Fi client link, so they describe <em>inspection cost and loss</em> rather than the link's peak throughput.
               </p>
             </div>
           </div>
@@ -1304,7 +1304,7 @@
           <img src="assets/ancilenet_router_hardware_showcase.jpg" alt="AncileNet Raspberry Pi 4 CM4 Router Appliance Hardware" class="showcase-img" />
         </div>
         <div class="showcase-caption">
-          <strong>Embedded Hardware Target Showcase:</strong> Demonstrates the compact Raspberry Pi 4 CM4-based router running OpenWrt with AncileNet's compiled ~7.7 MB static binary operating at line rate.
+          <strong>Embedded Hardware Target Showcase:</strong> shows the compact Raspberry Pi 4 CM4 router running OpenWrt, with AncileNet's ~7.7 MB compiled static binary operating at line rate.
         </div>
       </div>
 
@@ -1341,7 +1341,7 @@
           </div>
         </div>
         <div class="showcase-caption">
-          <strong>Production Dashboard UI Showcase:</strong> Demonstrates real-time device-grouped flow tracking (LANwatch discovery), inline JA4 TLS client fingerprints, security threat alerts, per-device app usage tracking, and zero-latency policy rules enforcement.
+          <strong>Production Dashboard UI Showcase:</strong> real-time, device-grouped flow tracking (via LANwatch discovery), inline JA4 TLS client fingerprints, security threat alerts, per-device app usage tracking, and zero-latency policy rule enforcement.
         </div>
       </div>
     </div>
@@ -1355,28 +1355,28 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">Zero-Decryption TLS Application &amp; C2 Detection</h4>
           <p class="case-text">
-            Over 95% of modern internet traffic is encrypted. Traditional Deep Packet Inspection (DPI) requires intrusive, expensive SSL decryption (man-in-the-middle) or fails completely when malware, C2 beacons, or anonymizers use custom TLS handshakes or domain-fronting without SNI. AncileNet solves this through cryptographic JA4 &amp; JA4S fingerprinting without decrypting payload content.
+            More than 95% of today's internet traffic runs encrypted. Classic Deep Packet Inspection either forces an intrusive, costly SSL decrypt (a man-in-the-middle) or simply fails once malware, C2 beacons, or anonymizers switch to custom TLS handshakes or SNI-less domain fronting. AncileNet sidesteps the problem entirely with cryptographic JA4 &amp; JA4S fingerprinting — no payload decryption required.
           </p>
 
           <div class="case-challenges">
             <div class="challenge-item">
               <h4>01. JA4 Client TLS Handshake Profiling</h4>
               <p>
-                AncileNet parses TLS <code>ClientHello</code> records (ciphers, extensions, signature algorithms, ALPN, SNI; ignoring GREASE) to calculate a 25-character cryptographic JA4 string. This hash is matched against a fingerprint database to identify friendly apps (YouTube, Zoom, Netflix, WhatsApp) or suspicious tools inside encrypted TCP flows.
+                AncileNet reads TLS <code>ClientHello</code> records — ciphers, extensions, signature algorithms, ALPN, SNI, with GREASE ignored — and derives a 25-character cryptographic JA4 string from them. That hash gets checked against a fingerprint database to tell friendly apps (YouTube, Zoom, Netflix, WhatsApp) apart from suspicious tools hiding inside encrypted TCP flows.
               </p>
             </div>
             
             <div class="challenge-item">
               <h4>02. JA4S Server Response Handshake Pairing</h4>
               <p>
-                Each client JA4 fingerprint is paired with the server's <code>ServerHello</code> JA4S (extensions in original order, GREASE included, SNI/ALPN included per official FoxIO spec). This creates a complete client/server cryptographic handshake tuple for robust identification.
+                Every client JA4 gets paired with the server's own <code>ServerHello</code>-derived JA4S — extensions kept in original order, GREASE included, SNI/ALPN included, per the official FoxIO spec — producing a full client/server handshake tuple robust enough to identify on its own.
               </p>
             </div>
 
             <div class="challenge-item">
               <h4>03. Stealth C2 &amp; Malicious TLS Endpoint Identification</h4>
               <p>
-                By matching full cryptographic TLS handshake tuples (JA4 + JA4S) against threat intelligence feeds, AncileNet flags stealth C2 beacons, VPN bypass tools, and malicious TLS endpoints—even when SNI domain indicators are completely absent, spoofed, or IP-only.
+                Matching the complete JA4 + JA4S handshake tuple against threat intelligence feeds lets AncileNet flag stealth C2 beacons, VPN bypass tools, and malicious TLS endpoints even when there's no usable SNI to go on — absent, spoofed, or a bare IP address.
               </p>
             </div>
           </div>
@@ -1444,28 +1444,28 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">Zero-Allocation Dynamic Memory Tracking &amp; Leak Profiling</h4>
           <p class="case-text">
-            Traditional memory diagnostic tools (Valgrind, heap profilers) often allocate memory dynamically for their own bookkeeping. On embedded targets, safety-critical systems, or low-memory conditions, heap allocation inside a memory tracer causes infinite recursion loops, increases fragmentation, or panics. <code>memtracer</code> is a zero-heap, single-header C99 &amp; C++11+ memory tracer engineered for deterministic execution.
+            Conventional memory diagnostic tools — Valgrind, heap profilers — tend to allocate their own bookkeeping memory dynamically. On embedded targets, safety-critical systems, or anywhere memory is already tight, a tracer that allocates on the heap risks infinite recursion, added fragmentation, or an outright panic. <code>memtracer</code> avoids all of it: a zero-heap, single-header C99 &amp; C++11+ tracer built for deterministic execution.
           </p>
 
           <div class="case-challenges">
             <div class="challenge-item">
               <h4>01. Zero-Heap Static Data Structures with O(1) Open-Addressing Hash Lookup</h4>
               <p>
-                Eliminates runtime heap allocation by utilizing compile-time fixed arrays: a flat record buffer (<code>mt_records</code>), a statically pre-allocated LIFO free-stack, and an open-addressing linear-probing hash table (<code>mt_hash_table</code>) providing <strong>O(1) average time complexity</strong> for <code>free()</code> and <code>realloc()</code> tracking.
+                Runtime heap allocation is designed out entirely: a flat record buffer (<code>mt_records</code>), a statically pre-allocated LIFO free-stack, and an open-addressing, linear-probing hash table (<code>mt_hash_table</code>) — all fixed at compile time — give <code>free()</code> and <code>realloc()</code> tracking <strong>O(1) average-case lookup</strong>.
               </p>
             </div>
             
             <div class="challenge-item">
               <h4>02. Transparent Macro Interception &amp; C99/C++11 Semantic Compliance</h4>
               <p>
-                Uses clean preprocessor macro overrides (<code>malloc</code>, <code>calloc</code>, <code>realloc</code>, <code>free</code>, <code>new</code>, <code>delete</code>) capturing exact call sites (file name, line number, function name) without code modifications. Handles edge cases cleanly: <code>realloc(NULL, n)</code>, <code>realloc(ptr, 0)</code>, double-free warnings, and pointer storage as <code>uintptr_t</code> to avoid <code>-Wuse-after-free</code> compiler lints.
+                Preprocessor macro overrides on <code>malloc</code>, <code>calloc</code>, <code>realloc</code>, <code>free</code>, <code>new</code>, and <code>delete</code> capture the exact call site — file, line, function — with no changes needed to the calling code. Edge cases are handled deliberately rather than ignored: <code>realloc(NULL, n)</code>, <code>realloc(ptr, 0)</code>, double-free warnings, and pointers stored as <code>uintptr_t</code> to keep <code>-Wuse-after-free</code> lints quiet.
               </p>
             </div>
 
             <div class="challenge-item">
               <h4>03. Thread-Safe Atomic Spinlock &amp; Anti-Recursion Guards</h4>
               <p>
-                In C++11 mode, table operations are synchronized using lightweight atomic spinlocks (<code>std::atomic_flag</code>) with strict reentrancy guards, ensuring multi-threaded safety across concurrent allocation paths while maintaining zero dynamic dependency overhead.
+                In C++11 mode, table access is synchronized with lightweight atomic spinlocks (<code>std::atomic_flag</code>) and strict reentrancy guards, keeping concurrent allocation paths thread-safe without pulling in any dynamic-dependency overhead.
               </p>
             </div>
           </div>
@@ -1539,39 +1539,39 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">Notes to My Younger Self: The Wins and the Reverts</h4>
           <p class="case-text">
-            A saturated gigabit wire leaves about 672 ns per packet at minimum frame size — call it a 1-microsecond budget — and when the machine policing it is an embedded Raspberry Pi CM4, the compiler will feel like an adversary before becoming your greatest ally. Building AncileNet™ (45k+ LOC, v0.6.0, 800+ tests) taught me that true performance is an exercise in ruthless subtraction.
+            At minimum frame size, a saturated gigabit wire gives you roughly 672 ns per packet — round it to a 1-microsecond budget — and when the machine enforcing that budget is an embedded Raspberry Pi CM4, the compiler feels like an adversary long before it becomes an ally. Building AncileNet™ (45k+ lines, v0.6.0, 800+ tests) taught me that real performance work is mostly ruthless subtraction.
           </p>
           <p class="case-text case-note">
-            <em>On the numbers below:</em> per-packet timings and throughput deltas are Criterion benchmarks on an x86_64 development machine, not the CM4 — they measure the direction and magnitude of each change, not the target hardware's absolute ceiling. The CM4 evidence is the capture ring: a saturated link went from ~33% buffer drops to zero.
+            <em>A note on the numbers below:</em> the per-packet timings and throughput deltas come from Criterion benchmarks on an x86_64 dev machine, not the CM4 — they show the direction and size of each change, not the target hardware's absolute ceiling. The CM4-specific evidence is the capture ring: a saturated link went from ~33% buffer drops to zero.
           </p>
 
           <div class="case-challenges">
             <div class="challenge-item">
               <h4>01. What I Would Do Again (The Winning Bets)</h4>
               <p>
-                <strong>Zero-Copy Stack Lifetimes:</strong> Slicing raw frames (<code>&amp;'a [u8]</code>) from DMA ring buffers kept the hot path 100% allocation-free.<br />
-                <strong>Dual-Plane Kernel Offload:</strong> Installing O(1) CIDR drops at kernel <code>prerouting</code> priority -300 before conntrack, paired with userspace NFQueue heuristics.<br />
-                <strong>Privacy-First Cryptographic Profiling:</strong> JA4/JA4S TLS client-server fingerprint pairing eliminated any need for invasive MITM decryption.<br />
-                <strong>Proactive NatJack Defense:</strong> Adding automated <code>/proc/sys</code> kernel posture checks (<code>/api/posture</code>) and real-time LAN address-conflict alerts (<code>ip_mac_conflict</code>) against modern NAT attack classes (Black Hat USA 2026; CVE-2026-56179 / CVE-2026-56181 / CVE-2026-63913).
+                <strong>Zero-Copy Stack Lifetimes:</strong> slicing raw frames (<code>&amp;'a [u8]</code>) straight off DMA ring buffers kept the hot path 100% allocation-free.<br />
+                <strong>Dual-Plane Kernel Offload:</strong> O(1) CIDR drops installed at kernel <code>prerouting</code> priority -300, ahead of conntrack, paired with userspace NFQueue heuristics.<br />
+                <strong>Privacy-First Cryptographic Profiling:</strong> pairing JA4/JA4S TLS client-server fingerprints removed any need for invasive MITM decryption.<br />
+                <strong>Proactive NatJack Defense:</strong> automated <code>/proc/sys</code> kernel posture checks (<code>/api/posture</code>) plus real-time LAN address-conflict alerts (<code>ip_mac_conflict</code>), aimed at the modern NAT attack classes covered at Black Hat USA 2026 (CVE-2026-56179 / CVE-2026-56181 / CVE-2026-63913).
               </p>
             </div>
             
             <div class="challenge-item">
               <h4>02. What I Got Wrong, and What I Didn't Build</h4>
               <p>
-                <strong>Benchmarks Blind to the Feature:</strong> One runtime-policy rule — the product's headline parental-control capability — cost <strong>42%</strong> of packet throughput, and ten cost <strong>63%</strong>. No benchmark workload initialized a policy store, so every run measured the rules-disabled fast path and the regression sat there unseen. Fixing the <em>benchmark</em> first, then pre-normalizing rule targets at load and matching borrowed slices, took the ten-rule case from 20 heap allocations per packet to zero — <strong>+52.5% cumulative</strong> across six changes on that pass.<br />
-                <strong>The Optimization That Wasn't:</strong> Replacing <code>FlowKey</code>'s derived <code>Hash</code> with a hand-packed single-<code>write</code> implementation looked obviously correct — five hasher writes collapsed into one. It measured <strong>14.3% slower</strong> and was reverted. The negative result now lives in the test's doc comment, so the next person with the same good idea finds the measurement instead of repeating the work.<br />
-                <strong>On-Device Threat Feed Parsing:</strong> Compiling multi-megabyte blocklists on router RAM caused memory spikes. Moving to an upstream release pipeline with ed25519-signed manifests and precompiled Bloom/FST filters solved this permanently.<br />
-                <strong>Silent DNS Dropping:</strong> Silent packet drops induce 5–10s browser hangs. Injecting synthetic <code>NXDOMAIN</code> (RCODE=3) spoof responses created a seamless 0 ms UX fallback.<br />
-                <strong>Fixed-Size Ring Buffers:</strong> Static buffer sizing caused ~33% packet drops under saturated links; deriving capture buffers dynamically from system RAM drove buffer drops to zero.<br />
-                <strong>The Feature I Didn't Build:</strong> Once you are measuring drops, a ring that resizes itself under load is the obvious next feature — and it would have been a vulnerability. <code>pcap_set_buffer_size</code> only accepts an inactive handle, so every adjustment means reopening capture and losing packets while it happens; a load-triggered control loop hands an attacker a window of degraded inspection in exchange for nothing but a traffic burst. The ring is sized once at startup and never touched again. Sustained loss produces a specific recommendation instead — and distinguishes buffer overrun, where a bigger ring helps, from interface drops, where it cannot.
+                <strong>Benchmarks Blind to the Feature:</strong> a single runtime-policy rule — the product's headline parental-control feature — cost <strong>42%</strong> of packet throughput, and ten rules cost <strong>63%</strong>. None of the benchmark workloads initialized a policy store, so every run exercised the rules-disabled fast path and the regression went unnoticed. Fixing the <em>benchmark</em> first, then normalizing rule targets once at load and matching against borrowed slices, took the ten-rule case from 20 heap allocations per packet to zero — a <strong>+52.5% cumulative</strong> gain across six changes in that pass.<br />
+                <strong>The Optimization That Wasn't:</strong> hand-packing <code>FlowKey</code>'s derived <code>Hash</code> into a single <code>write</code>, instead of the usual five hasher writes, looked like a clear win. It measured <strong>14.3% slower</strong> and got reverted. That negative result now sits in the test's doc comment, so the next person with the same idea finds the measurement instead of redoing the work.<br />
+                <strong>On-Device Threat Feed Parsing:</strong> compiling multi-megabyte blocklists directly on router RAM caused memory spikes. Moving that work to an upstream release pipeline — ed25519-signed manifests, precompiled Bloom/FST filters — fixed it for good.<br />
+                <strong>Silent DNS Dropping:</strong> a silently dropped packet means a 5–10s browser hang. Injecting a synthetic <code>NXDOMAIN</code> (RCODE=3) instead gives a clean 0 ms fallback.<br />
+                <strong>Fixed-Size Ring Buffers:</strong> a statically sized buffer dropped ~33% of packets on a saturated link; deriving the capture buffer from system RAM at startup instead brought that to zero.<br />
+                <strong>The Feature I Didn't Build:</strong> once you're measuring drops, a ring that resizes itself under load looks like the obvious next step — and it would have been a vulnerability instead. <code>pcap_set_buffer_size</code> only accepts an inactive handle, so any resize means reopening capture and dropping packets during the gap; a control loop driven by load would hand an attacker a window of degraded inspection for nothing more than a traffic burst. So the ring is sized once, at startup, and left alone after that. Sustained loss instead produces a specific recommendation, and distinguishes buffer overrun — where a bigger ring would help — from interface-level drops, where it wouldn't.
               </p>
             </div>
 
             <div class="challenge-item">
               <h4>03. The Core Takeaway</h4>
               <p>
-                You don't achieve line rate inside an ultra-compact ~7.7 MB binary on embedded hardware by stacking abstractions—you achieve it by respecting the hardware, eliminating lock contention before it starts, and designing for mechanical sympathy.
+                Line rate inside a ~7.7 MB binary on embedded hardware doesn't come from stacking abstractions — it comes from respecting the hardware, killing lock contention before it can start, and designing with mechanical sympathy in mind.
               </p>
             </div>
           </div>
