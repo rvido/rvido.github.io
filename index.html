@@ -1169,14 +1169,14 @@
     
     <!-- CASE STUDY 01: ANCILENET ENGINE -->
     <div class="case-study-block reveal" style="margin-bottom: 5rem;">
-      <h3 class="case-block-header">Case Study 01: AncileNet™ High-Throughput Embedded Engine (v0.6.0)</h3>
+      <h3 class="case-block-header">Case Study 01: AncileNet™ High-Throughput Embedded Engine (v0.7.6)</h3>
 
       <div class="case-study-grid">
         <!-- Description Column -->
         <div class="case-study-content">
           <h4 class="case-sub-title">The 1-Microsecond Performance Budget</h4>
           <p class="case-text">
-            Written in memory-safe Rust and running to 34k+ lines, AncileNet™ is a cyber-defense core built for router gateways and embedded hardware. A network security daemon riding a 10 Gbps link gets under a microsecond per packet before the kernel's buffers overflow — and AncileNet stays inside that budget while compiling down to a <strong>~7.7 MB static binary</strong> (<code>musl</code> + <code>mimalloc</code>) that runs with near-zero overhead on Raspberry Pi CM4 targets.
+            Written in memory-safe Rust and running to 34k+ lines, AncileNet™ is a cyber-defense core built for router gateways and embedded hardware. A network security daemon riding a 10 Gbps link gets under a microsecond per packet before the kernel's buffers overflow — and AncileNet stays inside that budget while compiling down to a <strong>~7.9 MB static aarch64 binary</strong> (<code>musl</code> + <code>mimalloc</code>) that runs with near-zero overhead on Raspberry Pi CM4 targets.
           </p>
 
           <div class="case-challenges">
@@ -1207,6 +1207,13 @@
                 Any packet the kernel drops <em>before</em> AncileNet even sees it quietly deflates every number downstream — flow counts, byte totals, bandwidth graphs — with nothing to flag that data went missing. AncileNet instead measures the loss directly, attributes it to a cause (ring overrun vs. NIC), and sizes <code>capture_buffer_bytes</code> from available system memory at startup. That sizing is deliberately <strong>not</strong> a feedback loop: <code>pcap_set_buffer_size</code> only works on an inactive handle, so resizing in response to load would hand an attacker a window of degraded inspection for the price of a traffic burst. Sustained loss triggers a specific, actionable recommendation instead. On the reference CM4, memory-derived sizing eliminated buffer drops (previously ~33%); the figures above come from that target over a 5 GHz Wi-Fi client link, so they describe <em>inspection cost and loss</em> rather than the link's peak throughput.
               </p>
             </div>
+
+            <div class="challenge-item">
+              <h4>05. Core Scaling: Where an Embedded Target Beats a Laptop</h4>
+              <p>
+                Engine state is process-global — 256-shard <code>DashMap</code> flow tables and atomics — specifically so <code>PACKET_FANOUT</code> can feed it from several capture workers at once. Replaying a 50,000-unique-flow flood through the full inspection path on the reference CM4 gives <strong>505 K pkts/s on one core and 1.61 M pkts/s across four</strong>: a 3.19× speed-up, or <strong>80% scaling efficiency</strong>. The same benchmark on an 8-core i7-11850H laptop scales only 3.53× — 44% efficiency — because a laptop drops its all-core clock under sustained load while the Cortex-A72 does not. The sharded design is what makes the difference visible, and the fixed-clock embedded target is the one that converts cores into throughput almost linearly. At 1.61 M pkts/s the hot path clears gigabit line rate (1.488 M pkts/s at minimum frame size) on a board that costs less than the NIC in most appliances.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -1231,12 +1238,24 @@
               <div class="metric-label">Heap allocations per packet, steady path — even with 10 active rules</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">~7.7 <span class="metric-unit">MB</span></div>
+              <div class="metric-val">1.61M <span class="metric-unit">pkts/s</span></div>
+              <div class="metric-label">Hot-path inspection across 4 CM4 cores — above gigabit line rate (1.488M pkts/s)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">3.19× <span class="metric-unit">on 4 Cores</span></div>
+              <div class="metric-label">Core scaling on CM4 (505K → 1.61M pkts/s) — 80% efficiency vs. 44% on an 8-core i7 laptop</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">621 <span class="metric-unit">ns/pkt</span></div>
+              <div class="metric-label">CM4 4-core inspection cost, worst-case all-unique-flow workload (1,981 ns single-core)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">~7.9 <span class="metric-unit">MB</span></div>
               <div class="metric-label">Musl + Mimalloc static binary size</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">798 <span class="metric-unit">Tests</span></div>
-              <div class="metric-label">100% passing test suite (670 unit, 128 integration)</div>
+              <div class="metric-val">937 <span class="metric-unit">Tests</span></div>
+              <div class="metric-label">100% passing test suite (800 unit, 137 integration), zero failures</div>
             </div>
           </div>
 
@@ -1291,6 +1310,44 @@
               <span class="comp-val optimized">Measured + Advised</span>
             </div>
           </div>
+
+          <div class="comparison-container">
+            <div class="comparison-header">Hot-Path Throughput — CM4 (Cortex-A72, 4 cores): 1 Core vs. 4</div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Unique-Flow Flood</span>
+              <span class="comp-val legacy">505K pkts/s</span>
+              <span class="comp-val optimized">1.61M pkts/s</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Cost Per Packet</span>
+              <span class="comp-val legacy">1,981 ns</span>
+              <span class="comp-val optimized">621 ns</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Realistic Mix (1 core)</span>
+              <span class="comp-val legacy">2,117 ns/pkt</span>
+              <span class="comp-val optimized">502K pkts/s</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">TLS Handshake, JA4 + JA4S (1 core)</span>
+              <span class="comp-val legacy">8,452 ns/pkt</span>
+              <span class="comp-val optimized">118K pkts/s</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Scaling Efficiency</span>
+              <span class="comp-val legacy">i7 Laptop: 44%</span>
+              <span class="comp-val optimized">CM4: 80%</span>
+            </div>
+          </div>
+
+          <p class="case-note" style="margin-top: 1.5rem;">
+            <strong>How these were measured.</strong> Criterion benchmark <code>benches/packet_hotpath.rs</code> in the AncileNet source tree, <code>ancilenet</code> v0.7.6, <code>--release</code> (LTO, <code>opt-level=3</code>, <code>codegen-units=1</code>), statically linked for <code>aarch64-unknown-linux-musl</code>. Device: Raspberry Pi CM4, 4× Cortex-A72, running OpenWrt with no other AncileNet workload active. Each figure is the Criterion median of 100 samples. The workload is 50,000 distinct 5-tuples in 118-byte frames (14 B Ethernet + 20 B IPv4 + 20 B TCP + 64 B payload), replayed through <code>engine::process_with_result</code> with empty block lists, so every packet traverses the full inspection path instead of short-circuiting on an early decision. <em>Frames are generated in memory and fed directly to the engine</em> — this isolates parse and inspection cost, and deliberately excludes NIC, driver and kernel capture overhead, so it is not a claim about end-to-end capture on a live link. The laptop comparison is an 8-core / 16-thread i7-11850H running the identical benchmark with 8 worker threads.
+          </p>
         </div>
       </div>
 
@@ -1304,7 +1361,7 @@
           <img src="assets/ancilenet_router_hardware_showcase.jpg" alt="AncileNet Raspberry Pi 4 CM4 Router Appliance Hardware" class="showcase-img" />
         </div>
         <div class="showcase-caption">
-          <strong>Embedded Hardware Target Showcase:</strong> shows the compact Raspberry Pi 4 CM4 router running OpenWrt, with AncileNet's ~7.7 MB compiled static binary operating at line rate.
+          <strong>Embedded Hardware Target Showcase:</strong> shows the compact Raspberry Pi 4 CM4 router running OpenWrt, with AncileNet&rsquo;s ~7.9 MB compiled static aarch64 binary operating at line rate.
         </div>
       </div>
 
@@ -1530,6 +1587,100 @@
       </div>
     </div>
 
+    <div class="case-study-block reveal" style="margin-bottom: 5rem;">
+      <h3 class="case-block-header">Case Study 04: LANwatch — Zero-<code>unsafe</code> Multi-Protocol Network Discovery</h3>
+
+      <div class="case-study-grid">
+        <!-- Description Column -->
+        <div class="case-study-content">
+          <h4 class="case-sub-title">Parsing Untrusted Bytes Across 18 Protocols Without a Single <code>unsafe</code> Block</h4>
+          <p class="case-text">
+            Network discovery tools spend their lives reading bytes they didn't write and can't trust — a DHCP lease, an mDNS query, an SSDP announcement, any of which can be malformed, truncated, or outright hostile. That job traditionally falls to hand-rolled C parsers walking raw pointers through a packet buffer, where one missed length check becomes a buffer over-read. LANwatch does the same job — decoding Ethernet frames down through ARP, DHCP, mDNS, SSDP, and a dozen other discovery protocols — using <code>pnet_datalink</code> and <code>pnet_packet</code> for frame-level access, plus hand-written parsers for everything above the wire, entirely in safe Rust.
+          </p>
+
+          <div class="case-challenges">
+            <div class="challenge-item">
+              <h4>01. Untrusted Bytes, Explicit Bounds, No <code>unsafe</code></h4>
+              <p>
+                Every higher-level parser works directly on borrowed byte slices and checks its own boundaries before indexing into them. The DHCPv4 parser, for example, rejects any payload under 240 bytes and validates the RFC 2131 magic cookie (<code>99.130.83.99</code>) before trusting a single field — without that check, any UDP packet on port 67/68 gets decoded as DHCP and six arbitrary bytes become a device's MAC address. The result: <strong>zero <code>unsafe</code> blocks across roughly 12,000 lines</strong> of protocol-parsing Rust.
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>02. Compile-Time Protocol Opt-In via Cargo Features</h4>
+              <p>
+                mDNS/LLMNR/NBNS and SSDP/UPnP/WSD/LLDP/CDP support each sit behind their own Cargo feature (<code>mdns</code>, <code>ssdp</code>), gated with <code>#[cfg(feature = "...")]</code> rather than a runtime flag. A build that only needs DHCP leaves the rest out entirely — smaller binary, nothing to misconfigure at runtime, and the compiler simply omits code paths you didn't opt into.
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>03. One Enum, Every Protocol</h4>
+              <p>
+                Every decoded frame — DHCPv4/v6, mDNS, LLMNR, NBNS, SSDP, WSD, ARP, NDP, LLDP, CDP, and more — resolves into a single <code>NetworkEvent</code> enum. Rust's exhaustiveness checking means adding a new protocol variant forces every existing <code>match</code> on <code>NetworkEvent</code> to handle it explicitly, so a new discovery type can't silently fall through unhandled.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics Grid Column -->
+        <div class="case-study-metrics">
+          <h4 class="case-sub-title">Parser Safety &amp; Build Footprint</h4>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-val">0 <span class="metric-unit">Unsafe</span></div>
+              <div class="metric-label"><code>unsafe</code> blocks across ~12,000 lines of protocol-parsing Rust</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">18 <span class="metric-unit">Protocols</span></div>
+              <div class="metric-label">Discovery &amp; link-layer protocols decoded from raw frames</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">3 <span class="metric-unit">Cargo Features</span></div>
+              <div class="metric-label"><code>mdns</code>, <code>ssdp</code>, and <code>http-api</code> gate optional code at compile time</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">"z" <span class="metric-unit">Opt-Level</span></div>
+              <div class="metric-label">Per-dependency size-optimized release profile (LTO, strip, panic=abort) for small edge binaries</div>
+            </div>
+          </div>
+
+          <div class="comparison-container">
+            <div class="comparison-header">Discovery Parser: C vs. Rust</div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Buffer Over-Reads</span>
+              <span class="comp-val legacy">Manual Pointer Math</span>
+              <span class="comp-val optimized">Compiler-Checked Slices</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Malformed DHCP Input</span>
+              <span class="comp-val legacy">Silent Misread</span>
+              <span class="comp-val optimized">Magic-Cookie Validated</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Unused Protocols</span>
+              <span class="comp-val legacy">#ifdef / Runtime Flag</span>
+              <span class="comp-val optimized">Cargo Feature (Compile-Time)</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Unsafe Code</span>
+              <span class="comp-val legacy">Pervasive</span>
+              <span class="comp-val optimized">0 Blocks / ~12k Lines</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Release Binary</span>
+              <span class="comp-val legacy">Static, Unoptimized</span>
+              <span class="comp-val optimized">LTO + Strip + opt-level="z"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- RETROSPECTIVE: ANCILENET MEMOIRS -->
     <div class="case-study-block reveal">
       <h3 class="case-block-header">Engineering Memoirs: Building AncileNet™ from Zero to Line-Rate</h3>
@@ -1539,7 +1690,7 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">Notes to My Younger Self: The Wins and the Reverts</h4>
           <p class="case-text">
-            At minimum frame size, a saturated gigabit wire gives you roughly 672 ns per packet — round it to a 1-microsecond budget — and when the machine enforcing that budget is an embedded Raspberry Pi CM4, the compiler feels like an adversary long before it becomes an ally. Building AncileNet™ (45k+ lines, v0.6.0, 800+ tests) taught me that real performance work is mostly ruthless subtraction.
+            At minimum frame size, a saturated gigabit wire gives you roughly 672 ns per packet — round it to a 1-microsecond budget — and when the machine enforcing that budget is an embedded Raspberry Pi CM4, the compiler feels like an adversary long before it becomes an ally. Building AncileNet™ (45k+ lines, v0.7.6, 930+ tests) taught me that real performance work is mostly ruthless subtraction.
           </p>
           <p class="case-text case-note">
             <em>A note on the numbers below:</em> the per-packet timings and throughput deltas come from Criterion benchmarks on an x86_64 dev machine, not the CM4 — they show the direction and size of each change, not the target hardware's absolute ceiling. The CM4-specific evidence is the capture ring: a saturated link went from ~33% buffer drops to zero.
@@ -1571,7 +1722,7 @@
             <div class="challenge-item">
               <h4>03. The Core Takeaway</h4>
               <p>
-                Line rate inside a ~7.7 MB binary on embedded hardware doesn't come from stacking abstractions — it comes from respecting the hardware, killing lock contention before it can start, and designing with mechanical sympathy in mind.
+                Line rate inside a ~7.9 MB binary on embedded hardware doesn't come from stacking abstractions — it comes from respecting the hardware, killing lock contention before it can start, and designing with mechanical sympathy in mind.
               </p>
             </div>
           </div>
@@ -1582,11 +1733,11 @@
           <h4 class="case-sub-title">Production Footprint</h4>
           <div class="metrics-grid">
             <div class="metric-card">
-              <div class="metric-val">800+ <span class="metric-unit">Tests</span></div>
+              <div class="metric-val">937 <span class="metric-unit">Tests</span></div>
               <div class="metric-label">100% passing test suite (unit, integration &amp; seeded fuzz)</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">~7.7 <span class="metric-unit">MB</span></div>
+              <div class="metric-val">~7.9 <span class="metric-unit">MB</span></div>
               <div class="metric-label">Static Musl + Mimalloc zero-dependency binary size</div>
             </div>
             <div class="metric-card">
