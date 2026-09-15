@@ -12,6 +12,18 @@
     "status": "public"
   },
   {
+    "name": "iManager",
+    "lang": "c",
+    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
+    "url": "https://github.com/rvido/iManager",
+    "stars": 27,
+    "forks": 9,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
     "name": "whois-rdap",
     "lang": "rust",
     "desc": "A simple command-line tool to query RDAP servers for IP address information.",
@@ -30,18 +42,6 @@
     "url": "https://github.com/rvido/appid_finder",
     "stars": 0,
     "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "iManager",
-    "lang": "c",
-    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
-    "url": "https://github.com/rvido/iManager",
-    "stars": 26,
-    "forks": 9,
     "tags": [
       "Open Source"
     ],
