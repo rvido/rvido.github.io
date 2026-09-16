@@ -4,10 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Richard Vidal-Dorsch — Senior Rust & Embedded Software Engineer</title>
+  <meta name="description" content="Richard Vidal-Dorsch — Senior Rust and embedded software engineer in Costa Mesa, CA. Linux kernel drivers, embedded Linux BSPs, Rust systems libraries, and fast CLI tooling." />
+  <meta name="author" content="Richard Vidal-Dorsch" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#070d18" />
+  <link rel="canonical" href="https://rvido.github.io/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Richard Vidal-Dorsch" />
+  <meta property="og:url" content="https://rvido.github.io/" />
+  <meta property="og:title" content="Richard Vidal-Dorsch — Senior Rust &amp; Embedded Software Engineer" />
+  <meta property="og:description" content="Linux kernel drivers, embedded Linux BSPs, Rust systems libraries, and fast CLI tooling — low-level software built to ship." />
+  <meta property="og:image" content="https://rvido.github.io/assets/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Richard Vidal-Dorsch — Senior Rust &amp; Embedded Software Engineer" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="profile:first_name" content="Richard" />
+  <meta property="profile:last_name" content="Vidal-Dorsch" />
+  <meta property="profile:username" content="rvido" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Richard Vidal-Dorsch — Senior Rust &amp; Embedded Software Engineer" />
+  <meta name="twitter:description" content="Linux kernel drivers, embedded Linux BSPs, Rust systems libraries, and fast CLI tooling — low-level software built to ship." />
+  <meta name="twitter:image" content="https://rvido.github.io/assets/og-image.jpg" />
+  <meta name="twitter:image:alt" content="Richard Vidal-Dorsch — Senior Rust &amp; Embedded Software Engineer" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Richard Vidal-Dorsch",
+    "alternateName": "rvido",
+    "url": "https://rvido.github.io/",
+    "image": "https://rvido.github.io/assets/og-image.jpg",
+    "jobTitle": "Senior Rust & Embedded Software Engineer",
+    "description": "Systems engineer specializing in Rust, embedded Linux, kernel driver development, and CLI tooling.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Costa Mesa",
+      "addressRegion": "CA",
+      "addressCountry": "US"
+    },
+    "knowsAbout": [
+      "Rust",
+      "Embedded Linux",
+      "Linux kernel drivers",
+      "C",
+      "C++",
+      "Networking",
+      "CLI tooling"
+    ],
+    "sameAs": [
+      "https://github.com/rvido",
+      "https://www.linkedin.com/in/richard-vidal-dorsch-%F0%9F%A6%80-9a76638/"
+    ]
+  }
+  </script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦀</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@600;700;800&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet" />
   <script data-goatcounter="https://rvido.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
   <style>
@@ -982,6 +1041,8 @@
       position: relative;
     }
 
+    .showcase-image-wrap picture { display: block; }
+
     .showcase-img {
       width: 100%;
       height: auto;
@@ -1024,13 +1085,135 @@
       .contact-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
+    /* ── a11y: screen-reader-only text ── */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── a11y: skip link ── */
+    .skip-link {
+      position: fixed;
+      left: 1rem;
+      top: 1rem;
+      z-index: 200;
+      transform: translateY(-200%);
+      transition: transform 0.15s ease;
+      padding: 0.75rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--blue-bright);
+      border-radius: 4px;
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    /* ── a11y: visible keyboard focus ── */
+    :focus-visible {
+      outline: 2px solid var(--blue-glow);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
+    /* Mouse users keep the clean look. */
+    :focus:not(:focus-visible) { outline: none; }
+
+    main:focus { outline: none; }
+
+    /* Give anchored sections room under the fixed nav. */
+    section[id], #hero { scroll-margin-top: 5rem; }
+
+    /* ── a11y: email copy button ── */
+    button.contact-card {
+      width: 100%;
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    /* ── small phones ── */
+    @media (max-width: 520px) {
+      nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.7rem 1rem;
+      }
+      .nav-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-links a { font-size: 0.65rem; letter-spacing: 0.1em; }
+      #hero { padding: 8.5rem 1.25rem 3rem; }
+      section { padding: 3rem 1.25rem; }
+      .avatar-ring { width: 160px; height: 160px; }
+      .hero-cta { flex-direction: column; align-items: stretch; }
+      .hero-cta .btn { width: 100%; justify-content: center; text-align: center; }
+      .milestones-bar { padding: 1.5rem 1.25rem; }
+      .metrics-grid { grid-template-columns: 1fr; }
+      .filter-container { flex-wrap: wrap; justify-content: center; }
+      footer { padding: 2rem 1.25rem; font-size: 0.65rem; }
+    }
+
+    /* ── respect reduced-motion preference ── */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-delay: 0ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        transition-delay: 0ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      /* Hero pieces fade in from opacity:0 — force their end state. */
+      .hero-tag, .hero-name, .hero-title, .hero-bio, .hero-cta,
+      .status-indicator, .avatar-wrap {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .avatar-ring::before { animation: none !important; }
+
+      /* Elements that animate in must still end up visible. */
+      .reveal, .reveal.visible {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      /* Turn off the scanline overlay. */
+      body::after { display: none; }
+
+      .dashboard-showcase-container:hover .showcase-img { transform: none; }
+    }
   </style>
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <!-- ── NAV ── -->
-<nav>
-  <a class="nav-logo" href="#hero">RVD<span>.</span></a>
+<nav aria-label="Main">
+  <a class="nav-logo" href="#hero" aria-label="Richard Vidal-Dorsch — home">RVD<span aria-hidden="true">.</span></a>
   <ul class="nav-links">
     <li><a href="#skills">Skills</a></li>
     <li><a href="#case-study">Case Studies</a></li>
@@ -1039,8 +1222,10 @@
   </ul>
 </nav>
 
+<main id="main" tabindex="-1">
+
 <!-- ── HERO ── -->
-<section id="hero">
+<section id="hero" aria-label="Introduction">
   <div class="hero-inner">
     <div class="hero-text">
       <div class="status-indicator">
@@ -1060,7 +1245,7 @@
         <a href="#projects" class="btn btn-primary">View Projects</a>
         <a href="#contact" class="btn btn-ghost">Get in Touch</a>
         <a href="resume.pdf" class="btn btn-ghost" download onclick="trackEvent('download-resume', 'Resume Download')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem; vertical-align: middle;">
+          <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem; vertical-align: middle;">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -1073,8 +1258,10 @@
     <div class="avatar-wrap">
       <div class="avatar-ring">
         <img
-          src="https://avatars.githubusercontent.com/u/12419064?v=4"
+          src="https://avatars.githubusercontent.com/u/12419064?s=560&v=4"
           alt="Richard Vidal-Dorsch"
+          width="280" height="280"
+          fetchpriority="high" decoding="async"
         />
       </div>
       <div class="avatar-badge">Costa Mesa, CA</div>
@@ -1082,24 +1269,24 @@
   </div>
 </section>
 <!-- ── MILESTONES ── -->
-<div class="milestones-bar reveal">
+<div class="milestones-bar reveal" role="group" aria-label="Career highlights">
   <div class="milestones-inner">
     <div class="milestone-item">
-      <span class="milestone-icon">🐧</span>
+      <span class="milestone-icon" aria-hidden="true">🐧</span>
       <div class="milestone-content">
         <span class="milestone-title">Kernel Contributor</span>
         <span class="milestone-desc">Wrote and upstreamed driver patches for Advantech's iManager</span>
       </div>
     </div>
     <div class="milestone-item">
-      <span class="milestone-icon">🦀</span>
+      <span class="milestone-icon" aria-hidden="true">🦀</span>
       <div class="milestone-content">
         <span class="milestone-title">Rust Systems Architect</span>
         <span class="milestone-desc">Built concurrent network utility libraries and CLI applications</span>
       </div>
     </div>
     <div class="milestone-item">
-      <span class="milestone-icon">🎤</span>
+      <span class="milestone-icon" aria-hidden="true">🎤</span>
       <div class="milestone-content">
         <span class="milestone-title">ELC Community</span>
         <span class="milestone-desc">Regular participant across the Embedded Linux Conference community</span>
@@ -1109,50 +1296,50 @@
 </div>
 
 <!-- ── SKILLS ── -->
-<section id="skills">
+<section id="skills" aria-labelledby="skills-heading">
   <div class="section-inner">
     <p class="section-label reveal">// expertise</p>
-    <h2 class="section-title reveal">What I Work With</h2>
+    <h2 class="section-title reveal" id="skills-heading">What I Work With</h2>
     <div class="skills-grid">
 
       <div class="skill-card reveal">
-        <div class="skill-icon">🦀</div>
+        <div class="skill-icon" aria-hidden="true">🦀</div>
         <div class="skill-name">Rust</div>
         <div class="skill-desc">Systems programming, CLI tools, async runtimes, library APIs — performant, memory-safe code built for production.</div>
       </div>
 
       <div class="skill-card reveal">
-        <div class="skill-icon">⚙️</div>
+        <div class="skill-icon" aria-hidden="true">⚙️</div>
         <div class="skill-name">Embedded Linux</div>
         <div class="skill-desc">Kernel driver development, BSP integration, and firmware work for industrial embedded boards and SoCs.</div>
       </div>
 
       <div class="skill-card reveal">
-        <div class="skill-icon">🌐</div>
+        <div class="skill-icon" aria-hidden="true">🌐</div>
         <div class="skill-name">Networking</div>
         <div class="skill-desc">DHCP, mDNS, RDAP/WHOIS, IEEE-OUI — tools for discovering, identifying, and monitoring devices on a network.</div>
       </div>
 
       <div class="skill-card reveal">
-        <div class="skill-icon">🔐</div>
+        <div class="skill-icon" aria-hidden="true">🔐</div>
         <div class="skill-name">Security</div>
         <div class="skill-desc">Identity protection and secure systems design, bringing engineering rigor to privacy and digital-security problems.</div>
       </div>
 
       <div class="skill-card reveal">
-        <div class="skill-icon">🔧</div>
+        <div class="skill-icon" aria-hidden="true">🔧</div>
         <div class="skill-name">C/C++ / Systems</div>
         <div class="skill-desc">Low-level C/C++ across hardware abstraction layers, kernel modules, and performance-critical embedded subsystems.</div>
       </div>
 
       <div class="skill-card reveal">
-        <div class="skill-icon">🛠️</div>
+        <div class="skill-icon" aria-hidden="true">🛠️</div>
         <div class="skill-name">CLI Tooling</div>
         <div class="skill-desc">Designing command-line interfaces and developer tools that are fast, composable, and genuinely pleasant to use.</div>
       </div>
 
       <div class="skill-card reveal">
-        <div class="skill-icon">🤖</div>
+        <div class="skill-icon" aria-hidden="true">🤖</div>
         <div class="skill-name">AI-Assisted Dev</div>
         <div class="skill-desc">Using agentic LLM workflows and AI pair programmers to speed up prototyping, build out thorough test suites, and tune performance.</div>
       </div>
@@ -1162,10 +1349,10 @@
 </section>
 
 <!-- ── CASE STUDIES (SYSTEMS ARCHITECTURE & ENCRYPTED INTELLIGENCE) ── -->
-<section id="case-study">
+<section id="case-study" aria-labelledby="case-study-heading">
   <div class="section-inner">
     <p class="section-label reveal">// case studies</p>
-    <h2 class="section-title reveal">Systems Architecture &amp; Engineering Case Studies</h2>
+    <h2 class="section-title reveal" id="case-study-heading">Systems Architecture &amp; Engineering Case Studies</h2>
     
     <!-- CASE STUDY 01: ANCILENET ENGINE -->
     <div class="case-study-block reveal" style="margin-bottom: 5rem;">
@@ -1358,7 +1545,11 @@
           <span class="showcase-tag">Raspberry Pi 4 CM4 Embedded Target</span>
         </div>
         <div class="showcase-image-wrap">
-          <img src="assets/ancilenet_router_hardware_showcase.jpg" alt="AncileNet Raspberry Pi 4 CM4 Router Appliance Hardware" class="showcase-img" />
+          <picture>
+                <source srcset="assets/ancilenet_router_hardware_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_router_hardware_showcase.jpg" alt="AncileNet Raspberry Pi 4 CM4 Router Appliance Hardware" class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
         </div>
         <div class="showcase-caption">
           <strong>Embedded Hardware Target Showcase:</strong> shows the compact Raspberry Pi 4 CM4 router running OpenWrt, with AncileNet&rsquo;s ~7.9 MB compiled static aarch64 binary operating at line rate.
@@ -1375,25 +1566,41 @@
           <div class="showcase-item">
             <div class="showcase-item-title">Real-Time Network Flows</div>
             <div class="showcase-image-wrap">
-              <img src="assets/ancilenet_dashboard_ui_showcase.jpg" alt="AncileNet Real-Time Network Flows Dashboard" class="showcase-img" />
+              <picture>
+                <source srcset="assets/ancilenet_dashboard_ui_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_dashboard_ui_showcase.jpg" alt="AncileNet Real-Time Network Flows Dashboard" class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
             </div>
           </div>
           <div class="showcase-item">
             <div class="showcase-item-title">Threat &amp; Security Alerts</div>
             <div class="showcase-image-wrap">
-              <img src="assets/ancilenet_dashboard_alerts_showcase.jpg" alt="AncileNet Security Alerts Dashboard" class="showcase-img" />
+              <picture>
+                <source srcset="assets/ancilenet_dashboard_alerts_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_dashboard_alerts_showcase.jpg" alt="AncileNet Security Alerts Dashboard" class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
             </div>
           </div>
           <div class="showcase-item">
             <div class="showcase-item-title">24h Traffic &amp; App Usage</div>
             <div class="showcase-image-wrap">
-              <img src="assets/ancilenet_dashboard_usage_showcase.jpg" alt="AncileNet 24h Usage Dashboard" class="showcase-img" />
+              <picture>
+                <source srcset="assets/ancilenet_dashboard_usage_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_dashboard_usage_showcase.jpg" alt="AncileNet 24h Usage Dashboard" class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
             </div>
           </div>
           <div class="showcase-item">
             <div class="showcase-item-title">Content &amp; Device Rules</div>
             <div class="showcase-image-wrap">
-              <img src="assets/ancilenet_dashboard_rules_showcase.jpg" alt="AncileNet Device Policy Rules Dashboard" class="showcase-img" />
+              <picture>
+                <source srcset="assets/ancilenet_dashboard_rules_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_dashboard_rules_showcase.jpg" alt="AncileNet Device Policy Rules Dashboard" class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
             </div>
           </div>
         </div>
@@ -1792,34 +1999,34 @@
 <div class="divider"></div>
 
 <!-- ── PROJECTS ── -->
-<section id="projects">
+<section id="projects" aria-labelledby="projects-heading">
   <div class="section-inner">
     <p class="section-label reveal">// open source</p>
-    <h2 class="section-title reveal">Featured Projects</h2>
+    <h2 class="section-title reveal" id="projects-heading">Featured Projects</h2>
     
-    <div class="filter-container reveal">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="rust">Rust</button>
-      <button class="filter-btn" data-filter="c-cpp">C / C++</button>
-      <button class="filter-btn" data-filter="cli">CLI Tools</button>
+    <div class="filter-container reveal" role="group" aria-label="Filter projects by technology">
+      <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="filter-btn" data-filter="rust" aria-pressed="false">Rust</button>
+      <button type="button" class="filter-btn" data-filter="c-cpp" aria-pressed="false">C / C++</button>
+      <button type="button" class="filter-btn" data-filter="cli" aria-pressed="false">CLI Tools</button>
     </div>
 
-    <div class="projects-grid" id="projects-grid"></div>
+    <div class="projects-grid" id="projects-grid" aria-live="polite" aria-busy="true"></div>
   </div>
 </section>
 
 <div class="divider"></div>
 
 <!-- ── CONTACT ── -->
-<section id="contact">
+<section id="contact" aria-labelledby="contact-heading">
   <div class="section-inner">
     <p class="section-label reveal">// reach me</p>
-    <h2 class="section-title reveal">Get In Touch</h2>
+    <h2 class="section-title reveal" id="contact-heading">Get In Touch</h2>
     <div class="contact-grid">
 
       <a href="https://github.com/rvido/" target="_blank" rel="noopener" class="contact-card reveal">
         <div class="contact-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path fill="var(--blue-bright)" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.603-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.461-1.11-1.461-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.748-1.026 2.748-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
           </svg>
         </div>
@@ -1831,7 +2038,7 @@
 
       <a href="https://www.linkedin.com/in/richard-vidal-dorsch-%F0%9F%A6%80-9a76638/" target="_blank" rel="noopener" class="contact-card reveal">
         <div class="contact-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path fill="var(--blue-bright)" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
           </svg>
         </div>
@@ -1841,26 +2048,29 @@
         </div>
       </a>
 
-      <div class="contact-card reveal" style="cursor: pointer;" onclick="copyEmail(this)">
+      <button type="button" class="contact-card reveal" onclick="copyEmail(this)" aria-label="Copy email address to clipboard">
         <div class="contact-icon">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path fill="var(--blue-bright)" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
         </div>
         <div>
           <div class="contact-label">Email</div>
           <div class="contact-val" id="email-text">richard.dorsch [at] gmail.com</div>
-          <span class="tooltip-text">Click to copy</span>
+          <span class="tooltip-text" aria-hidden="true">Click to copy</span>
         </div>
-      </div>
+        <span class="visually-hidden" id="copy-status" role="status"></span>
+      </button>
 
     </div>
   </div>
 </section>
 
+</main>
+
 <!-- ── FOOTER ── -->
 <footer>
-  <span>© 2026 Richard Vidal-Dorsch</span>
+  <span>© <span id="footer-year">2026</span> Richard Vidal-Dorsch</span>
   <span id="local-time">Costa Mesa, CA · 10:56 AM</span>
   <span>Built with HTML · Hosted on GitHub Pages · <span id="build-version">build dev</span></span>
 </footer>
@@ -1966,9 +2176,20 @@
   // ── Render ────────────────────────────────────────────────
   let observer = null;
 
+  // Repo descriptions come from the GitHub API, so escape before templating.
+  function esc(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function renderProjects(projects) {
     const grid = document.getElementById("projects-grid");
     grid.innerHTML = "";
+    grid.setAttribute("aria-busy", "false");
 
     projects.forEach(p => {
       const isClickable = !!p.url && p.status === "public";
@@ -1979,7 +2200,8 @@
       if (isClickable) {
         card.href   = p.url;
         card.target = "_blank";
-        card.rel    = "noopener";
+        card.rel    = "noopener noreferrer";
+        card.setAttribute("aria-label", `${p.name} — ${p.desc || "project"} (opens in a new tab)`);
         card.addEventListener("click", () => {
           if (window.trackEvent) {
             window.trackEvent('project-click-' + p.name.toLowerCase(), 'Project Click: ' + p.name);
@@ -1993,24 +2215,24 @@
 
       // Stars / forks
       let statsHTML = "";
-      if (p.stars != null) statsHTML += `<span>⭐ ${p.stars}</span>`;
-      if (p.forks != null) statsHTML += `<span>🍴 ${p.forks}</span>`;
-      if (p.tags)          statsHTML += p.tags.map(t => `<span>${t}</span>`).join("");
+      if (p.stars != null) statsHTML += `<span><span aria-hidden="true">⭐</span> ${esc(p.stars)}<span class="visually-hidden"> stars</span></span>`;
+      if (p.forks != null) statsHTML += `<span><span aria-hidden="true">🍴</span> ${esc(p.forks)}<span class="visually-hidden"> forks</span></span>`;
+      if (p.tags)          statsHTML += p.tags.map(t => `<span>${esc(t)}</span>`).join("");
 
       // Status badge (non-public)
       const badge = statusBadge[p.status] || statusBadge.public;
       const badgeHTML = badge.label
-        ? `<span style="color:${badge.color};margin-left:auto;">${badge.label}</span>`
+        ? `<span style="color:${badge.color};margin-left:auto;">${esc(badge.label)}</span>`
         : "";
 
       card.innerHTML = `
         ${langLabel ? `
         <div class="project-lang">
-          <span class="lang-dot" style="background:${dotColor}"></span>
-          ${langLabel}
+          <span class="lang-dot" style="background:${dotColor}" aria-hidden="true"></span>
+          ${esc(langLabel)}
         </div>` : ""}
-        <div class="project-name">${p.name}</div>
-        <div class="project-desc">${p.desc}</div>
+        <div class="project-name">${esc(p.name)}</div>
+        <div class="project-desc">${esc(p.desc)}</div>
         <div class="project-stats">${statsHTML}${badgeHTML}</div>
       `;
 
@@ -2034,8 +2256,12 @@
     const buttons = document.querySelectorAll(".filter-btn");
     buttons.forEach(btn => {
       btn.addEventListener("click", () => {
-        buttons.forEach(b => b.classList.remove("active"));
+        buttons.forEach(b => {
+          b.classList.remove("active");
+          b.setAttribute("aria-pressed", "false");
+        });
         btn.classList.add("active");
+        btn.setAttribute("aria-pressed", "true");
 
         const filter = btn.getAttribute("data-filter");
         let filtered = [];
@@ -2117,6 +2343,12 @@
   loadProjects();
   loadBuildMeta();
 
+  // ── Footer Year ───────────────────────────────────────────
+  const footerYear = document.getElementById("footer-year");
+  if (footerYear) {
+    footerYear.textContent = new Date().getFullYear();
+  }
+
   // ── Local Time Update ─────────────────────────────────────
   function updateLocalTime() {
     const timeElement = document.getElementById("local-time");
@@ -2163,21 +2395,41 @@
 
   // ── Copy Email Handler ────────────────────────────────────
   window.copyEmail = function(cardElement) {
+    const tooltip = cardElement.querySelector(".tooltip-text");
+    const status  = cardElement.querySelector("#copy-status");
+
+    const announce = (msg) => {
+      if (status) status.textContent = msg;
+    };
+
+    const flash = (msg) => {
+      if (!tooltip) return;
+      tooltip.textContent = msg;
+      tooltip.classList.add("copied");
+      setTimeout(() => {
+        tooltip.textContent = "Click to copy";
+        tooltip.classList.remove("copied");
+        announce("");
+      }, 2000);
+    };
+
+    // Clipboard API needs a secure context; fall back to selecting the text.
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      flash("Copy manually");
+      announce("Clipboard unavailable. Email address is " + decryptedEmail);
+      return;
+    }
+
     navigator.clipboard.writeText(decryptedEmail).then(() => {
-      const tooltip = cardElement.querySelector(".tooltip-text");
-      if (tooltip) {
-        tooltip.textContent = "Copied!";
-        tooltip.classList.add("copied");
-        setTimeout(() => {
-          tooltip.textContent = "Click to copy";
-          tooltip.classList.remove("copied");
-        }, 2000);
-      }
+      flash("Copied!");
+      announce("Email address copied to clipboard");
       if (window.trackEvent) {
         window.trackEvent('copy-email', 'Email Address Copied');
       }
     }).catch(err => {
       console.error("Failed to copy email:", err);
+      flash("Copy failed");
+      announce("Copy failed. Email address is " + decryptedEmail);
     });
   };
 </script>
