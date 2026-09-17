@@ -1085,6 +1085,41 @@
       .contact-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
+    /* ── profile charts ── */
+    .chart-wrap {
+      width: 100%;
+      background: #0c1528;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .chart-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .chart-figures {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      padding: 1.25rem;
+    }
+
+    .chart-readout {
+      margin-top: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+    }
+
+    .chart-readout strong { color: var(--text); font-weight: 500; }
+
+    @media (max-width: 768px) {
+      .chart-figures { grid-template-columns: 1fr; }
+    }
+
     /* ── a11y: screen-reader-only text ── */
     .visually-hidden {
       position: absolute;
@@ -1356,7 +1391,7 @@
     
     <!-- CASE STUDY 01: ANCILENET ENGINE -->
     <div class="case-study-block reveal" style="margin-bottom: 5rem;">
-      <h3 class="case-block-header">Case Study 01: AncileNet™ High-Throughput Embedded Engine (v0.7.6)</h3>
+      <h3 class="case-block-header">Case Study 01: AncileNet™ High-Throughput Embedded Engine</h3>
 
       <div class="case-study-grid">
         <!-- Description Column -->
@@ -1401,12 +1436,19 @@
                 Engine state is process-global — 256-shard <code>DashMap</code> flow tables and atomics — specifically so <code>PACKET_FANOUT</code> can feed it from several capture workers at once. Replaying a 50,000-unique-flow flood through the full inspection path on the reference CM4 gives <strong>505 K pkts/s on one core and 1.61 M pkts/s across four</strong>: a 3.19× speed-up, or <strong>80% scaling efficiency</strong>. The same benchmark on an 8-core i7-11850H laptop scales only 3.53× — 44% efficiency — because a laptop drops its all-core clock under sustained load while the Cortex-A72 does not. The sharded design is what makes the difference visible, and the fixed-clock embedded target is the one that converts cores into throughput almost linearly. At 1.61 M pkts/s the hot path clears gigabit line rate (1.488 M pkts/s at minimum frame size) on a board that costs less than the NIC in most appliances.
               </p>
             </div>
+
+            <div class="challenge-item">
+              <h4>06. Profiling the Engine on the Router It Actually Runs On</h4>
+              <p>
+                A stock OpenWrt kernel is built without <code>CONFIG_PERF_EVENTS</code>, so <code>perf record</code> cannot run on the CM4 — which meant every performance claim about this engine had been measured on a desktop, on a different CPU, with a different libc and a different traffic mix. <code>--features profile</code> builds in a sampling profiler that needs nothing from the kernel config: <code>setitimer(ITIMER_PROF)</code> and a <code>SIGPROF</code> handler, both plain POSIX. Sampling starts only after the databases have loaded, so the graph describes the steady-state packet path rather than startup. Three details decide whether the output is trustworthy rather than merely plausible: the handler walks the stack <strong>by frame pointer</strong>, because the default unwinder is not async-signal-safe and its usual guard matches shared libraries by name — a static <code>musl</code> binary has none; sampling runs at <strong>99 Hz, not 997 Hz</strong>, since the kernel checks CPU-time timers on its scheduler tick and a rate above <code>CONFIG_HZ</code> buys no extra samples; and the profiling build is the release profile <em>plus symbols</em>, so the profile measures the code that ships. It paid for itself on first use: <strong>38% of all process CPU was device discovery</strong>, most of it one <code>recvfrom</code> copying every frame on the LAN into user space only to discard all but the discovery protocols. A kernel-side BPF filter on that socket cut it to 6.5% with discovery results unchanged.
+              </p>
+            </div>
           </div>
         </div>
 
         <!-- Metrics Grid Column -->
         <div class="case-study-metrics">
-          <h4 class="case-sub-title">Empirical Benchmarks</h4>
+          <h4 class="case-sub-title">Empirical Benchmarks <span style="color:var(--text-muted);font-weight:400;">(v0.7.6)</span></h4>
           <div class="metrics-grid">
             <div class="metric-card">
               <div class="metric-val">~14% <span class="metric-unit">CPU</span></div>
@@ -1535,6 +1577,42 @@
           <p class="case-note" style="margin-top: 1.5rem;">
             <strong>How these were measured.</strong> Criterion benchmark <code>benches/packet_hotpath.rs</code> in the AncileNet source tree, <code>ancilenet</code> v0.7.6, <code>--release</code> (LTO, <code>opt-level=3</code>, <code>codegen-units=1</code>), statically linked for <code>aarch64-unknown-linux-musl</code>. Device: Raspberry Pi CM4, 4× Cortex-A72, running OpenWrt with no other AncileNet workload active. Each figure is the Criterion median of 100 samples. The workload is 50,000 distinct 5-tuples in 118-byte frames (14 B Ethernet + 20 B IPv4 + 20 B TCP + 64 B payload), replayed through <code>engine::process_with_result</code> with empty block lists, so every packet traverses the full inspection path instead of short-circuiting on an early decision. <em>Frames are generated in memory and fed directly to the engine</em> — this isolates parse and inspection cost, and deliberately excludes NIC, driver and kernel capture overhead, so it is not a claim about end-to-end capture on a live link. The laptop comparison is an 8-core / 16-thread i7-11850H running the identical benchmark with 8 worker threads.
           </p>
+        </div>
+      </div>
+
+      <!-- On-Target Profile: CPU distribution + Pareto curve -->
+      <div class="dashboard-showcase-container reveal" style="margin-bottom: 2rem;">
+        <div class="showcase-header">
+          <span class="showcase-title">📊 On-Target Profile — Where the CPU Actually Goes</span>
+          <span class="showcase-tag">v0.9.0 · CM4 · Live Traffic</span>
+        </div>
+
+        <div class="chart-figures">
+          <div>
+            <div class="chart-wrap">
+              <img src="assets/ancilenet_cpu_distribution.svg"
+                   alt="Donut chart of AncileNet CPU distribution by subsystem, idle wait excluded: engine inspection per packet 59.1%, packet ingestion via libpcap 23.8%, LANwatch discovery 7.9%, state files to disk 4.7%, Tokio runtime 3.4%, other 1.2%."
+                   class="chart-img" width="567" height="345" loading="lazy" decoding="async" />
+            </div>
+            <p class="chart-readout">
+              <strong>59.1%</strong> engine inspection · <strong>23.8%</strong> libpcap ingestion · <strong>7.9%</strong> discovery · <strong>4.7%</strong> state writes · <strong>3.4%</strong> Tokio · <strong>1.2%</strong> other. Work is where it should be: nearly six CPU cycles in ten are spent inspecting packets, not moving them around.
+            </p>
+          </div>
+
+          <div>
+            <div class="chart-wrap">
+              <img src="assets/ancilenet_pareto_curve.svg"
+                   alt="Pareto curve of cumulative CPU share against function rank sorted by self-time. The curve rises steeply: the top 6 of 111 functions account for 50% of CPU, and the top 32 account for 80%."
+                   class="chart-img" width="600" height="371" loading="lazy" decoding="async" />
+            </div>
+            <p class="chart-readout">
+              111 functions carry self-time. The top <strong>6</strong> account for <strong>50%</strong> of CPU and the top <strong>32</strong> for <strong>80%</strong> — a steep curve, which is the useful kind: optimisation effort has somewhere specific to go. The single hottest frame is <code>pcap_read_linux_mmap_v2</code> at <strong>13.4%</strong>, kernel-to-userspace packet copy, not engine logic.
+            </p>
+          </div>
+        </div>
+
+        <div class="showcase-caption">
+          <strong>How this profile was taken.</strong> <code>ancilenet</code> v0.9.0 built with <code>--features profile</code> for <code>aarch64-unknown-linux-musl</code>, sampling at 99 Hz via <code>setitimer(ITIMER_PROF)</code> with a frame-pointer stack walk, on the reference Raspberry Pi CM4 under live traffic. <strong>1,509 samples total; 913 of them (60.5%) were threads parked in a wait and are excluded from every share above</strong> — <code>ITIMER_PROF</code> signals the process, so a parked thread can be handed the signal and sample its own idle stack. The remaining 596 samples are the CPU figures shown. Self-time is charged to the running function, and a leaf such as <code>alloc</code> is attributed to the subsystem that called it rather than counted as a subsystem of its own. Charts produced by <code>scripts/flamegraph_analyzer.py</code> from the flamegraph SVG, recoloured here to the site palette; the underlying geometry and figures are unmodified. <em>The profiler samples CPU time only</em> — time blocked in a <code>pcap</code> read, on a lock or in I/O does not appear, so a flat graph means the CPU is idle, not that the engine is fast. The benchmark column above is from v0.7.6 and is not directly comparable: v0.9.0 costs roughly a third less CPU per packet than v0.8.2.
         </div>
       </div>
 
