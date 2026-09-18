@@ -53,7 +53,7 @@ def fetch_repositories(user: str) -> list[dict]:
 
 def load_overrides(path: Path) -> dict[str, Any]:
     if not path.exists():
-        return {"exclude": [], "overrides": {}, "order": []}
+        return {"exclude": [], "overrides": {}, "order": [], "custom": []}
 
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
@@ -62,6 +62,7 @@ def load_overrides(path: Path) -> dict[str, Any]:
     exclude = data.get("exclude", [])
     overrides = data.get("overrides", {})
     order = data.get("order", [])
+    custom = data.get("custom", [])
 
     if not isinstance(exclude, list) or not all(isinstance(x, str) for x in exclude):
         raise RuntimeError("Override file field 'exclude' must be an array of strings")
@@ -69,8 +70,10 @@ def load_overrides(path: Path) -> dict[str, Any]:
         raise RuntimeError("Override file field 'overrides' must be an object")
     if not isinstance(order, list) or not all(isinstance(x, str) for x in order):
         raise RuntimeError("Override file field 'order' must be an array of strings")
+    if not isinstance(custom, list) or not all(isinstance(x, dict) for x in custom):
+        raise RuntimeError("Override file field 'custom' must be an array of objects")
 
-    return {"exclude": exclude, "overrides": overrides, "order": order}
+    return {"exclude": exclude, "overrides": overrides, "order": order, "custom": custom}
 
 
 def apply_order(projects: list[dict], order: list[str]) -> list[dict]:
@@ -97,6 +100,21 @@ def build_projects(repositories: list[dict], config: dict[str, Any]) -> list[dic
     projects: list[dict] = []
     excluded = EXCLUDED_REPOS.union(config.get("exclude", []))
     overrides = config.get("overrides", {})
+    custom_projects = config.get("custom", [])
+
+    for custom in custom_projects:
+        name = custom.get("name")
+        if name in excluded:
+            continue
+        manual = overrides.get(name, {})
+        if manual.get("hidden") is True or custom.get("hidden") is True:
+            continue
+        project = dict(custom)
+        if isinstance(manual, dict):
+            for key in ("desc", "tags", "status", "lang", "url", "stars", "forks"):
+                if key in manual:
+                    project[key] = manual[key]
+        projects.append(project)
 
     for repo in repositories:
         name = repo.get("name")

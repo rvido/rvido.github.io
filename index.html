@@ -2157,21 +2157,29 @@
   // Fallback project data used when projects.json is unavailable.
   const fallbackProjects = [
     {
-      name:   "iManager",
-      lang:   "c",
-      desc:   "Linux driver set for Advantech embedded boards — enabling hardware management features including watchdog, GPIO, and system monitoring from userspace.",
-      url:    "https://github.com/rvido/iManager",
-      stars:  26,
-      forks:  9,
-      status: "public",
+      name:   "AncileNet™",
+      lang:   "rust",
+      desc:   "Embedded network security engine for router gateways — zero-copy packet inspection, DNS blocking, and JA4 TLS fingerprinting on a Raspberry Pi CM4.",
+      url:    "#case-study",
+      tags:   ["CLI Tool/Service"],
+      status: "wip",
     },
     {
       name:   "LANwatch",
       lang:   "rust",
       desc:   "Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, and IEEE-OUI identification. Know what's on your network.",
       url:    "https://github.com/rvido/LANwatch",
-      stars:  1,
+      stars:  6,
       tags:   ["Library", "CLI Tool"],
+      status: "public",
+    },
+    {
+      name:   "iManager",
+      lang:   "c",
+      desc:   "Linux driver set for Advantech embedded boards — enabling hardware management features including watchdog, GPIO, and system monitoring from userspace.",
+      url:    "https://github.com/rvido/iManager",
+      stars:  27,
+      forks:  9,
       status: "public",
     },
     {
@@ -2213,14 +2221,6 @@
       url:    "https://github.com/rvido/NetOrigin",
       tags:   ["CLI Tool"],
       status: "public",
-    },
-    {
-      name:   "AncileNet™",
-      lang:   "rust",
-      desc:   "Embedded network security engine for router gateways — zero-copy packet inspection, DNS blocking, and JA4 TLS fingerprinting on a Raspberry Pi CM4.",
-      url:    null,
-      tags:   ["CLI Tool/Service"],
-      status: "wip",
     },
     // ── ADD YOUR UPCOMING PROJECT BELOW ──────────────────────
     // {
@@ -2270,16 +2270,21 @@
     grid.setAttribute("aria-busy", "false");
 
     projects.forEach(p => {
-      const isClickable = !!p.url && p.status === "public";
+      const isInternal = typeof p.url === "string" && p.url.startsWith("#");
+      const isClickable = (!!p.url && p.status === "public") || isInternal;
       const tag  = isClickable ? "a" : "div";
       const card = document.createElement(tag);
 
       card.className = "project-card reveal";
       if (isClickable) {
         card.href   = p.url;
-        card.target = "_blank";
-        card.rel    = "noopener noreferrer";
-        card.setAttribute("aria-label", `${p.name} — ${p.desc || "project"} (opens in a new tab)`);
+        if (!isInternal) {
+          card.target = "_blank";
+          card.rel    = "noopener noreferrer";
+          card.setAttribute("aria-label", `${p.name} — ${p.desc || "project"} (opens in a new tab)`);
+        } else {
+          card.setAttribute("aria-label", `${p.name} — ${p.desc || "project"} (view case study)`);
+        }
         card.addEventListener("click", () => {
           if (window.trackEvent) {
             window.trackEvent('project-click-' + p.name.toLowerCase(), 'Project Click: ' + p.name);
