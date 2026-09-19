@@ -960,6 +960,39 @@
       font-weight: 600;
     }
 
+    /* A reference reading (e.g. idle), not a superseded value. */
+    .comp-val.baseline {
+      color: var(--text);
+      background: rgba(92,127,168,0.08);
+      border: 1px solid rgba(92,127,168,0.25);
+    }
+
+    .comparison-row.comparison-colhead {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding-bottom: 0.4rem;
+    }
+
+    .live-load-table {
+      margin: 0 1.25rem 1.25rem;
+    }
+
+    /* Two value columns that line up row to row. */
+    .live-load-table .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr 9.5rem 9.5rem;
+      gap: 0.75rem;
+    }
+
+    .live-load-table .comp-val { justify-self: start; }
+
+    @media (max-width: 520px) {
+      .live-load-table { margin: 0 0.75rem 0.75rem; }
+      .live-load-table .comparison-row { grid-template-columns: 1fr 7.25rem 7.25rem; gap: 0.5rem; }
+    }
+
     /* ── dashboard showcase ── */
     .dashboard-showcase-container {
       background: var(--surface);
@@ -1451,10 +1484,6 @@
           <h4 class="case-sub-title">Empirical Benchmarks <span style="color:var(--text-muted);font-weight:400;">(v0.7.6)</span></h4>
           <div class="metrics-grid">
             <div class="metric-card">
-              <div class="metric-val">~14% <span class="metric-unit">CPU</span></div>
-              <div class="metric-label">Of one core (4-core RPi CM4) inspecting 9,121 pkts/s under load</div>
-            </div>
-            <div class="metric-card">
               <div class="metric-val">7.3% <span class="metric-unit">RAM</span></div>
               <div class="metric-label">~280 MB RSS at 4 capture workers (~91 MB single-worker default)</div>
             </div>
@@ -1577,6 +1606,107 @@
           <p class="case-note" style="margin-top: 1.5rem;">
             <strong>How these were measured.</strong> Criterion benchmark <code>benches/packet_hotpath.rs</code> in the AncileNet source tree, <code>ancilenet</code> v0.7.6, <code>--release</code> (LTO, <code>opt-level=3</code>, <code>codegen-units=1</code>), statically linked for <code>aarch64-unknown-linux-musl</code>. Device: Raspberry Pi CM4, 4× Cortex-A72, running OpenWrt with no other AncileNet workload active. Each figure is the Criterion median of 100 samples. The workload is 50,000 distinct 5-tuples in 118-byte frames (14 B Ethernet + 20 B IPv4 + 20 B TCP + 64 B payload), replayed through <code>engine::process_with_result</code> with empty block lists, so every packet traverses the full inspection path instead of short-circuiting on an early decision. <em>Frames are generated in memory and fed directly to the engine</em> — this isolates parse and inspection cost, and deliberately excludes NIC, driver and kernel capture overhead, so it is not a claim about end-to-end capture on a live link. The laptop comparison is an 8-core / 16-thread i7-11850H running the identical benchmark with 8 worker threads.
           </p>
+        </div>
+      </div>
+
+      <!-- Live Load: idle baseline vs. nine-stream iperf3 -->
+      <div class="dashboard-showcase-container reveal" style="margin-bottom: 2rem;">
+        <div class="showcase-header">
+          <span class="showcase-title">🚦 Live Load — Idle Baseline vs. Nine-Stream iperf3</span>
+          <span class="showcase-tag">v0.9.0 · CM4 · 5 GHz Wi-Fi · iperf3 -P 9</span>
+        </div>
+
+        <div class="showcase-grid">
+          <div class="showcase-item">
+            <div class="showcase-item-title">Under Load — iperf3, 9 Parallel Streams</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_v090_iperf3_load.webp" type="image/webp" />
+                <img src="assets/ancilenet_v090_iperf3_load.jpg"
+                     alt="bottom (btm, run with -n) system monitor on the Raspberry Pi CM4 during a nine-stream iperf3 run: 17% average CPU across four cores, RAM 12%, CPU temperature 47 °C, network RX 100.7 Mb/s and TX 198.4 Mb/s, ancilenet process at 25.2% of one core and 7.7% memory."
+                     class="showcase-img" width="958" height="1078" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">Idle Baseline — Same Router, No Test Traffic</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_v090_idle_baseline.webp" type="image/webp" />
+                <img src="assets/ancilenet_v090_idle_baseline.jpg"
+                     alt="bottom (btm) system monitor on the same Raspberry Pi CM4 with no test traffic: 1% average CPU, RAM 12%, CPU temperature 43 °C, network RX 22.2 Kb/s and TX 110.7 Kb/s, ancilenet process at 0.0% CPU and 7.7% memory."
+                     class="showcase-img" width="958" height="1078" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-container live-load-table">
+          <div class="comparison-header">Idle vs. Load — Measured on the Router</div>
+
+          <div class="comparison-row comparison-colhead" aria-hidden="true">
+            <span></span>
+            <span>Idle</span>
+            <span>Under Load</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">Router Traffic (RX / TX)</span>
+            <span class="comp-val baseline">22 / 111 Kb/s</span>
+            <span class="comp-val optimized">101 / 198 Mb/s</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">Packets Inspected</span>
+            <span class="comp-val baseline">—</span>
+            <span class="comp-val optimized">~10,700 pkts/s</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">Capture Drops</span>
+            <span class="comp-val baseline">—</span>
+            <span class="comp-val optimized">0 of ~643K (0%)</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">System CPU (4-core avg)</span>
+            <span class="comp-val baseline">1%</span>
+            <span class="comp-val optimized">17%</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">Per Core (CPU0–3)</span>
+            <span class="comp-val baseline">1 / 0 / 1 / 3%</span>
+            <span class="comp-val optimized">16 / 11 / 31 / 7%</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">ancilenet Process CPU (of one core)</span>
+            <span class="comp-val baseline">0.0%</span>
+            <span class="comp-val optimized">25.2%</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">ancilenet Memory</span>
+            <span class="comp-val baseline">7.7% · ~290 MiB</span>
+            <span class="comp-val optimized">7.7% · ~290 MiB</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">CPU Temperature</span>
+            <span class="comp-val baseline">43 °C</span>
+            <span class="comp-val optimized">47 °C</span>
+          </div>
+
+          <div class="comparison-row">
+            <span class="comp-label">1-Min Load Average</span>
+            <span class="comp-val baseline">0.22</span>
+            <span class="comp-val optimized">0.97</span>
+          </div>
+        </div>
+
+        <div class="showcase-caption">
+          <strong>How this was measured.</strong> <code>ancilenet</code> v0.9.0 on the reference Raspberry Pi CM4 (4× Cortex-A72, 3.7 GiB RAM) running OpenWrt. Both screenshots are <code>bottom</code> (<code>btm</code>) on the router itself, over a 60-second window, and show the same <code>ancilenet</code> process (PID 31137). Under load, an <code>iperf3</code> run with nine parallel streams (<code>-P 9</code>) passes through the router from <strong>one managed client on 5 GHz Wi-Fi at a 433 Mbit/s link rate</strong>; the baseline is the same router with no test traffic. 433 Mbit/s is the radio's signalling rate, not usable throughput — Wi-Fi framing and a shared, half-duplex channel keep real TCP throughput well below it. Each <code>btm</code> figure is a single on-screen reading, not an average. Under load <code>btm</code> ran with <code>-n</code>, so process CPU is a share of <strong>one</strong> core rather than an average over all four. Traffic is the router's interface counters as <code>btm</code> reports them, not <code>iperf3</code>'s own goodput. <strong>Packets inspected and capture drops are measured, not estimated</strong>: AncileNet's own Prometheus counters (<code>capture_packets_received_total</code>, <code>capture_packets_dropped_total</code>, <code>capture_packets_if_dropped_total</code>) were read 30 seconds apart, twice, during the same run — 10,786 and 10,650 pkts/s, with zero buffer and zero interface drops across roughly 643,000 packets. The received counter is taken after the BPF capture filter, so it counts the packets the engine actually inspected. The idle column has no packet figures because the counters were read under load only. With the CPU at 17% on average and no core above 31%, the processor is far from saturated: the limit here is the single Wi-Fi client link, not the engine. This shows <em>what carrying the load costs</em>, not the router's maximum throughput. Memory stayed at 7.7% (~290 MiB of 3.7 GiB) with and without load. The ~290 MiB is 7.7% of 3.7 GiB, worked out from the screenshot, not a separate RSS measurement.
         </div>
       </div>
 
