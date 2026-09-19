@@ -1118,6 +1118,41 @@
       .contact-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
+    /* ── current-release headline strip ── */
+    .headline-metrics {
+      margin-bottom: 3rem;
+    }
+
+    .headline-metrics .metrics-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .headline-note {
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .headline-note a {
+      color: var(--blue-bright);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--blue-dim);
+    }
+
+    .headline-note a:hover { color: var(--blue-glow); }
+
+    #ancilenet-live-load { scroll-margin-top: 5rem; }
+
+    @media (max-width: 900px) {
+      .headline-metrics .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 520px) {
+      .headline-metrics .metrics-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── profile charts ── */
     .chart-wrap {
       width: 100%;
@@ -1426,6 +1461,30 @@
     <div class="case-study-block reveal" style="margin-bottom: 5rem;">
       <h3 class="case-block-header">Case Study 01: AncileNet™ High-Throughput Embedded Engine</h3>
 
+      <!-- Current release, measured live on the router -->
+      <div class="headline-metrics">
+        <h4 class="case-sub-title">Current Release on the Router <span style="color:var(--text-muted);font-weight:400;">(v0.9.0)</span></h4>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-val">~10,700 <span class="metric-unit">pkts/s</span></div>
+            <div class="metric-label">Inspected live on the CM4 during a nine-stream iperf3 run over 5 GHz Wi-Fi</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">0 <span class="metric-unit">Drops</span></div>
+            <div class="metric-label">Buffer and interface drops across ~643K packets, two 30-second windows</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">25.2% <span class="metric-unit">of 1 Core</span></div>
+            <div class="metric-label">ancilenet process CPU under that load, on a 4-core CM4 <span style="white-space:nowrap">(btm -n)</span></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">7.7% <span class="metric-unit">RAM</span></div>
+            <div class="metric-label">~290 MiB of 3.7 GiB, unchanged between idle and full load</div>
+          </div>
+        </div>
+        <p class="headline-note">Measured on the router, not in a lab. <a href="#ancilenet-live-load">See the screenshots and method ↓</a></p>
+      </div>
+
       <div class="case-study-grid">
         <!-- Description Column -->
         <div class="case-study-content">
@@ -1481,7 +1540,7 @@
 
         <!-- Metrics Grid Column -->
         <div class="case-study-metrics">
-          <h4 class="case-sub-title">Empirical Benchmarks <span style="color:var(--text-muted);font-weight:400;">(v0.7.6)</span></h4>
+          <h4 class="case-sub-title">Earlier Benchmarks <span style="color:var(--text-muted);font-weight:400;">(v0.7.6)</span></h4>
           <div class="metrics-grid">
             <div class="metric-card">
               <div class="metric-val">7.3% <span class="metric-unit">RAM</span></div>
@@ -1610,7 +1669,7 @@
       </div>
 
       <!-- Live Load: idle baseline vs. nine-stream iperf3 -->
-      <div class="dashboard-showcase-container reveal" style="margin-bottom: 2rem;">
+      <div class="dashboard-showcase-container reveal" id="ancilenet-live-load" style="margin-bottom: 2rem;">
         <div class="showcase-header">
           <span class="showcase-title">🚦 Live Load — Idle Baseline vs. Nine-Stream iperf3</span>
           <span class="showcase-tag">v0.9.0 · CM4 · 5 GHz Wi-Fi · iperf3 -P 9</span>
