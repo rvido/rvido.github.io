@@ -1,26 +1,13 @@
 [
   {
-    "name": "AncileNet\u2122",
-    "lang": "rust",
-    "desc": "Embedded network security engine for router gateways \u2014 zero-copy packet inspection, DNS blocking, and JA4 TLS fingerprinting on a Raspberry Pi CM4.",
-    "url": "#case-study",
-    "stars": null,
-    "forks": null,
-    "tags": [
-      "CLI Tool/Service"
-    ],
-    "status": "wip"
-  },
-  {
     "name": "LANwatch",
     "lang": "rust",
-    "desc": "Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, and IEEE-OUI identification. Know what's on your network.",
+    "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, LLMNR, NetBIOS (NBNS), WS-Discovery (WSD), CoAP, Matter, KNXnet/IP, MQTT, Plex GDM, IP Camera discovery (SADP, Dahua, RTSP), link-layer frames (ARP, NDP, LLDP, CDP), and IEEE OUI vendor identification.",
     "url": "https://github.com/rvido/LANwatch",
     "stars": 6,
     "forks": 2,
     "tags": [
-      "Library",
-      "CLI Tool"
+      "Open Source"
     ],
     "status": "public"
   },
@@ -39,12 +26,12 @@
   {
     "name": "whois-rdap",
     "lang": "rust",
-    "desc": "A fast CLI tool to query RDAP servers for IP address information, built with Rust for speed and reliability.",
+    "desc": "A simple command-line tool to query RDAP servers for IP address information.",
     "url": "https://github.com/rvido/whois-rdap",
     "stars": 1,
     "forks": 0,
     "tags": [
-      "CLI Tool"
+      "Open Source"
     ],
     "status": "public"
   },
@@ -54,42 +41,6 @@
     "desc": "A Rust-based web application that discovers iOS and Android app bundle IDs instantly.",
     "url": "https://github.com/rvido/appid_finder",
     "stars": 0,
-    "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "android-appid",
-    "lang": "rust",
-    "desc": "A command-line tool written in Rust to find the application ID of an Android app from the Google Play Store.",
-    "url": "https://github.com/rvido/android-appid",
-    "stars": 0,
-    "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "ios-appid",
-    "lang": "rust",
-    "desc": "A Rust library and CLI to fetch iOS app information from the iTunes API.",
-    "url": "https://github.com/rvido/ios-appid",
-    "stars": 0,
-    "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "NetOrigin",
-    "lang": "rust",
-    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
-    "url": "https://github.com/rvido/NetOrigin",
-    "stars": 1,
     "forks": 0,
     "tags": [
       "Open Source"
@@ -114,6 +65,42 @@
     "desc": "A lightweight, zero-heap memory allocation, reallocation, and deallocation tracer for C99 and C++11+. It detects leaks and tracks peak memory usage dynamically at runtime, without relying on any heap allocation for its own bookkeeping.",
     "url": "https://github.com/rvido/memtracer",
     "stars": 1,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "NetOrigin",
+    "lang": "rust",
+    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
+    "url": "https://github.com/rvido/NetOrigin",
+    "stars": 1,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "android-appid",
+    "lang": "rust",
+    "desc": "A command-line tool written in Rust to find the application ID of an Android app from the Google Play Store.",
+    "url": "https://github.com/rvido/android-appid",
+    "stars": 0,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
+    "name": "ios-appid",
+    "lang": "rust",
+    "desc": "A Rust library and CLI to fetch iOS app information from the iTunes API.",
+    "url": "https://github.com/rvido/ios-appid",
+    "stars": 0,
     "forks": 0,
     "tags": [
       "Open Source"
