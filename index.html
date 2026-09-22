@@ -1463,26 +1463,26 @@
 
       <!-- Current release, measured live on the router -->
       <div class="headline-metrics">
-        <h4 class="case-sub-title">Current Release on the Router <span style="color:var(--text-muted);font-weight:400;">(v0.9.0)</span></h4>
+        <h4 class="case-sub-title">Current Release on the Router <span style="color:var(--text-muted);font-weight:400;">(v0.10.0)</span></h4>
         <div class="metrics-grid">
           <div class="metric-card">
-            <div class="metric-val">~10,700 <span class="metric-unit">pkts/s</span></div>
-            <div class="metric-label">Inspected live on the CM4 during a nine-stream iperf3 run over 5 GHz Wi-Fi</div>
+            <div class="metric-val">26× <span class="metric-unit">Less CPU</span></div>
+            <div class="metric-label">0.8% of one core against 20.7% with the eBPF skip turned off, same nine-stream iperf3 load</div>
           </div>
           <div class="metric-card">
-            <div class="metric-val">0 <span class="metric-unit">Drops</span></div>
-            <div class="metric-label">Buffer and interface drops across ~643K packets, two 30-second windows</div>
+            <div class="metric-val">99.3% <span class="metric-unit">In Kernel</span></div>
+            <div class="metric-label">Packets of already-decided connections counted by an eBPF filter, never copied to user space</div>
           </div>
           <div class="metric-card">
-            <div class="metric-val">25.2% <span class="metric-unit">of 1 Core</span></div>
-            <div class="metric-label">ancilenet process CPU under that load, on a 4-core CM4 <span style="white-space:nowrap">(btm -n)</span></div>
+            <div class="metric-val">+0.8% <span class="metric-unit">vs iperf3</span></div>
+            <div class="metric-label">Flow byte totals against iperf3's own count — the same with the skip on and off</div>
           </div>
           <div class="metric-card">
-            <div class="metric-val">7.7% <span class="metric-unit">RAM</span></div>
-            <div class="metric-label">~290 MiB of 3.7 GiB, unchanged between idle and full load</div>
+            <div class="metric-val">93% <span class="metric-unit">JA4</span></div>
+            <div class="metric-label">TLS flows still fingerprinted with the skip on (87% with it off): handshakes always reach the engine</div>
           </div>
         </div>
-        <p class="headline-note">Measured on the router, not in a lab. <a href="#ancilenet-live-load">See the screenshots and method ↓</a></p>
+        <p class="headline-note">Measured on the router, feature on against feature off. <a href="#ancilenet-kernel-skip">See how ↓</a> · <a href="#ancilenet-live-load">v0.9.0 live-load screenshots ↓</a></p>
       </div>
 
       <div class="case-study-grid">
@@ -1533,6 +1533,13 @@
               <h4>06. Profiling the Engine on the Router It Actually Runs On</h4>
               <p>
                 A stock OpenWrt kernel is built without <code>CONFIG_PERF_EVENTS</code>, so <code>perf record</code> cannot run on the CM4 — which meant every performance claim about this engine had been measured on a desktop, on a different CPU, with a different libc and a different traffic mix. <code>--features profile</code> builds in a sampling profiler that needs nothing from the kernel config: <code>setitimer(ITIMER_PROF)</code> and a <code>SIGPROF</code> handler, both plain POSIX. Sampling starts only after the databases have loaded, so the graph describes the steady-state packet path rather than startup. Three details decide whether the output is trustworthy rather than merely plausible: the handler walks the stack <strong>by frame pointer</strong>, because the default unwinder is not async-signal-safe and its usual guard matches shared libraries by name — a static <code>musl</code> binary has none; sampling runs at <strong>99 Hz, not 997 Hz</strong>, since the kernel checks CPU-time timers on its scheduler tick and a rate above <code>CONFIG_HZ</code> buys no extra samples; and the profiling build is the release profile <em>plus symbols</em>, so the profile measures the code that ships. It paid for itself on first use: <strong>38% of all process CPU was device discovery</strong>, most of it one <code>recvfrom</code> copying every frame on the LAN into user space only to discard all but the discovery protocols. A kernel-side BPF filter on that socket cut it to 6.5% with discovery results unchanged.
+              </p>
+            </div>
+
+            <div class="challenge-item" id="ancilenet-kernel-skip">
+              <h4>07. Keeping Decided Connections in the Kernel with eBPF</h4>
+              <p>
+                Once the engine has read a connection's handshake and allowed it, every further packet was still copied to user space only to be counted. v0.10.0 attaches an eBPF socket filter to each capture socket: a decided flow is counted in a kernel map and never delivered, while connection setup and teardown, DNS, TLS handshakes and QUIC long headers always reach the engine, and one packet a second still does so a rule change reaches a busy connection. The program is <strong>186 hand-assembled instructions, JIT-compiled to 1,168 bytes</strong>, loaded through raw <code>bpf(2)</code> rather than aya (measured 284 KB larger), using only helpers the kernel allows outside GPL code. A test-only interpreter runs those exact instructions against 20,000 generated and damaged frames and holds them to the engine's own parser — its first run caught UDP payloads counted from the IP length instead of the UDP length. Measured on the CM4 under the same nine-stream <code>iperf3</code> load, feature on against off: <strong>0.8% of a core against 20.7%</strong>, byte totals within 0.8% of <code>iperf3</code> in both modes, and a Block rule reaching a skipped flow in 0.9–1.6 s. Profiling the release then made the lesson plain: the new once-a-second harvest was the largest cost left, and batching its map reads changed nothing — <strong>because the cost was never the system calls but the kernel walking all 16,384 hash buckets to list 111 entries</strong>. Reading only the keys the manager itself inserted, less often for idle flows, halved it.
               </p>
             </div>
           </div>
@@ -1773,10 +1780,11 @@
       <div class="dashboard-showcase-container reveal" style="margin-bottom: 2rem;">
         <div class="showcase-header">
           <span class="showcase-title">📊 On-Target Profile — Where the CPU Actually Goes</span>
-          <span class="showcase-tag">v0.9.0 · CM4 · Live Traffic</span>
+          <span class="showcase-tag">v0.9.0 vs v0.10.0 · CM4 · Live Traffic</span>
         </div>
 
         <div class="chart-figures">
+          <div class="showcase-item-title" style="grid-column: 1 / -1;">v0.9.0 — every packet reaches user space</div>
           <div>
             <div class="chart-wrap">
               <img src="assets/ancilenet_cpu_distribution.svg"
@@ -1800,8 +1808,33 @@
           </div>
         </div>
 
+        <div class="chart-figures">
+          <div class="showcase-item-title" style="grid-column: 1 / -1;">v0.10.0 — decided connections stay in the kernel</div>
+          <div>
+            <div class="chart-wrap">
+              <img src="assets/ancilenet_v010_cpu_distribution.svg"
+                   alt="Donut chart of AncileNet v0.10.0 CPU distribution by subsystem, idle wait excluded: engine inspection per packet 41.1%, LANwatch discovery 17.8%, kernel-skip harvest 11.4%, DNS server and Tokio tasks 10.9%, state files to disk 8.8%, packet ingestion via libpcap 7.0%, other 3.1%."
+                   class="chart-img" width="567" height="345" loading="lazy" decoding="async" />
+            </div>
+            <p class="chart-readout">
+              <strong>41.1%</strong> engine inspection · <strong>17.8%</strong> discovery · <strong>11.4%</strong> kernel-skip harvest · <strong>10.9%</strong> DNS server &amp; Tokio · <strong>8.8%</strong> state writes · <strong>7.0%</strong> libpcap · <strong>3.1%</strong> other. The packet path fell from 83% of the pie to 48% — <em>of a much smaller pie</em>: background work that was always there now shows, because the packet copying around it is gone.
+            </p>
+          </div>
+
+          <div>
+            <div class="chart-wrap">
+              <img src="assets/ancilenet_v010_pareto_curve.svg"
+                   alt="Pareto curve for v0.10.0 of cumulative CPU share against function rank sorted by self-time. The curve rises more slowly than in v0.9.0: the top 16 of 159 functions account for 50% of CPU and the top 82 for 80%, against 6 and 32 in v0.9.0."
+                   class="chart-img" width="600" height="371" loading="lazy" decoding="async" />
+            </div>
+            <p class="chart-readout">
+              159 functions carry self-time. Reaching <strong>50%</strong> of CPU now takes the top <strong>16</strong> (6 in v0.9.0) and <strong>80%</strong> the top <strong>82</strong> (32). A flatter curve is what removing the hot spots looks like: no single piece of code is worth optimising on its own any more. The top entry, <code>__syscall6</code> at 16.5%, is every system call through <code>musl</code>'s wrapper added together, not one function.
+            </p>
+          </div>
+        </div>
+
         <div class="showcase-caption">
-          <strong>How this profile was taken.</strong> <code>ancilenet</code> v0.9.0 built with <code>--features profile</code> for <code>aarch64-unknown-linux-musl</code>, sampling at 99 Hz via <code>setitimer(ITIMER_PROF)</code> with a frame-pointer stack walk, on the reference Raspberry Pi CM4 under live traffic. <strong>1,509 samples total; 913 of them (60.5%) were threads parked in a wait and are excluded from every share above</strong> — <code>ITIMER_PROF</code> signals the process, so a parked thread can be handed the signal and sample its own idle stack. The remaining 596 samples are the CPU figures shown. Self-time is charged to the running function, and a leaf such as <code>alloc</code> is attributed to the subsystem that called it rather than counted as a subsystem of its own. Charts produced by <code>scripts/flamegraph_analyzer.py</code> from the flamegraph SVG, recoloured here to the site palette; the underlying geometry and figures are unmodified. <em>The profiler samples CPU time only</em> — time blocked in a <code>pcap</code> read, on a lock or in I/O does not appear, so a flat graph means the CPU is idle, not that the engine is fast. The benchmark column above is from v0.7.6 and is not directly comparable: v0.9.0 costs roughly a third less CPU per packet than v0.8.2.
+          <strong>How this profile was taken.</strong> <code>ancilenet</code> v0.9.0 built with <code>--features profile</code> for <code>aarch64-unknown-linux-musl</code>, sampling at 99 Hz via <code>setitimer(ITIMER_PROF)</code> with a frame-pointer stack walk, on the reference Raspberry Pi CM4 under live traffic. <strong>1,509 samples total; 913 of them (60.5%) were threads parked in a wait and are excluded from every share above</strong> — <code>ITIMER_PROF</code> signals the process, so a parked thread can be handed the signal and sample its own idle stack. The remaining 596 samples are the CPU figures shown. Self-time is charged to the running function, and a leaf such as <code>alloc</code> is attributed to the subsystem that called it rather than counted as a subsystem of its own. Charts produced by <code>scripts/flamegraph_analyzer.py</code> from the flamegraph SVG, recoloured here to the site palette; the underlying geometry and figures are unmodified. <em>The profiler samples CPU time only</em> — time blocked in a <code>pcap</code> read, on a lock or in I/O does not appear, so a flat graph means the CPU is idle, not that the engine is fast. The benchmark column above is from v0.7.6 and is not directly comparable: v0.9.0 costs roughly a third less CPU per packet than v0.8.2. <strong>The v0.10.0 profile</strong> was taken the same way, under a nine-stream <code>iperf3</code> run with YouTube and Tubi streaming: 571 samples, 184 of them idle wait, leaving 387. Shares in the two rows are of very different totals, so compare their shape, not their size: the absolute difference is the headline figure above, 0.8% against 20.7% of a core, measured with the feature on and off under the same load. The v0.10.0 figures also use a corrected analyzer: it had dropped from the ranking any function that was mostly idle, taking that function's real CPU with it (the syscall wrapper is both a parked wait and a real call), so its Pareto curve could stop short of 100%. The v0.9.0 profile was not kept, so its published figures could not be recomputed with the fix.
         </div>
       </div>
 
