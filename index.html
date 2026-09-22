@@ -1490,7 +1490,7 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">The 1-Microsecond Performance Budget</h4>
           <p class="case-text">
-            Written in memory-safe Rust and running to 34k+ lines, AncileNet™ is a cyber-defense core built for router gateways and embedded hardware. A network security daemon riding a 10 Gbps link gets under a microsecond per packet before the kernel's buffers overflow — and AncileNet stays inside that budget while compiling down to a <strong>~7.9 MB static aarch64 binary</strong> (<code>musl</code> + <code>mimalloc</code>) that runs with near-zero overhead on Raspberry Pi CM4 targets.
+            Written in memory-safe Rust and running to ~56k lines, AncileNet™ is a cyber-defense core built for router gateways and embedded hardware. A network security daemon riding a 10 Gbps link gets under a microsecond per packet before the kernel's buffers overflow — and AncileNet stays inside that budget while compiling down to a <strong>~8.1 MB static aarch64 binary</strong> (<code>musl</code> + <code>mimalloc</code>) that runs with near-zero overhead on Raspberry Pi CM4 targets.
           </p>
 
           <div class="case-challenges">
@@ -2197,10 +2197,10 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">Notes to My Younger Self: The Wins and the Reverts</h4>
           <p class="case-text">
-            At minimum frame size, a saturated gigabit wire gives you roughly 672 ns per packet — round it to a 1-microsecond budget — and when the machine enforcing that budget is an embedded Raspberry Pi CM4, the compiler feels like an adversary long before it becomes an ally. Building AncileNet™ (45k+ lines, v0.7.6, 930+ tests) taught me that real performance work is mostly ruthless subtraction.
+            At minimum frame size, a saturated gigabit wire gives you roughly 672 ns per packet — round it to a 1-microsecond budget — and when the machine enforcing that budget is an embedded Raspberry Pi CM4, the compiler feels like an adversary long before it becomes an ally. Building AncileNet™ (~56k lines of Rust, v0.10.0, 2,045 tests) taught me that real performance work is mostly ruthless subtraction — and that the biggest subtraction of all is <strong>not running the code</strong>: v0.10.0 does the same job on <strong>26× less CPU</strong> because most packets never leave the kernel.
           </p>
           <p class="case-text case-note">
-            <em>A note on the numbers below:</em> the per-packet timings and throughput deltas come from Criterion benchmarks on an x86_64 dev machine, not the CM4 — they show the direction and size of each change, not the target hardware's absolute ceiling. The CM4-specific evidence is the capture ring: a saturated link went from ~33% buffer drops to zero.
+            <em>A note on the numbers below:</em> the early per-packet timings come from Criterion benchmarks on an x86_64 dev machine and show the direction and size of each change, not the CM4's ceiling. Everything from v0.8.3 on was measured on the router itself — with an on-device profiler, or with a feature switched on and then off under the same load.
           </p>
 
           <div class="case-challenges">
@@ -2210,7 +2210,10 @@
                 <strong>Zero-Copy Stack Lifetimes:</strong> slicing raw frames (<code>&amp;'a [u8]</code>) straight off DMA ring buffers kept the hot path 100% allocation-free.<br />
                 <strong>Dual-Plane Kernel Offload:</strong> O(1) CIDR drops installed at kernel <code>prerouting</code> priority -300, ahead of conntrack, paired with userspace NFQueue heuristics.<br />
                 <strong>Privacy-First Cryptographic Profiling:</strong> pairing JA4/JA4S TLS client-server fingerprints removed any need for invasive MITM decryption.<br />
-                <strong>Proactive NatJack Defense:</strong> automated <code>/proc/sys</code> kernel posture checks (<code>/api/posture</code>) plus real-time LAN address-conflict alerts (<code>ip_mac_conflict</code>), aimed at the modern NAT attack classes covered at Black Hat USA 2026 (CVE-2026-56179 / CVE-2026-56181 / CVE-2026-63913).
+                <strong>Proactive NatJack Defense:</strong> automated <code>/proc/sys</code> kernel posture checks (<code>/api/posture</code>) plus real-time LAN address-conflict alerts (<code>ip_mac_conflict</code>), aimed at the modern NAT attack classes covered at Black Hat USA 2026 (CVE-2026-56179 / CVE-2026-56181 / CVE-2026-63913).<br />
+                <strong>Counting in the Kernel, Not Copying Out of It:</strong> once a connection is decided, an eBPF socket filter counts its packets in a kernel map instead of delivering them — <strong>99.3% of packets stay in the kernel and CPU falls from 20.7% to 0.8% of a core</strong> under the same load, with byte totals and JA4 fingerprints unchanged. 186 hand-assembled instructions, JIT-compiled to 1,168 bytes, loaded through raw <code>bpf(2)</code> because aya measured 284 KB larger.<br />
+                <strong>A Profiler That Runs on the Target:</strong> OpenWrt ships without <code>perf</code>, so the engine carries its own <code>setitimer</code>-based sampler. Every major win since v0.8.3 was found in a flamegraph taken on the CM4 — the first one found 38% of the CPU in device discovery — and v0.9.0 cut per-packet CPU by a third across fourteen of them.<br />
+                <strong>Running the Real Kernel Program in the Tests:</strong> a test-only eBPF interpreter executes the exact instructions the router runs against 20,000 generated and damaged frames. Its first run caught UDP payloads counted from the IP length instead of the UDP length — a bug the kernel would have run silently for ever.
               </p>
             </div>
             
@@ -2218,18 +2221,20 @@
               <h4>02. What I Got Wrong, and What I Didn't Build</h4>
               <p>
                 <strong>Benchmarks Blind to the Feature:</strong> a single runtime-policy rule — the product's headline parental-control feature — cost <strong>42%</strong> of packet throughput, and ten rules cost <strong>63%</strong>. None of the benchmark workloads initialized a policy store, so every run exercised the rules-disabled fast path and the regression went unnoticed. Fixing the <em>benchmark</em> first, then normalizing rule targets once at load and matching against borrowed slices, took the ten-rule case from 20 heap allocations per packet to zero — a <strong>+52.5% cumulative</strong> gain across six changes in that pass.<br />
+                <strong>Blocking One Site Took the Whole Device Offline:</strong> blocking YouTube on one laptop cost that laptop <em>all</em> of its internet, and cost the router <strong>64.67%</strong> of every packet it carried for every device. A Block banned the source of whichever packet matched — and on an outbound packet, that source is the device. Blocks are now keyed on the conversation, not an endpoint: only the blocked service stops.<br />
+                <strong>Post-Quantum TLS Broke Fingerprinting Without a Single Error:</strong> an ML-KEM key share pushes a browser's ClientHello to ~1.9 KiB, past one TCP segment and past one QUIC packet. The parser saw a header promising more bytes than it was given and quietly returned nothing — no JA4, no server name. It hid because AncileNet is also the resolver, so DNS kept naming the flows. Handshakes are now reassembled by sequence number, and QUIC Initial packets decrypted per RFC 9001.<br />
+                <strong>Three Deployments Spent on the Wrong Theory:</strong> when QUIC server names came back empty on the live network, I reasoned from the code — a size cap, then a capture gap — and shipped three fixes for problems that did not exist. One counter recording <em>what was inside the packets</em> named the real bug on its first reading. Now every failure counter names a cause, and the router is asked before the code is.<br />
+                <strong>Optimizing the Cost I Assumed:</strong> profiling v0.10.0 showed its once-a-second harvest was the largest cost left, apparently from ~720 system calls a second. Batching them into a handful changed almost nothing (15.7% → 14.5%) — which was the useful result: the cost was the kernel walking all <strong>16,384 hash buckets to list 111 entries</strong>, however it was asked. Reading only the keys the manager itself inserted, less often for idle flows, halved it.<br />
+                <strong>When the Profiler Itself Lies:</strong> my own analyzer billed 7% of CPU to the dashboard with no browser open — a task's type name carried <code>portal::frontend</code> into every future polled inside it — and its Pareto curve stopped at 83%, because functions that were mostly idle were dropped along with their real work. A chart is a claim like any other; it gets checked against the raw stacks.<br />
                 <strong>The Optimization That Wasn't:</strong> hand-packing <code>FlowKey</code>'s derived <code>Hash</code> into a single <code>write</code>, instead of the usual five hasher writes, looked like a clear win. It measured <strong>14.3% slower</strong> and got reverted. That negative result now sits in the test's doc comment, so the next person with the same idea finds the measurement instead of redoing the work.<br />
-                <strong>On-Device Threat Feed Parsing:</strong> compiling multi-megabyte blocklists directly on router RAM caused memory spikes. Moving that work to an upstream release pipeline — ed25519-signed manifests, precompiled Bloom/FST filters — fixed it for good.<br />
-                <strong>Silent DNS Dropping:</strong> a silently dropped packet means a 5–10s browser hang. Injecting a synthetic <code>NXDOMAIN</code> (RCODE=3) instead gives a clean 0 ms fallback.<br />
-                <strong>Fixed-Size Ring Buffers:</strong> a statically sized buffer dropped ~33% of packets on a saturated link; deriving the capture buffer from system RAM at startup instead brought that to zero.<br />
-                <strong>The Feature I Didn't Build:</strong> once you're measuring drops, a ring that resizes itself under load looks like the obvious next step — and it would have been a vulnerability instead. <code>pcap_set_buffer_size</code> only accepts an inactive handle, so any resize means reopening capture and dropping packets during the gap; a control loop driven by load would hand an attacker a window of degraded inspection for nothing more than a traffic burst. So the ring is sized once, at startup, and left alone after that. Sustained loss instead produces a specific recommendation, and distinguishes buffer overrun — where a bigger ring would help — from interface-level drops, where it wouldn't.
+                <strong>The Feature I Didn't Build:</strong> once you're measuring drops, a ring that resizes itself under load looks like the obvious next step — and it would have been a vulnerability instead. <code>pcap_set_buffer_size</code> only accepts an inactive handle, so any resize means reopening capture and dropping packets during the gap; a control loop driven by load would hand an attacker a window of degraded inspection for nothing more than a traffic burst. So the ring is sized once, at startup, from system memory — which took a saturated link from ~33% buffer drops to zero — and left alone after that.
               </p>
             </div>
 
             <div class="challenge-item">
               <h4>03. The Core Takeaway</h4>
               <p>
-                Line rate inside a ~7.9 MB binary on embedded hardware doesn't come from stacking abstractions — it comes from respecting the hardware, killing lock contention before it can start, and designing with mechanical sympathy in mind.
+                Line rate inside a ~8.1 MB static binary on embedded hardware doesn't come from stacking abstractions — it comes from respecting the hardware, killing lock contention before it can start, and designing with mechanical sympathy in mind. The largest single win was not making code faster but <strong>not running it</strong>: leave a decided packet in the kernel and it costs almost nothing. And not one of the wins since v0.8.3 came from reasoning about the code — every one was found by measuring the router.
               </p>
             </div>
           </div>
@@ -2240,20 +2245,20 @@
           <h4 class="case-sub-title">Production Footprint</h4>
           <div class="metrics-grid">
             <div class="metric-card">
-              <div class="metric-val">937 <span class="metric-unit">Tests</span></div>
-              <div class="metric-label">100% passing test suite (unit, integration &amp; seeded fuzz)</div>
+              <div class="metric-val">2,045 <span class="metric-unit">Tests</span></div>
+              <div class="metric-label">100% passing: unit, integration, seeded fuzz and an eBPF interpreter</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">~7.9 <span class="metric-unit">MB</span></div>
-              <div class="metric-label">Static Musl + Mimalloc zero-dependency binary size</div>
+              <div class="metric-val">~8.1 <span class="metric-unit">MB</span></div>
+              <div class="metric-label">Static musl + mimalloc aarch64 binary, eBPF loader included</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">45k+ <span class="metric-unit">LOC</span></div>
-              <div class="metric-label">Memory-safe Rust with zero hot-path heap allocations</div>
+              <div class="metric-val">~56k <span class="metric-unit">LOC</span></div>
+              <div class="metric-label">Memory-safe Rust (46.8k lines of code) with zero hot-path heap allocations</div>
             </div>
             <div class="metric-card">
-              <div class="metric-val">0 <span class="metric-unit">Drops</span></div>
-              <div class="metric-label">Memory-derived capture ring sizing on RPi CM4</div>
+              <div class="metric-val">26× <span class="metric-unit">Less CPU</span></div>
+              <div class="metric-label">Decided connections counted in the kernel: 0.8% vs 20.7% of a CM4 core</div>
             </div>
           </div>
 
@@ -2288,6 +2293,24 @@
               <span class="comp-label">NAT Attack Defense</span>
               <span class="comp-val legacy">Unaudited Kernel</span>
               <span class="comp-val optimized">NatJack Posture</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Decided Traffic</span>
+              <span class="comp-val legacy">Copied to User Space</span>
+              <span class="comp-val optimized">Counted in Kernel (eBPF)</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Blocking a Service</span>
+              <span class="comp-val legacy">Device Banned</span>
+              <span class="comp-val optimized">Conversation Rejected</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Performance Evidence</span>
+              <span class="comp-val legacy">Desktop Benchmarks</span>
+              <span class="comp-val optimized">On-Target Profiler</span>
             </div>
           </div>
         </div>
