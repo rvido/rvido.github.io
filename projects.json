@@ -1,23 +1,23 @@
 [
   {
-    "name": "LANwatch",
-    "lang": "rust",
-    "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, LLMNR, NetBIOS (NBNS), WS-Discovery (WSD), CoAP, Matter, KNXnet/IP, MQTT, Plex GDM, IP Camera discovery (SADP, Dahua, RTSP), link-layer frames (ARP, NDP, LLDP, CDP), and IEEE OUI vendor identification.",
-    "url": "https://github.com/rvido/LANwatch",
-    "stars": 6,
-    "forks": 2,
+    "name": "iManager",
+    "lang": "c",
+    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
+    "url": "https://github.com/rvido/iManager",
+    "stars": 28,
+    "forks": 9,
     "tags": [
       "Open Source"
     ],
     "status": "public"
   },
   {
-    "name": "iManager",
-    "lang": "c",
-    "desc": "Advantech iManager Linux driver set for Advantech Embedded Boards",
-    "url": "https://github.com/rvido/iManager",
-    "stars": 27,
-    "forks": 9,
+    "name": "LANwatch",
+    "lang": "rust",
+    "desc": "A Rust library and CLI tool for network device discovery and tracking via DHCP, mDNS, SSDP/UPnP, LLMNR, NetBIOS (NBNS), WS-Discovery (WSD), CoAP, Matter, KNXnet/IP, MQTT, Plex GDM, IP Camera discovery (SADP, Dahua, RTSP), link-layer frames (ARP, NDP, LLDP, CDP), and IEEE OUI vendor identification.",
+    "url": "https://github.com/rvido/LANwatch",
+    "stars": 6,
+    "forks": 2,
     "tags": [
       "Open Source"
     ],
