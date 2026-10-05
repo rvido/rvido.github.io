@@ -1,5 +1,17 @@
 [
   {
+    "name": "NetOrigin",
+    "lang": "rust",
+    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
+    "url": "https://github.com/rvido/NetOrigin",
+    "stars": 1,
+    "forks": 0,
+    "tags": [
+      "Open Source"
+    ],
+    "status": "public"
+  },
+  {
     "name": "whois-rdap",
     "lang": "rust",
     "desc": "A simple command-line tool to query RDAP servers for IP address information.",
@@ -64,18 +76,6 @@
     "lang": "c++",
     "desc": "A lightweight, zero-heap memory allocation, reallocation, and deallocation tracer for C99 and C++11+. It detects leaks and tracks peak memory usage dynamically at runtime, without relying on any heap allocation for its own bookkeeping.",
     "url": "https://github.com/rvido/memtracer",
-    "stars": 1,
-    "forks": 0,
-    "tags": [
-      "Open Source"
-    ],
-    "status": "public"
-  },
-  {
-    "name": "NetOrigin",
-    "lang": "rust",
-    "desc": "NetOrigin is a small Rust CLI for retrieving network ownership data and IP ranges.",
-    "url": "https://github.com/rvido/NetOrigin",
     "stars": 1,
     "forks": 0,
     "tags": [
