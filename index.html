@@ -2665,7 +2665,9 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  // Trigger on any overlap (not a 10% ratio): very tall blocks like Case
+  // Study 01 are ~14,000px on phones, so 10% of them never fits on screen.
+  }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   loadProjects();
