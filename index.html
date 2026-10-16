@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Richard Vidal-Dorsch — Senior Rust & Embedded Software Engineer</title>
-  <meta name="description" content="Richard Vidal-Dorsch — Senior Rust and embedded software engineer in Costa Mesa, CA. Linux kernel drivers, embedded Linux BSPs, Rust systems libraries, and fast CLI tooling." />
+  <title>Richard Vidal-Dorsch — Principal Embedded & Rust Software Engineer</title>
+  <meta name="description" content="Richard Vidal-Dorsch — Principal embedded and Rust software engineer in Costa Mesa, CA. 20+ years of performance-critical systems: production Rust, embedded Linux, Linux kernel drivers, and network security." />
   <meta name="author" content="Richard Vidal-Dorsch" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#070d18" />
@@ -14,12 +14,12 @@
   <meta property="og:type" content="profile" />
   <meta property="og:site_name" content="Richard Vidal-Dorsch" />
   <meta property="og:url" content="https://rvido.github.io/" />
-  <meta property="og:title" content="Richard Vidal-Dorsch — Senior Rust &amp; Embedded Software Engineer" />
-  <meta property="og:description" content="Linux kernel drivers, embedded Linux BSPs, Rust systems libraries, and fast CLI tooling — low-level software built to ship." />
-  <meta property="og:image" content="https://rvido.github.io/assets/og-image.jpg" />
+  <meta property="og:title" content="Richard Vidal-Dorsch — Principal Embedded &amp; Rust Software Engineer" />
+  <meta property="og:description" content="Production Rust, embedded Linux, kernel drivers, and network security — 20+ years of performance-critical systems built to ship." />
+  <meta property="og:image" content="https://rvido.github.io/assets/og-image.jpg?v=2" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Richard Vidal-Dorsch — Senior Rust &amp; Embedded Software Engineer" />
+  <meta property="og:image:alt" content="Richard Vidal-Dorsch — Principal Embedded &amp; Rust Software Engineer" />
   <meta property="og:locale" content="en_US" />
   <meta property="profile:first_name" content="Richard" />
   <meta property="profile:last_name" content="Vidal-Dorsch" />
@@ -27,10 +27,10 @@
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Richard Vidal-Dorsch — Senior Rust &amp; Embedded Software Engineer" />
-  <meta name="twitter:description" content="Linux kernel drivers, embedded Linux BSPs, Rust systems libraries, and fast CLI tooling — low-level software built to ship." />
-  <meta name="twitter:image" content="https://rvido.github.io/assets/og-image.jpg" />
-  <meta name="twitter:image:alt" content="Richard Vidal-Dorsch — Senior Rust &amp; Embedded Software Engineer" />
+  <meta name="twitter:title" content="Richard Vidal-Dorsch — Principal Embedded &amp; Rust Software Engineer" />
+  <meta name="twitter:description" content="Production Rust, embedded Linux, kernel drivers, and network security — 20+ years of performance-critical systems built to ship." />
+  <meta name="twitter:image" content="https://rvido.github.io/assets/og-image.jpg?v=2" />
+  <meta name="twitter:image:alt" content="Richard Vidal-Dorsch — Principal Embedded &amp; Rust Software Engineer" />
 
   <script type="application/ld+json">
   {
@@ -39,9 +39,10 @@
     "name": "Richard Vidal-Dorsch",
     "alternateName": "rvido",
     "url": "https://rvido.github.io/",
-    "image": "https://rvido.github.io/assets/og-image.jpg",
-    "jobTitle": "Senior Rust & Embedded Software Engineer",
-    "description": "Systems engineer specializing in Rust, embedded Linux, kernel driver development, and CLI tooling.",
+    "image": "https://rvido.github.io/assets/og-image.jpg?v=2",
+    "jobTitle": ["Founder & Principal Software Engineer", "Principal Embedded & Rust Software Engineer"],
+    "worksFor": { "@type": "Organization", "name": "AncileNet" },
+    "description": "Principal-level embedded software engineer specializing in production Rust, C/C++, embedded Linux, Linux kernel development, and network security.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Costa Mesa",
@@ -54,8 +55,9 @@
       "Linux kernel drivers",
       "C",
       "C++",
-      "Networking",
-      "CLI tooling"
+      "Real-time operating systems",
+      "Network security",
+      "eBPF"
     ],
     "sameAs": [
       "https://github.com/rvido",
@@ -1308,6 +1310,45 @@
 
       .dashboard-showcase-container:hover .showcase-img { transform: none; }
     }
+
+    /* ── image zoom (lightbox) ── */
+    .showcase-img, .chart-img { cursor: zoom-in; }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      overflow: auto;
+      background: rgba(2, 5, 10, 0.94);
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      margin: auto;
+      max-width: 96vw;
+      max-height: 92vh;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+    /* Second click: actual pixels, scroll to pan. */
+    .lightbox.full img { max-width: none; max-height: none; cursor: zoom-out; }
+
+    .lightbox-close {
+      position: fixed;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: rgba(7, 13, 24, 0.9);
+      color: var(--cyan);
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -1335,14 +1376,14 @@
         <span class="status-dot"></span>
         <span class="status-text">Available for selective contracts</span>
       </div>
-      <p class="hero-tag">// engineer · builder · systems thinker</p>
+      <p class="hero-tag">// founder · engineer · systems thinker</p>
       <h1 class="hero-name">
         <span class="first">Richard </span><br />
         <span class="last">Vidal-Dorsch</span>
       </h1>
-      <p class="hero-title">Senior Rust &amp; Embedded Software Engineer</p>
+      <p class="hero-title">Principal Embedded &amp; Rust Software Engineer</p>
       <p class="hero-bio">
-        I'm a systems engineer by nature and a Rust enthusiast by choice, building low-level software that actually ships — embedded Linux drivers for industrial hardware, high-performance CLI tools, network utilities. My work sits at the intersection of bare-metal hardware and modern software craftsmanship: code written to run reliably in places where a crash simply isn't an option.
+        I've spent 20+ years building resource-constrained, performance-critical systems — from bootloaders, BSPs and Linux kernel drivers to production Rust. I founded AncileNet™ and built its ~56,000-line Rust network security engine, which sustains 1.61 million packets/s on a quad-core Cortex-A72. I work at both ends: system architecture and technical leadership, and the hands-on code underneath — written to run reliably in places where a crash simply isn't an option.
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -1375,24 +1416,24 @@
 <div class="milestones-bar reveal" role="group" aria-label="Career highlights">
   <div class="milestones-inner">
     <div class="milestone-item">
-      <span class="milestone-icon" aria-hidden="true">🐧</span>
+      <span class="milestone-icon" aria-hidden="true">🛡️</span>
       <div class="milestone-content">
-        <span class="milestone-title">Kernel Contributor</span>
-        <span class="milestone-desc">Wrote and upstreamed driver patches for Advantech's iManager</span>
+        <span class="milestone-title">Founder, AncileNet™</span>
+        <span class="milestone-desc">Founded and built a Rust network security engine for routers and Android phones</span>
       </div>
     </div>
     <div class="milestone-item">
       <span class="milestone-icon" aria-hidden="true">🦀</span>
       <div class="milestone-content">
-        <span class="milestone-title">Rust Systems Architect</span>
-        <span class="milestone-desc">Built concurrent network utility libraries and CLI applications</span>
+        <span class="milestone-title">Rust at Line Rate</span>
+        <span class="milestone-desc">1.61M packets/s on a quad-core Cortex-A72; 26× less CPU with an eBPF filter</span>
       </div>
     </div>
     <div class="milestone-item">
-      <span class="milestone-icon" aria-hidden="true">🎤</span>
+      <span class="milestone-icon" aria-hidden="true">🐧</span>
       <div class="milestone-content">
-        <span class="milestone-title">ELC Community</span>
-        <span class="milestone-desc">Regular participant across the Embedded Linux Conference community</span>
+        <span class="milestone-title">Kernel Contributor</span>
+        <span class="milestone-desc">Wrote and upstreamed Advantech's iManager drivers; Embedded Linux Conference regular</span>
       </div>
     </div>
   </div>
@@ -2188,6 +2229,194 @@
       </div>
     </div>
 
+    <div class="case-study-block reveal" style="margin-bottom: 5rem;">
+      <h3 class="case-block-header">Case Study 05: AncileNet™ Mobile — The Router Engine, Inside an Android Phone</h3>
+
+      <div class="case-study-grid">
+        <!-- Description Column -->
+        <div class="case-study-content">
+          <h4 class="case-sub-title">One Rust Core, From the Router to the Pocket</h4>
+          <p class="case-text">
+            A router only protects a phone while the phone is on the home Wi-Fi. AncileNet™ Mobile is a parental-control app that takes the same Rust engine off the router and runs it on the phone itself, inside a full on-device tunnel. Every packet from every app passes through the engine on the phone — on Wi-Fi, on mobile data, at school or at a friend's house. It ships first on Android (10 and newer); the iOS shell (<code>NEPacketTunnelProvider</code>) follows. The app is Flutter, with a Kotlin <code>VpnService</code> shell and a thin Rust FFI crate (UniFFI) over the AncileNet core, built for <code>arm64-v8a</code>, 32-bit <code>armeabi-v7a</code> and <code>x86_64</code>.
+          </p>
+
+          <div class="case-challenges">
+            <div class="challenge-item">
+              <h4>01. A Whole-Phone Tunnel in User Space</h4>
+              <p>
+                Android hands the app a TUN file descriptor that carries all IPv4 and IPv6 traffic; Kotlin passes it to Rust, where <code>ipstack</code> turns raw packets back into streams and opens one real socket per flow. The app excludes itself from its own VPN so its sockets do not loop back in. Two traps came out of testing: <code>ipstack</code> blocks a runtime worker while a TCP stream drops, so the tunnel runs a 2-worker runtime and ends every flow before shutdown; and a LAN with local-only IPv6 broke apps, so the tunnel now carries IPv6 only after a route probe proves a real global IPv6 upstream.
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>02. Block at Once, and Close the Encrypted-DNS Side Door</h4>
+              <p>
+                The engine judges every packet. A blocked packet is answered at once — NXDOMAIN for DNS, a TCP reset, or ICMP — so apps fail fast instead of waiting for a timeout. DNS is answered inside the tunnel and forwarded to the current network's own resolvers, not a fixed public one, so the phone and an AncileNet router work together. DNS over TLS, HTTPS and QUIC are refused, so an app cannot route around the filter. The ad-and-tracker, VPN-service, harmful-site and encrypted-DNS block lists are the same signed releases the router uses, memory-mapped so they cost only the pages a lookup touches.
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>03. Hard to Switch Off: Standard and Protected Modes</h4>
+              <p>
+                A filter a child can turn off is not a filter. In Standard mode, device admin blocks uninstall, a parent PIN (PBKDF2, growing lockout) guards Stop, and a VPN "Disconnect" from Settings is recorded and undone after 2 s. Protected mode goes further: a newly reset phone scans a QR code during setup and makes AncileNet™ the device owner. Then VPN settings, Private DNS, uninstall, safe mode, new users and factory reset from Settings are locked, and Always-on VPN runs in lockdown, with no internet outside the tunnel. Only the parent's PIN removes the locks.
+              </p>
+            </div>
+
+            <div class="challenge-item">
+              <h4>04. One App, Two Roles</h4>
+              <p>
+                The same app is the parent's console and the child's guard. The parent sets time limits, app locks and allow lists; a relay server carries the policy, and a push wakes the child's phone to sync at once — <strong>0.8 s from the parent's save to the policy fetch</strong> on a locked Pixel 2. The parent hears when a new app is installed or a child's phone is reset, and a "Just me" mode protects one's own phone with no family, account or relay at all.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics Grid Column -->
+        <div class="case-study-metrics">
+          <h4 class="case-sub-title">Measured on a Pixel 10</h4>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-val">~0.5% <span class="metric-unit">Speed Cost</span></div>
+              <div class="metric-label">552 vs. 555 Mbps down in the Speedtest app, tunnel on vs. off; upload unchanged at 23.9 Mbps</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">1.0 MiB <span class="metric-unit">Heap Peak</span></div>
+              <div class="metric-label">Rust heap at its peak during a 550 Mbps speed test through the tunnel</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">~1% <span class="metric-unit">One Core</span></div>
+              <div class="metric-label">37 s of CPU in an hour of normal use: screen on, 43 min of video, 491 MB in</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">&lt;0.2% <span class="metric-unit">Battery</span></div>
+              <div class="metric-label">The app's share of that hour's battery drain, per Android's own estimate</div>
+            </div>
+          </div>
+
+          <div class="comparison-container">
+            <div class="comparison-header">Same Engine: Router vs. Phone</div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Packet Source</span>
+              <span class="comp-val legacy">libpcap</span>
+              <span class="comp-val optimized">VpnService TUN + ipstack</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Where It Protects</span>
+              <span class="comp-val legacy">Home Network</span>
+              <span class="comp-val optimized">Any Network</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Binary</span>
+              <span class="comp-val legacy">Static aarch64 musl</span>
+              <span class="comp-val optimized">.so for 3 Android ABIs</span>
+            </div>
+
+            <div class="comparison-row">
+              <span class="comp-label">Rule Databases</span>
+              <span class="comp-val legacy">Signed Releases</span>
+              <span class="comp-val optimized">Same, Memory-Mapped</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AncileNet Mobile App Showcase -->
+      <div class="dashboard-showcase-container" style="margin-top: 3rem;">
+        <div class="showcase-header">
+          <span class="showcase-title">📱 AncileNet™ Mobile — Parent &amp; Child Screens</span>
+          <span class="showcase-tag">Flutter UI · Android 10+</span>
+        </div>
+        <div class="showcase-grid">
+          <div class="showcase-item">
+            <div class="showcase-item-title">Parent — Your Family</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_mobile_family_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_mobile_family_showcase.jpg" alt="AncileNet Mobile parent screen “Your family”: an “All set” card for 1 child and 1 phone, the child Emma, and “This phone” marked Protected, with an “Add a child” button." class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">Child — Today’s Screen Time</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_mobile_today_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_mobile_today_showcase.jpg" alt="AncileNet Mobile Today tab for the child Emma: 29 minutes on a Pixel 2 today, split by app — Mansion Tale 25 min, Chrome 3 min, WhatsApp and Google Play Store 0 min." class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">Child — Rules</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_mobile_rules_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_mobile_rules_showcase.jpg" alt="AncileNet Mobile Rules tab for Emma with four rule types: Internet off (offline times like bedtime), Daily limits (screen time a day, then the app locks until midnight), Blocked (apps and websites that never work) and Always allowed." class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">Child — Requests</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_mobile_requests_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_mobile_requests_showcase.jpg" alt="AncileNet Mobile Requests tab for Emma, empty: when the child asks for more time or a blocked app or website, it shows here and in the parent’s notifications." class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">Child — Phones</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_mobile_phones_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_mobile_phones_showcase.jpg" alt="AncileNet Mobile Phones tab for Emma: a Pixel 2 with rules up to date, last seen 20:30, and a “Set up a phone” button." class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">This Phone — Protected</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_mobile_protection_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_mobile_protection_showcase.jpg" alt="AncileNet Mobile “This phone” screen: Protected, 38 blocked today, recent ad and tracker domains such as google-analytics.com and doubleclick.net, a Protect this phone switch, and the parent’s own block and allow lists." class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">Recently Blocked</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_mobile_blocked_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_mobile_blocked_showcase.jpg" alt="AncileNet Mobile “Recently blocked” list of ad and tracker domains with times and an Allow button on each, with a note that some games give a reward only after an ad." class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+          <div class="showcase-item">
+            <div class="showcase-item-title">About — Signed Block Lists</div>
+            <div class="showcase-image-wrap">
+              <picture>
+                <source srcset="assets/ancilenet_mobile_about_showcase.webp" type="image/webp" />
+                <img src="assets/ancilenet_mobile_about_showcase.jpg" alt="AncileNet Mobile About screen, version 1.0.21: four block lists with release numbers and check times — ads and trackers, VPN and proxy services, harmful sites, encrypted DNS servers — plus Report a problem, Block list sources and Licences." class="showcase-img"
+                     width="1376" height="768" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-caption">
+          <strong>One app, two roles:</strong> the parent&rsquo;s family view and a child&rsquo;s Today, Rules, Requests and Phones tabs; then the phone&rsquo;s own protection, the list of what was blocked, and the four signed block lists the engine checks for updates.
+        </div>
+      </div>
+    </div>
+
     <!-- RETROSPECTIVE: ANCILENET MEMOIRS -->
     <div class="case-study-block reveal">
       <h3 class="case-block-header">Engineering Memoirs: Building AncileNet™ from Zero to Line-Rate</h3>
@@ -2762,6 +2991,60 @@
       announce("Copy failed. Email address is " + decryptedEmail);
     });
   };
+
+  // ── Image zoom ────────────────────────────────────────────
+  // Click a screenshot or chart to open it full screen; click the
+  // image again for actual pixels (scroll to pan); Esc, ✕ or the
+  // backdrop closes it.
+  (() => {
+    const box = document.createElement('div');
+    box.className = 'lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-label', 'Enlarged image');
+    box.innerHTML = '<button type="button" class="lightbox-close" aria-label="Close">✕</button><img alt="" />';
+    document.body.appendChild(box);
+    const big = box.querySelector('img');
+    const closeBtn = box.querySelector('.lightbox-close');
+    let opener = null;
+
+    const open = (img) => {
+      opener = img;
+      big.src = img.currentSrc || img.src;
+      big.alt = img.alt;
+      box.classList.remove('full');
+      box.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    };
+    const close = () => {
+      box.classList.remove('open', 'full');
+      document.body.style.overflow = '';
+      if (opener) opener.focus();
+    };
+
+    document.querySelectorAll('.showcase-img, .chart-img').forEach(img => {
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.addEventListener('click', () => open(img));
+      img.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(img); }
+      });
+    });
+
+    big.addEventListener('click', e => {
+      e.stopPropagation();
+      // Only zoom further when the screen is showing the image scaled down.
+      if (box.classList.contains('full') || big.naturalWidth > big.clientWidth + 1) {
+        box.classList.toggle('full');
+      }
+    });
+    box.addEventListener('click', close);
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && box.classList.contains('open')) close();
+    });
+  })();
 </script>
 
 </body>
