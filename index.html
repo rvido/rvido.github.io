@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Richard Vidal-Dorsch — Principal Embedded & Rust Software Engineer</title>
-  <meta name="description" content="Richard Vidal-Dorsch — Principal embedded and Rust software engineer in Costa Mesa, CA. 20+ years of performance-critical systems: production Rust, embedded Linux, Linux kernel drivers, and network security." />
+  <meta name="description" content="Richard Vidal-Dorsch, AncileNet founder: privacy-first Rust threat detection and blocking at 1.61M packets/s on an off-the-shelf Raspberry Pi. 20+ years of embedded Linux." />
   <meta name="author" content="Richard Vidal-Dorsch" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#070d18" />
@@ -15,7 +15,7 @@
   <meta property="og:site_name" content="Richard Vidal-Dorsch" />
   <meta property="og:url" content="https://rvido.github.io/" />
   <meta property="og:title" content="Richard Vidal-Dorsch — Principal Embedded &amp; Rust Software Engineer" />
-  <meta property="og:description" content="Production Rust, embedded Linux, kernel drivers, and network security — 20+ years of performance-critical systems built to ship." />
+  <meta property="og:description" content="Privacy-first threat detection and blocking in Rust that runs on off-the-shelf routers and phones — 1.61M packets/s on a Raspberry Pi CM4. 20+ years of embedded Linux." />
   <meta property="og:image" content="https://rvido.github.io/assets/og-image.jpg?v=2" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -28,7 +28,7 @@
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Richard Vidal-Dorsch — Principal Embedded &amp; Rust Software Engineer" />
-  <meta name="twitter:description" content="Production Rust, embedded Linux, kernel drivers, and network security — 20+ years of performance-critical systems built to ship." />
+  <meta name="twitter:description" content="Privacy-first threat detection and blocking in Rust that runs on off-the-shelf routers and phones — 1.61M packets/s on a Raspberry Pi CM4. 20+ years of embedded Linux." />
   <meta name="twitter:image" content="https://rvido.github.io/assets/og-image.jpg?v=2" />
   <meta name="twitter:image:alt" content="Richard Vidal-Dorsch — Principal Embedded &amp; Rust Software Engineer" />
 
@@ -42,7 +42,7 @@
     "image": "https://rvido.github.io/assets/og-image.jpg?v=2",
     "jobTitle": ["Founder & Principal Software Engineer", "Principal Embedded & Rust Software Engineer"],
     "worksFor": { "@type": "Organization", "name": "AncileNet" },
-    "description": "Principal-level embedded software engineer specializing in production Rust, C/C++, embedded Linux, Linux kernel development, and network security.",
+    "description": "Founder of AncileNet. Builds privacy-first threat detection and blocking in Rust that runs on off-the-shelf routers and phones, backed by 20+ years of embedded Linux and kernel drivers.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Costa Mesa",
@@ -1383,7 +1383,7 @@
       </h1>
       <p class="hero-title">Principal Embedded &amp; Rust Software Engineer</p>
       <p class="hero-bio">
-        I've spent 20+ years building resource-constrained, performance-critical systems — from bootloaders, BSPs and Linux kernel drivers to production Rust. I founded AncileNet™ and built its ~56,000-line Rust network security engine, which sustains 1.61 million packets/s on a quad-core Cortex-A72. I work at both ends: system architecture and technical leadership, and the hands-on code underneath — written to run reliably in places where a crash simply isn't an option.
+        Most threat-filtering products need strong hardware, ship as huge apps, and collect your data. I build the opposite. I founded AncileNet™ and built its Rust threat detection engine: an 8.1 MB binary that inspects 1.61 million packets/s on an off-the-shelf Raspberry Pi CM4 — privacy-first, with no decryption of your traffic. Before that, I cut VPN crashes by about 80% at Aura, and took firmware releases for T-Mobile, Sky and Netgear from a full day to 30–40 minutes at Circle. Behind it all: 20+ years of embedded Linux and kernel drivers.
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -1413,7 +1413,7 @@
       <span class="milestone-icon" aria-hidden="true">🛡️</span>
       <div class="milestone-content">
         <span class="milestone-title">Founder, AncileNet™</span>
-        <span class="milestone-desc">Founded and built a Rust network security engine for routers and Android phones</span>
+        <span class="milestone-desc">Founded and built a Rust threat detection and blocking engine for routers and Android phones</span>
       </div>
     </div>
     <div class="milestone-item">
@@ -1449,19 +1449,7 @@
       <div class="skill-card reveal">
         <div class="skill-icon" aria-hidden="true">⚙️</div>
         <div class="skill-name">Embedded Linux</div>
-        <div class="skill-desc">Kernel driver development, BSP integration, and firmware work for industrial embedded boards and SoCs.</div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-icon" aria-hidden="true">🌐</div>
-        <div class="skill-name">Networking</div>
-        <div class="skill-desc">DHCP, mDNS, RDAP/WHOIS, IEEE-OUI — tools for discovering, identifying, and monitoring devices on a network.</div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-icon" aria-hidden="true">🔐</div>
-        <div class="skill-name">Security</div>
-        <div class="skill-desc">Identity protection and secure systems design, bringing engineering rigor to privacy and digital-security problems.</div>
+        <div class="skill-desc">Kernel drivers, BSPs, U-Boot and OpenWrt — from industrial embedded boards to router gateways, with drivers upstreamed to the Linux kernel.</div>
       </div>
 
       <div class="skill-card reveal">
@@ -1471,9 +1459,33 @@
       </div>
 
       <div class="skill-card reveal">
-        <div class="skill-icon" aria-hidden="true">🛠️</div>
-        <div class="skill-name">CLI Tooling</div>
-        <div class="skill-desc">Designing command-line interfaces and developer tools that are fast, composable, and genuinely pleasant to use.</div>
+        <div class="skill-icon" aria-hidden="true">🌐</div>
+        <div class="skill-name">Networking</div>
+        <div class="skill-desc">Packet capture and parsing at line rate — raw sockets, PACKET_MMAP, libpcap, TCP/IP, DNS, QUIC and WireGuard.</div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-icon" aria-hidden="true">🔍</div>
+        <div class="skill-name">Threat Detection &amp; Blocking</div>
+        <div class="skill-desc">JA4/JA4S TLS fingerprinting without decryption, eBPF socket filters, nftables enforcement and signed block lists.</div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-icon" aria-hidden="true">⚡</div>
+        <div class="skill-name">Performance Engineering</div>
+        <div class="skill-desc">Zero-allocation packet paths, lock-free data structures and on-target profiling — 1.61M packets/s on a quad-core Cortex-A72.</div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-icon" aria-hidden="true">📱</div>
+        <div class="skill-name">Mobile VPN &amp; Filtering</div>
+        <div class="skill-desc">On-device tunnels on Android (VpnService) and iOS (Network Extension), with a Rust core shared through FFI.</div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-icon" aria-hidden="true">🏗️</div>
+        <div class="skill-name">Build &amp; CI</div>
+        <div class="skill-desc">Cross-compilation, Docker, GitHub Actions and Jenkins — one CI system that built firmware for T-Mobile, Sky and Netgear.</div>
       </div>
 
       <div class="skill-card reveal">
@@ -1525,7 +1537,7 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">The 1-Microsecond Performance Budget</h4>
           <p class="case-text">
-            Written in memory-safe Rust and running to ~56k lines, AncileNet™ is a cyber-defense core built for router gateways and embedded hardware. A network security daemon riding a 10 Gbps link gets under a microsecond per packet before the kernel's buffers overflow — and AncileNet stays inside that budget while compiling down to a <strong>~8.1 MB static aarch64 binary</strong> (<code>musl</code> + <code>mimalloc</code>) that runs with near-zero overhead on Raspberry Pi CM4 targets.
+            Written in memory-safe Rust and running to ~56k lines, AncileNet™ is a threat detection and blocking engine built for router gateways and embedded hardware. A packet-inspection daemon riding a 10 Gbps link gets under a microsecond per packet before the kernel's buffers overflow — and AncileNet stays inside that budget while compiling down to a <strong>~8.1 MB static aarch64 binary</strong> (<code>musl</code> + <code>mimalloc</code>) that runs with near-zero overhead on Raspberry Pi CM4 targets.
           </p>
 
           <div class="case-challenges">
@@ -1983,7 +1995,7 @@
 
         <!-- Metrics Grid Column -->
         <div class="case-study-metrics">
-          <h4 class="case-sub-title">JA4 Security Benchmarks</h4>
+          <h4 class="case-sub-title">JA4 Detection Benchmarks</h4>
           <div class="metrics-grid">
             <div class="metric-card">
               <div class="metric-val">0% <span class="metric-unit">Decryption</span></div>
@@ -2231,7 +2243,7 @@
         <div class="case-study-content">
           <h4 class="case-sub-title">One Rust Core, From the Router to the Pocket</h4>
           <p class="case-text">
-            A router only protects a phone while the phone is on the home Wi-Fi. AncileNet™ Mobile is a parental-control app that takes the same Rust engine off the router and runs it on the phone itself, inside a full on-device tunnel. Every packet from every app passes through the engine on the phone — on Wi-Fi, on mobile data, at school or at a friend's house. It ships first on Android (10 and newer); the iOS shell (<code>NEPacketTunnelProvider</code>) follows. The app is Flutter, with a Kotlin <code>VpnService</code> shell and a thin Rust FFI crate (UniFFI) over the AncileNet core, built for <code>arm64-v8a</code>, 32-bit <code>armeabi-v7a</code> and <code>x86_64</code>.
+            A router only filters a phone's traffic while the phone is on the home Wi-Fi. AncileNet™ Mobile is a parental-control app that takes the same Rust engine off the router and runs it on the phone itself, inside a full on-device tunnel. Every packet from every app passes through the engine on the phone — on Wi-Fi, on mobile data, at school or at a friend's house. It ships first on Android (10 and newer); the iOS shell (<code>NEPacketTunnelProvider</code>) follows. The app is Flutter, with a Kotlin <code>VpnService</code> shell and a thin Rust FFI crate (UniFFI) over the AncileNet core, built for <code>arm64-v8a</code>, 32-bit <code>armeabi-v7a</code> and <code>x86_64</code>.
           </p>
 
           <div class="case-challenges">
@@ -2297,7 +2309,7 @@
             </div>
 
             <div class="comparison-row">
-              <span class="comp-label">Where It Protects</span>
+              <span class="comp-label">Where It Filters</span>
               <span class="comp-val legacy">Home Network</span>
               <span class="comp-val optimized">Any Network</span>
             </div>
@@ -2433,7 +2445,7 @@
                 <strong>Zero-Copy Stack Lifetimes:</strong> slicing raw frames (<code>&amp;'a [u8]</code>) straight off DMA ring buffers kept the hot path 100% allocation-free.<br />
                 <strong>Dual-Plane Kernel Offload:</strong> O(1) CIDR drops installed at kernel <code>prerouting</code> priority -300, ahead of conntrack, paired with userspace NFQueue heuristics.<br />
                 <strong>Privacy-First Cryptographic Profiling:</strong> pairing JA4/JA4S TLS client-server fingerprints removed any need for invasive MITM decryption.<br />
-                <strong>Proactive NatJack Defense:</strong> automated <code>/proc/sys</code> kernel posture checks (<code>/api/posture</code>) plus real-time LAN address-conflict alerts (<code>ip_mac_conflict</code>), aimed at the modern NAT attack classes covered at Black Hat USA 2026 (CVE-2026-56179 / CVE-2026-56181 / CVE-2026-63913).<br />
+                <strong>NatJack Exposure Checks:</strong> automated <code>/proc/sys</code> kernel posture checks (<code>/api/posture</code>) plus real-time LAN address-conflict alerts (<code>ip_mac_conflict</code>), aimed at the modern NAT attack classes covered at Black Hat USA 2026 (CVE-2026-56179 / CVE-2026-56181 / CVE-2026-63913).<br />
                 <strong>Counting in the Kernel, Not Copying Out of It:</strong> once a connection is decided, an eBPF socket filter counts its packets in a kernel map instead of delivering them — <strong>99.3% of packets stay in the kernel and CPU falls from 20.7% to 0.8% of a core</strong> under the same load, with byte totals and JA4 fingerprints unchanged. 186 hand-assembled instructions, JIT-compiled to 1,168 bytes, loaded through raw <code>bpf(2)</code> because aya measured 284 KB larger.<br />
                 <strong>A Profiler That Runs on the Target:</strong> OpenWrt ships without <code>perf</code>, so the engine carries its own <code>setitimer</code>-based sampler. Every major win since v0.8.3 was found in a flamegraph taken on the CM4 — the first one found 38% of the CPU in device discovery — and v0.9.0 cut per-packet CPU by a third across fourteen of them.<br />
                 <strong>Running the Real Kernel Program in the Tests:</strong> a test-only eBPF interpreter executes the exact instructions the router runs against 20,000 generated and damaged frames. Its first run caught UDP payloads counted from the IP length instead of the UDP length — a bug the kernel would have run silently for ever.
@@ -2513,7 +2525,7 @@
             </div>
 
             <div class="comparison-row">
-              <span class="comp-label">NAT Attack Defense</span>
+              <span class="comp-label">NAT Attack Checks</span>
               <span class="comp-val legacy">Unaudited Kernel</span>
               <span class="comp-val optimized">NatJack Posture</span>
             </div>
@@ -2627,7 +2639,7 @@
     {
       name:   "AncileNet™",
       lang:   "rust",
-      desc:   "Embedded network security engine for router gateways — zero-copy packet inspection, DNS blocking, and JA4 TLS fingerprinting on a Raspberry Pi CM4.",
+      desc:   "Embedded threat detection and blocking engine for router gateways — zero-copy packet inspection, DNS blocking, and JA4 TLS fingerprinting on a Raspberry Pi CM4.",
       url:    "#case-study",
       tags:   ["CLI Tool/Service"],
       status: "wip",
